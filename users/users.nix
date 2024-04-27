@@ -30,12 +30,10 @@
       unstable.anytype
       unstable.blender
       unstable.ciscoPacketTracer8
-      unstable.discord
       unstable.foliate
       unstable.fzf-obc
       unstable.gnomeExtensions.thinkpad-battery-threshold
       unstable.lunacy
-      unstable.telegram-desktop
       unstable.universal-android-debloater
       unstable.vscode
       unstable.youtube-music
