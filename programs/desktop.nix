@@ -19,6 +19,7 @@
       clearlyU
       fira-code-nerdfont  
       noto-fonts
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       roboto
       roboto-serif
