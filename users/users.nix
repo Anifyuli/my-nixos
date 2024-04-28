@@ -33,8 +33,6 @@
       unstable.foliate
       unstable.fzf-obc
       unstable.gnomeExtensions.thinkpad-battery-threshold
-      unstable.lunacy
-      unstable.universal-android-debloater
       unstable.vscode
       unstable.youtube-music
     ];
