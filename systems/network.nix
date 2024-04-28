@@ -12,4 +12,20 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  
+  # Bluetooth
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = false; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.settings = {
+	  General = {
+		  Experimental = true;
+	  };
+  };
+  hardware.bluetooth.input = {
+    General = {
+      ClassicBondedOnly = true;
+      IdleTimeout = 30;
+    };  
+  };
+
 }
