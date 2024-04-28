@@ -4,11 +4,11 @@
 {
   # Import configurations for Apache2, MariaDB, PHP stack.
   imports = [
-    ./lamp-stack.nix    # Lamp stack configurations
-    ./container.nix     # Container configurations
-    ./desktop.nix       # Desktop configurations
-    ./services.nix      # Service configurations
-    ./virtualbox.nix    # VirtualBox configurations
+    ./lamp-stack.nix      # Lamp stack configurations
+    ./container.nix       # Container configurations
+    ./desktop.nix         # Desktop configurations
+    ./services.nix        # Service configurations
+    ./virtualbox.nix      # VirtualBox configurations
   ];
 
   # Add the unstable channel to get the latest updates.
@@ -69,5 +69,9 @@
   # Add GSConnect connection configuration.
   programs.kdeconnect.enable = true;
   programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
-}
+  
+  # Captive browser support.
+  programs.captive-browser.enable = true;
+  programs.captive-browser.interface = "wlp59s0";
 
+}
