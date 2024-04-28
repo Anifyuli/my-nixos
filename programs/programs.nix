@@ -21,6 +21,11 @@
     home-manager.useUserPackages = true;
     home-manager.useGlobalPkgs = true;
   };
+
+  # Change nix.conf value
+  nix.extraOptions = ''
+    experimental-features = nix-command
+  '';
   
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
