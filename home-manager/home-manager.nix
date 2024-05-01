@@ -7,19 +7,21 @@
     <home-manager/nixos> 
   ];
 
+  home-manager = {
+    useUserPackages = true;
+    useGlobalPkgs = true;
+  };
+
   home-manager.users.anifyuli = { pkgs, ... }: {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "anifyuli";
   home.homeDirectory = "/home/anifyuli";
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     # Stable channel
-    flutter
+    flutter-unwrapped
     nodePackages_latest.pnpm
   ];
 

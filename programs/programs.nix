@@ -7,6 +7,7 @@
     ./lamp-stack.nix      # Lamp stack configurations
     ./container.nix       # Container configurations
     ./desktop.nix         # Desktop configurations
+    ./overrides.nix       # Override packages
     ./services.nix        # Service configurations
     ./virtualbox.nix      # VirtualBox configurations
   ];
@@ -18,13 +19,11 @@
         config = config.nixpkgs.config;
       };
     };
-    home-manager.useUserPackages = true;
-    home-manager.useGlobalPkgs = true;
   };
 
   # Change nix.conf value
   nix.extraOptions = ''
-    experimental-features = nix-command
+    experimental-features = nix-command flakes
   '';
   
   # List packages installed in the system profile. To search, run:
@@ -39,6 +38,7 @@
     git
     gnome.adwaita-icon-theme
     gst_all_1.gstreamer
+    inxi
     jdk
     neofetch
     nodejs_21

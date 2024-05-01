@@ -10,7 +10,7 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  # bindfs for font support
+  # bindfs for Flatpak fonts & icons integration.
   system.fsPackages = [ pkgs.bindfs ];
   fileSystems = let
     mkRoSymBind = path: {
@@ -53,12 +53,23 @@
   };
 
   # Override default Dconf settings.
-  services.xserver.desktopManager.gnome.extraGSettingsOverrides = "
-    [org.gnome.desktop.peripherals.touchpad]
-    tap-to-click=true
-  ";
+  services.xserver.desktopManager.gnome = { 
+    extraGSettingsOverrides = ''
+      [org.gnome.desktop.peripherals.touchpad]
+      tap-to-click=true
+    '';
+    extraGSettingsOverridePackages = [
+      pkgs.gsettings-desktop-schemas # for org.gnome.desktop
+      pkgs.gnome.gnome-shell # for org.gnome.shell
+    ];
+  };
   
   # Enable ls colors in Bash
   programs.bash.enableLsColors = true;
+
+  # Add environment variables.
+  environment.variables = {
+    CHROME_EXECUTABLE = "google-chrome-stable";
+  };
   
 }
