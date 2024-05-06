@@ -4,6 +4,7 @@
 {
   # Import configurations for Apache2, MariaDB, PHP stack.
   imports = [
+    ./android.nix         # Android SDK
     ./lamp-stack.nix      # Lamp stack configurations
     ./container.nix       # Container configurations
     ./desktop.nix         # Desktop configurations
@@ -41,7 +42,6 @@
     inxi
     jdk
     neofetch
-    nodejs_21
     ntfs3g
     openssl
     podman-tui
@@ -52,17 +52,21 @@
     xorg.xhost
 
     # Unstable channel
+    unstable.android-studio
     unstable.distrobox
     unstable.fzf
+    unstable.nodePackages_latest.nodejs
   ];
+
+  # Environment variables
+  environment.variables = {
+    ANDROID_HOME = /nix/var/nix/profiles/system/sw/share/android-sdk;
+  };
 
   # Exclude packages from the X server.
   services.xserver.excludePackages = [
     pkgs.xterm
   ];
-
-  # Enable ADB 
-  programs.adb.enable = true;
  
   # Some programs need SUID wrappers, can be configured further or are started in user sessions.
   programs.mtr.enable = true;

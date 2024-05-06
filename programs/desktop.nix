@@ -42,7 +42,8 @@
     packages = with pkgs; [
       amiri
       corefonts
-      fira-code-nerdfont  
+      unstable.fira-code-nerdfont
+      unstable.fira-code-symbols
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-emoji

@@ -2,6 +2,7 @@
 { config, pkgs, ... }:
 
 {
+
   imports = [
     # Add Home Manager as NixOS module
     <home-manager/nixos> 
@@ -21,13 +22,32 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     # Stable channel
-    flutter-unwrapped
-    nodePackages_latest.pnpm
+    alacritty-theme
+
+    # Unstable channel
+    unstable.nodePackages_latest.pnpm
   ];
+
+  # Alacritty
+  programs.alacritty= { 
+    enable = true;
+    settings = {};
+  };
 
   # Bash configurations.
   programs.bash = {
     historyFile = "~/.bash_history";
+    shellOptions = [
+      "autocd"
+      "cdspell"
+      "direxpand"
+      "dirspell" 
+      "globstar" 
+      "histappend" 
+      "histverify"
+      "nocaseglob" 
+      "no_empty_cmd_completion"
+    ];
   };
 
   # Fzf configurations.

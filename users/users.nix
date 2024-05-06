@@ -8,16 +8,15 @@
     isNormalUser = true;
     shell = pkgs.bash;
     description = "Moh Anif Yuliansyah";
-    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "adbusers"];
+    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm"];
     packages = with pkgs; [
       # Stable channel
       adw-gtk3
-      alacritty
-      alacritty-theme
       firefox
       gnome-extension-manager
       gnome.dconf-editor
       gnome.gnome-tweaks
+      gnomeExtensions.appindicator
       google-chrome
       hunspell
       libreoffice-fresh
@@ -26,7 +25,6 @@
       zotero
       
       # Unstable channel
-      unstable.android-studio
       unstable.anytype
       unstable.blender
       unstable.ciscoPacketTracer8
