@@ -1,8 +1,4 @@
-# container.nix for container setup.
-{ config, pkgs, ... }:
-
-{
-
+{ virtualisation, ... }: {
   # Podman configurations
   # Enable common container config files in /etc/containers
   virtualisation.containers.enable = true;
@@ -16,6 +12,7 @@
       # Required for containers under podman-compose to be able to talk to each other.
       defaultNetwork.settings.dns_enabled = true;
     };
-  };
 
+    # waydroid.enable = true;
+  };
 }
