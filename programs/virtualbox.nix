@@ -4,7 +4,9 @@
 {
 
   # VirtualBox virtualization support
-  virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = [ "anifyuli" ];
-  virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.guest.enable = true;
+  virtualisation.virtualbox.host.package = pkgs.unstable.virtualbox;
+  virtualisation.virtualbox.guest.x11 = true;
 }

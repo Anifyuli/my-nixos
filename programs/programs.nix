@@ -52,7 +52,6 @@
     xorg.xhost
 
     # Unstable channel
-    unstable.android-studio
     unstable.distrobox
     unstable.fzf
     unstable.nodePackages_latest.nodejs

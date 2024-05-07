@@ -16,7 +16,6 @@ let
 in {
   environment.systemPackages = with pkgs; [
     # Stable channel
-    android-tools
     android-sdk
     clang
     cmake
@@ -25,6 +24,7 @@ in {
 
     # Unstable channel 
     unstable.android-studio
+    unstable.android-tools
     unstable.flutter
   ];
 }
