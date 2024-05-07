@@ -1,12 +1,35 @@
-{ config, pkgs, lib, ... }:
+{boot, lib, ...}: {
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
+      # systemd-boot
+      systemd-boot = {
+        enable = true;
+        memtest86.enable = true;
+      };
+      # grub
+      # grub = {
+      #   enable = true;
+      #   copyKernels = true;
+      #   # efiInstallAsRemovable = true;
+      #   efiSupport = true;
+      #   fsIdentifier = "label";
+      #   device = "nodev";
+      #   # Add chromeos
+      #   extraEntries = ''
+      #     ${lib.fileContents /chromeos.img.grub.txt}
+      #   '';
+      # };
 
-{
-  # Bootloader settings.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.memtest86.enable = true;
-  
-  # Plymouth for silent boot.
-  boot.plymouth.enable = true;
-  boot.plymouth.theme = "bgrt";
+      # timeout
+      timeout = 3;
+    };
+
+    # plymouth
+    plymouth = {
+      enable = true;
+      theme = "bgrt";
+    };
+  };
 }
+

@@ -1,9 +1,5 @@
-# timezone.nix for timezone & locales.
-{ config, pkgs, ... }:
-
-{
-
-  # Set your time zone.
+{ time, i18n, ... }: {
+  # Set your time zone
   time.timeZone = "Asia/Jakarta";
 
   # Select internationalisation properties.
@@ -20,5 +16,4 @@
     LC_TELEPHONE = "id_ID.UTF-8";
     LC_TIME = "id_ID.UTF-8";
   };
-
 }
