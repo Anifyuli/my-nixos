@@ -7,10 +7,13 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable"; # unstable channel
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
     home-manager.url = "github:nix-community/home-manager/release-23.11"; # follow Home Manager latest stable channel
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    android-nixpkgs = {
+      url = "github:tadfisher/android-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };	
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, nixpkgs-unstable, ... } @ inputs: let
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, android-nixpkgs, nixpkgs-unstable, ... } @ inputs: let
     inherit (self) outputs; # to export the output variable
     system = "x86_64-linux"; # your system
     genericModules = [
@@ -35,6 +38,7 @@
   (_: {
    nixpkgs.overlays = [
       overlay-unstable
+      overlay-androidsdk
     ];
    })
   ];
@@ -46,6 +50,15 @@
         inherit system;
         config.allowUnfree = true;
       };
+    };
+    overlay-androidsdk = _final: _prev: {
+      android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
+        cmdline-tools-latest
+        build-tools-34-0-0
+        platform-tools
+        platforms-android-34
+        emulator
+      ]);
     };
     in
     {

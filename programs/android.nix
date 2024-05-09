@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
-
   environment.systemPackages = with pkgs; [
     # Stable channel
+    android-sdk
     clang
     cmake
     ninja

@@ -13,15 +13,6 @@
     ./virtualbox.nix      # VirtualBox configurations
   ];
 
-  # Add the unstable channel to get the latest updates.
-  nixpkgs.config = {
-    packageOverrides = pkgs: {
-      unstable = import <nixos-unstable> {
-        config = config.nixpkgs.config;
-      };
-    };
-  };
- 
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
