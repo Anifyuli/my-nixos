@@ -2,17 +2,6 @@
 { config, pkgs, ... }:
 
 {
-
-  imports = [
-    # Add Home Manager as NixOS module
-    <home-manager/nixos> 
-  ];
-
-  home-manager = {
-    useUserPackages = true;
-    useGlobalPkgs = true;
-  };
-
   home-manager.users.anifyuli = { pkgs, ... }: {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.

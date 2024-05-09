@@ -23,6 +23,15 @@
       lollypop
       neovim
       zotero
+
+      # OBS Studio wrapping in unstable channel
+      (unstable.wrapOBS {
+        plugins = with unstable.obs-studio-plugins; [
+          wlrobs
+          obs-backgroundremoval
+          obs-pipewire-audio-capture
+        ];
+       })
       
       # Unstable channel
       unstable.anytype

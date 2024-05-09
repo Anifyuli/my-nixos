@@ -3,27 +3,27 @@
 
 {
   imports =
-    [ # NixOS hardware 
-      <nixos-hardware/lenovo/thinkpad/x280>
-      
+    [       
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
        
       # Programs configurations.
-      ./programs/programs.nix
+      ./programs
       
       # System configurations.
-      ./systems/systems.nix
+      ./systems
       
       # Users configurations & user-installed packages.
-      ./users/users.nix
-
-      # Home Manager.
-      ./home-manager/home-manager.nix
+      ./users
     ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Change nix.conf value
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   # NixOS version, change it if latest update released
   system.stateVersion = "23.11";

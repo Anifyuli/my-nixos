@@ -1,5 +1,5 @@
 # programs.nix for managing system programs.
-{config, pkgs, ...}:
+{config, pkgs, ... }:
 
 {
   # Import configurations for Apache2, MariaDB, PHP stack.
@@ -21,12 +21,7 @@
       };
     };
   };
-
-  # Change nix.conf value
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-  
+ 
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [

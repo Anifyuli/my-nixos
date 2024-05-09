@@ -71,6 +71,12 @@
   # Add environment variables.
   environment.variables = {
     CHROME_EXECUTABLE = "google-chrome-stable";
+    QT_QPA_PLATFORM = "xcb";
   };
+
+  # Qt apps theming
+  qt.enable = true;
+  qt.style = "adwaita";
+  qt.platformTheme = "gnome";
   
 }

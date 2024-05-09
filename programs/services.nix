@@ -14,11 +14,6 @@
   services.flatpak.enable =  true;
   xdg.portal.enable = true;
 
-  # Add Android additional udev rules.
-  services.udev.packages = [
-    pkgs.android-udev-rules
-  ];
-
   # Enable fwupd for updating firmware.
   services.fwupd.enable = true;
 }
