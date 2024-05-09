@@ -1,4 +1,8 @@
 { pkgs, programs, ... }: {
+
+  imports = [
+    ./desktop-manager
+  ];
   home.username = "fmway";
   home.homeDirectory = "/home/fmway";
 
@@ -18,8 +22,11 @@
   # Vim configurations.
   programs.vim = import ../vim.nix { inherit pkgs; };
 
+  # i3status-rust
+  programs.i3status-rust = import ./i3status-rs.nix { inherit pkgs; };
+
   # Foot terminal
-  programs.foot.enable = true;
+  programs.foot = import ./foot.nix { inherit pkgs; };
 
   # Git
   programs.git = {
