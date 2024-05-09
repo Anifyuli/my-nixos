@@ -7,6 +7,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable"; # unstable channel
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
     home-manager.url = "github:nix-community/home-manager/release-23.11"; # follow Home Manager latest stable channel
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };	
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, nixpkgs-unstable, ... } @ inputs: let
