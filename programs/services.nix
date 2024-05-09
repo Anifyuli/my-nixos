@@ -1,9 +1,4 @@
-{
-  services,
-  xdg,
-  pkgs,
-  ...
-}: {
+{ pkgs, ...}: {
   # Enable GNOME keyring.
   services.gnome.gnome-keyring.enable = true;
 
@@ -38,4 +33,27 @@
 
   # Enable fwupd for updating firmware.
   services.fwupd.enable = true;
+
+  # Cloudflared tunnel
+  users.users.cloudflared = {
+    group = "cloudflared";
+    isSystemUser = true;
+  };
+
+  users.groups.cloudflared = { };
+
+  # Systemd for cloudflared tunnel
+  systemd.services.cloudflared = {
+    description = "Cloudflare Tunnel";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      EnvironmentFile = "/etc/secrets/cloudflared.env";
+      ExecStart = "${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token \${TOKEN}";
+      Restart = "always";
+      User = "cloudflared";
+      Group = "cloudflared";
+    };
+  };
 }

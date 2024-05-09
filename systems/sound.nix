@@ -1,4 +1,4 @@
-_: {
+{
   # pipewire
   services.pipewire = {
     enable = true;

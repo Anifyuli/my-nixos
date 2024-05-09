@@ -1,10 +1,4 @@
 {
-  services,
-  console,
-  sound,
-  hardware,
-  ...
-}: {
   services.xserver.enable = true;
 
   # GDM

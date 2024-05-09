@@ -1,4 +1,4 @@
-{ time, i18n, ... }: {
+{
   # Set your time zone
   time.timeZone = "Asia/Jakarta";
 

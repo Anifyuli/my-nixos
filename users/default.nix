@@ -1,6 +1,5 @@
-{ unstable, ... }: {
-  imports = [
-    ./fmway.nix
-    ./cloudflared.nix
-  ];
+{ unstable, pkgs, ... }: {
+  users.users = {
+    fmway = import ./fmway.nix { inherit pkgs; };
+  }; 
 }
