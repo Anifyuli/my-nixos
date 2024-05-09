@@ -45,7 +45,6 @@
 
   # Environment variables
   environment.variables = {
-    ANDROID_HOME = /nix/var/nix/profiles/system/sw/share/android-sdk;
   };
 
   # Exclude packages from the X server.
