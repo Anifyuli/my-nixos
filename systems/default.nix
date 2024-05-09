@@ -1,11 +1,10 @@
-{...}: {
+{ config, pkgs,  ... }:
+
+{
   imports = [
-    ./env.nix
-    ./security.nix
-    ./bootloader.nix
-    ./network.nix
-    ./xserver.nix
-    ./timezone.nix
-    ./sound.nix
+    ./bootloader.nix  # Bootloader & Plymouth
+    ./network.nix     # Network
+    ./peripheral.nix  # Peripheral
+    ./timezone.nix    # Timezone & locales
   ];
 }

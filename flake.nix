@@ -1,75 +1,76 @@
+# flake.nix, NixOS configuration with Flakes
 {
-  description = "Mweheheheheheehehehehehe";
+  description = "My NixOS configuration with Flakes";
 
-  # Inputs
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
-    # nixvim = {
-      # url = "github:nix-community/nixvim/nixos-23.11";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    #   url = "github:fmway/nixvim-config";
-    # };
-    # kickstart-nvim = {
-      # url = "github:nix-community/kickstart-nix.nvim";
-    # };
-    neovim-flake.url = "github:jordanisaacs/neovim-flake";
-  };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11"; # stable channel
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable"; # unstable channel
+    nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
+    home-manager.url = "github:nix-community/home-manager/release-23.11"; # follow Home Manager latest stable channel
+    android-nixpkgs = {
+      url = "github:tadfisher/android-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };	
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, nixpkgs-unstable, ... } @ inputs: let
-    inherit (self) outputs;
-    system = "x86_64-linux";
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, android-nixpkgs, nixpkgs-unstable, ... } @ inputs: let
+    inherit (self) outputs; # to export the output variable
+    system = "x86_64-linux"; # your system
     genericModules = [
-      ./configuration.nix
-      {
-        # Fix for nixpkgs without flakes
-        nix.registry.nixos.flake = inputs.self;
-        environment.etc."nix/inputs/nixpkgs".source = nixpkgs.outPath;
-        nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
-      }
-      # Home manager
-      home-manager.nixosModules.home-manager
-      {
-        nix.registry.nixos.flake = inputs.self;
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        imports = [
-          ./home-manager
-        ];
-      }
-      ({ config, nixpkgs, pkgs, ... }: {
-        nixpkgs.overlays = [
-          overlay-unstable
-          #kickstart-nvim.overlays.default
-          # neovim-flake.overlays.default
-          #(final: prev: {
-          #  neovim = nixvim.packages.${system}.default;
-          #})
-        ];
-      })
-      # Nixvim
-      # nixvim.nixosModules.nixvim 
+    ./configuration.nix
+    {
+    # Fix for nixpkgs without flakes
+      nix.registry.nixos.flake = inputs.self;
+      environment.etc."nix/inputs/nixpkgs".source = nixpkgs.outPath;
+      nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
+    }
+  # Home manager
+  home-manager.nixosModules.home-manager
+  {
+    nix.registry.nixos.flake = inputs.self;
+    home-manager.useGlobalPkgs = true;
+    home-manager.useUserPackages = true;
+    imports = [
+      ./home-manager/home-manager.nix # your home-manager config
     ];
-    # unstable overlay
+  }
+  # closure for adding overlays
+  (_: {
+   nixpkgs.overlays = [
+      overlay-unstable
+      overlay-androidsdk
+    ];
+   })
+  ];
+  # list overlays 
+  # unstable overlay
     overlay-unstable = _final: _prev: {
+      # it will be access in pkgs.unstable
       unstable = import nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
       };
     };
-
-  in {
-    # overlays = [ overlay-unstable ];
-    nixosConfigurations = {
-      Namaku1801 = nixpkgs.lib.nixosSystem {
+    overlay-androidsdk = _final: _prev: {
+      android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
+        cmdline-tools-latest
+        build-tools-34-0-0
+        platform-tools
+        platforms-android-34
+        emulator
+      ]);
+    };
+    in
+    {
+      nixosConfigurations = {
+        # Your Computer name (hostname)
+        ThinkPad-X280 = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs;
+          inherit inputs outputs; # so you can access inputs outputs in your configuration.nix, etc
         };
         modules = genericModules ++ [
-          nixos-hardware.nixosModules.lenovo-thinkpad-t480
+          nixos-hardware.nixosModules.lenovo-thinkpad-x280
         ];
       };
     };
