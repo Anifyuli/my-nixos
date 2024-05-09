@@ -13,7 +13,6 @@
     ./virtualbox.nix      # VirtualBox configurations
   ];
 
-
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
