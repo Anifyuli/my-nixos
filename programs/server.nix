@@ -1,4 +1,4 @@
-{ services, networking, security, pkgs, ... }: let
+{ pkgs, ... }: let
   # create cert
   tls-cert = {  alt ? [], cname ? "localhost" }: (pkgs.runCommand "selfSignedCert" { buildInputs = [ pkgs.openssl ]; } ''
     mkdir -p $out

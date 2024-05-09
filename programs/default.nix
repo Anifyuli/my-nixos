@@ -40,11 +40,6 @@
     btop
     mako
     gcc
-    grim
-    slurp
-    wl-clipboard
-    swayfx
-    swaylock-effects
     unstable.firefoxpwa
     gcc
 
@@ -58,27 +53,7 @@
   ];
 
   programs.fish.enable = true;
-  programs.adb.enable = true;
-  # Neovim
-  # programs.neovim = {
-  #   enable = true;
-  #   defaultEditor = true;
-  #   plugins = [
-  #     pkgs.vimPlugins.nvim-tree-lua {
-  #       plugin = pkgs.vimPlugins.vim-startify;
-  #       config = "let g:startify_change_to_vcs_root = 0";
-  #     }
-  #   ];
-  #   configure.customRC = ''
-  #    shiftwidth=2
-  #    set number
-  #    set mouse=a
-  #    set tabstop=2
-  #    set softtabstop=2
-  #    set smartindent
-  #   '';
-  #   viAlias = true;
-  # };
+  programs.adb.enable = true; 
 
   # Java
   programs.java.enable = true;

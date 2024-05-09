@@ -1,7 +1,5 @@
-{ unstable, ... }: {
-  imports = [
-    ./fmway.nix
-    ./goblock.nix
-    ./cloudflared.nix
-  ];
+{ unstable, pkgs, ... }: {
+  users.users = {
+    fmway = import ./fmway.nix { inherit pkgs; };
+  }; 
 }

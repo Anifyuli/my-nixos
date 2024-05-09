@@ -1,10 +1,4 @@
-{
-  networking,
-  services,
-  pkgs,
-  lib,
-  ...
-}: {
+{ pkgs, ... }: {
   networking.hostName = "Namaku1801"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
