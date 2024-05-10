@@ -2,6 +2,17 @@
 {config, pkgs, ...}:
 
 {
+  # Apache2 server 
+  services.httpd.enable = true;
+  services.httpd.adminAddr = "localhost";
+  services.httpd.enablePHP = true;
+  services.httpd.virtualHosts."htdocs" = {
+    documentRoot = "/var/www/htdocs";
+  };
+
+  # MariaDB server
+  services.mysql.enable = false;
+  services.mysql.package = pkgs.mariadb;
 
   # Enable GNOME keyring.
   services.gnome.gnome-keyring.enable = true;
@@ -16,4 +27,7 @@
 
   # Enable fwupd for updating firmware.
   services.fwupd.enable = true;
+
+  # Enable throttled.service for fix Intel CPU throttling
+  services.throttled.enable = false;
 }

@@ -4,13 +4,11 @@
 {
   # Import configurations for Apache2, MariaDB, PHP stack.
   imports = [
-    ./android.nix         # Android SDK
-    ./lamp-stack.nix      # Lamp stack configurations
-    ./container.nix       # Container configurations
-    ./desktop.nix         # Desktop configurations
-    ./overrides.nix       # Override packages
-    ./services.nix        # Service configurations
-    ./virtualbox.nix      # VirtualBox configurations
+    ./android.nix           # Android SDK
+    ./desktop.nix           # Desktop configurations
+    ./overrides.nix         # Override packages
+    ./services.nix          # Service configurations
+    ./virtualization.nix    # Virtualization configurations
   ];
 
   # List packages installed in the system profile. To search, run:
@@ -20,14 +18,17 @@
     btop
     dive
     docker-compose
+    distrobox
     ffmpeg-full
     fwupd
+    fzf
     git
     gnome.adwaita-icon-theme
     gst_all_1.gstreamer
     inxi
     jdk
     neofetch
+    nodePackages_latest.nodejs
     ntfs3g
     openssl
     podman-tui
@@ -35,23 +36,13 @@
     tree
     vim
     wget
-    xorg.xhost
-
-    # Unstable channel
-    unstable.distrobox
-    unstable.fzf
-    unstable.nodePackages_latest.nodejs
   ];
 
-  # Environment variables
+  # Add environment variables.
   environment.variables = {
+    CHROME_EXECUTABLE = "google-chrome-stable";
   };
 
-  # Exclude packages from the X server.
-  services.xserver.excludePackages = [
-    pkgs.xterm
-  ];
- 
   # Some programs need SUID wrappers, can be configured further or are started in user sessions.
   programs.mtr.enable = true;
   programs.gnupg.agent = {

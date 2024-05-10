@@ -26,6 +26,6 @@
   '';
 
   # NixOS version, change it if latest update released
-  system.stateVersion = "23.11";
+  system.stateVersion = "unstable";
 
 }

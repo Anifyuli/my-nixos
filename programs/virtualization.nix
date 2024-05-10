@@ -1,11 +1,9 @@
-# container.nix for container setup.
-{ config, pkgs, ... }:
+# virtualization.nix for virtualization & container configurations
+{config, pkgs,  ...}:
 
 {
-
   # Podman configurations
   # Enable common container config files in /etc/containers
-  virtualisation.containers.enable = true;
   virtualisation = {
     podman = {
       enable = true;
@@ -18,4 +16,9 @@
     };
   };
 
+  # VirtualBox virtualization support
+  users.extraGroups.vboxusers.members = [ "anifyuli" ];
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.guest.enable = true;
+  virtualisation.virtualbox.host.package = pkgs.virtualbox;
 }

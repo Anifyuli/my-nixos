@@ -10,11 +10,8 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    # Stable channel
     alacritty-theme
-
-    # Unstable channel
-    unstable.nodePackages_latest.pnpm
+    nodePackages_latest.pnpm
   ];
 
   # Alacritty
@@ -61,7 +58,7 @@
   };
 
   # Home Manager version
-  home.stateVersion = "23.11";  
+  home.stateVersion = "24.05";  
   };
 
 }
