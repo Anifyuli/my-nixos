@@ -73,5 +73,5 @@
   programs.tmux = import ./tmux.nix { inherit pkgs; };
 
   # Home Manager version
-  home.stateVersion = "23.11"; 
+  home.stateVersion = "24.05"; 
 }

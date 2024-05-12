@@ -7,6 +7,8 @@
     gnome-extension-manager
     gnome.dconf-editor
     gnome.gnome-tweaks
+    gnomeExtensions.appindicator
+    gnomeExtensions.thinkpad-battery-threshold
     gnomeExtensions.pop-shell
     winbox
     # Google chrome with wayland support
@@ -18,23 +20,31 @@
         "--ozone-platform=wayland"
       ];
     })
+    (microsoft-edge.override {
+      commandLineArgs = [
+        "--enable-features=VaapiVideoDecodeLinuxGL"
+        "--use-gl=angle"
+        "--use-angle=gl"
+        "--ozone-platform=wayland"
+      ];
+    })
 
-    unstable.zoom-us
+    zoom-us
     discord
     telegram-desktop
     libreoffice-fresh
     zotero
-    unstable.anytype
+    anytype
     kdenlive
     mpv
 
-    unstable.rustup
-    unstable.zls
-    unstable.zig
-    unstable.deno
-    unstable.bun
+    rustup
+    zls
+    zig
+    deno
+    bun
 
-    (unstable.wrapOBS {
+    (wrapOBS {
       plugins = with obs-studio-plugins; [
         wlrobs
         obs-backgroundremoval
