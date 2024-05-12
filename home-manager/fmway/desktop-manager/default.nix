@@ -1,6 +1,6 @@
 { programs, pkgs, ... }:
 {
-  wayland.windowManager = {
-    sway = import ./sway { inherit pkgs programs; };
-  };
+  # wayland.windowManager = {
+  #   sway = import ./sway { inherit pkgs programs; };
+  # };
 }

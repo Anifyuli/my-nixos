@@ -9,7 +9,7 @@
   programs.firefox = {
     enable = true;
     package = pkgs.firefox;
-    nativeMessagingHosts.packages = [pkgs.unstable.firefoxpwa];
+    nativeMessagingHosts.packages = [pkgs.firefoxpwa];
     wrapperConfig = {
       pipewireSupport = true;
     };
@@ -40,11 +40,10 @@
     btop
     mako
     gcc
-    unstable.firefoxpwa
+    firefoxpwa
     gcc
 
-    # Unstable channel
-    unstable.distrobox
+    distrobox
   ];
 
   # Exclude packages from the X server.

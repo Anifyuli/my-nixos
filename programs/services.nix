@@ -34,6 +34,9 @@
   # Enable fwupd for updating firmware.
   services.fwupd.enable = true;
 
+  # Enale throttled.service for fix Intel CPU throttling
+  # services.throttled.enable = false;
+
   # Cloudflared tunnel
   users.users.cloudflared = {
     group = "cloudflared";
