@@ -2,6 +2,9 @@
   menu = "${pkgs.fuzzel}/bin/fuzzel";
   menu_run = "${pkgs.dmenu}/bin/dmenu_path | ${menu} -d | xargs swaymsg exec --";
   lock = "${pkgs.swaylock-effects}/bin/swaylock";
+  mode = {
+    workspace = "Workspace: 0-9 (eDP-1), Shift + 0-9 (HDMI1)";
+  };
 in {
   enable = true;
   wrapperFeatures.gtk = true;
@@ -15,8 +18,8 @@ in {
     terminal = "${pkgs.foot}/bin/footclient";
     startup = import ./startup.nix { inherit pkgs lock; };
     bars = import ./bars.nix { inherit pkgs; };
-
-    keybindings = import ./keybindings.nix { inherit pkgs left down up right modifier menu terminal menu_run lock; };
+    keybindings = import ./keybindings.nix { inherit pkgs left down up right modifier menu terminal menu_run lock mode; };
+    modes = import ./modes.nix { inherit pkgs left down up right modifier menu terminal menu_run lock mode; };
     input = {
       "type:touchpad" = {
         natural_scroll = "enabled";

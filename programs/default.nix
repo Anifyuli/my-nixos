@@ -86,6 +86,18 @@
   programs.captive-browser.enable = true;
   programs.captive-browser.interface = "wlp3s0";
 
+  # Nano
+  programs.nano = {
+    enable = true;
+    nanorc = ''
+      set nowrap
+      set tabstospaces
+      set tabsize 2
+      set linenumbers
+      set autoindent
+    '';
+  };
+
   # allow unfree pkgs
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
