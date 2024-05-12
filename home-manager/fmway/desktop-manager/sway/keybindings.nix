@@ -1,4 +1,4 @@
-{ pkgs, left, down, up, right, modifier, menu, terminal, menu_run, lock, ... }:
+{ pkgs, left, down, up, right, modifier, menu, terminal, menu_run, lock, mode, ... }:
 {
   # Standart keybind
   "${modifier}+b" = "exec ${pkgs.foot}/bin/footclient -- ${pkgs.btop}/bin/btop";
@@ -79,4 +79,6 @@
     "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
 
   "${modifier}+r" = "mode resize";
+
+  "${modifier}+Shift+p" = ''mode "${mode.workspace}"'';
 }

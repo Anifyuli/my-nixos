@@ -22,6 +22,11 @@
     [org.gnome.desktop.peripherals.touchpad]
     tap-to-click=true
   ";
+
+  # Add list DE
+  services.xserver.displayManager.sessionPackages = with pkgs; [
+    sway
+  ];
   
   # Enable ls colors in Bash
   programs.bash.enableLsColors = true;

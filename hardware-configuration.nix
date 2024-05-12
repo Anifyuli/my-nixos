@@ -15,13 +15,13 @@
   # boot.kernelParams = [ "i915.force_probe=5917" ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/dda3f7f1-3c3b-4dd3-92f4-98262b729b68";
+    { device = "/dev/disk/by-label/HEHEHE";
       fsType = "btrfs";
       options = [ "subvol=@" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/4278-D73A";
+    { device = "/dev/disk/by-label/BOOT";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
