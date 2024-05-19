@@ -14,25 +14,24 @@
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # Stable channel
     btop
     dive
     docker-compose
     distrobox
     ffmpeg-full
     fwupd
-    fzf
     git
     gnome.adwaita-icon-theme
     gst_all_1.gstreamer
     inxi
     jdk
-    neofetch
     nodePackages_latest.nodejs
     ntfs3g
     openssl
+    php
     podman-tui
     qemu_kvm
+    rar
     tree
     vim
     wget

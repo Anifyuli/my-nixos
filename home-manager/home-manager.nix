@@ -11,6 +11,7 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     alacritty-theme
+    mongodb-compass
     nodePackages_latest.pnpm
   ];
 
@@ -35,9 +36,6 @@
       "no_empty_cmd_completion"
     ];
   };
-
-  # Fzf configurations.
-  programs.fzf.enableBashIntegration = true;
 
   # Vim configurations.
   programs.vim = {

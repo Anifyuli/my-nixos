@@ -18,7 +18,12 @@
 
   # VirtualBox virtualization support
   users.extraGroups.vboxusers.members = [ "anifyuli" ];
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.guest.enable = true;
-  virtualisation.virtualbox.host.package = pkgs.virtualbox;
+  virtualisation.virtualbox = {
+    host = {
+      enable = true;
+      package = pkgs.virtualbox;
+    };
+    guest.enable = true;
+  };
+
 }

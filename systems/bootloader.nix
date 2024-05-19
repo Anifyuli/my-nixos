@@ -9,4 +9,9 @@
   # Plymouth for silent boot.
   boot.plymouth.enable = true;
   boot.plymouth.theme = "bgrt";
+
+  # sysctl value
+  boot.kernel.sysctl = {
+    "kernel.printk" = "3 3 3 3";
+  };
 }

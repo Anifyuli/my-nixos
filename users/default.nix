@@ -14,9 +14,9 @@
       anytype
       blender
       ciscoPacketTracer8
+      fastfetch
       firefox
       foliate
-      fzf-obc
       gnome-extension-manager
       gnome.dconf-editor
       gnome.gnome-tweaks
@@ -28,6 +28,7 @@
       lollypop
       neovim
       obs-studio
+      ptyxis
       vscode
       youtube-music
       zotero  
