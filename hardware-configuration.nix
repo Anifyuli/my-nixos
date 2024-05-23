@@ -20,6 +20,12 @@
       options = [ "subvol=@" ];
     };
 
+  fileSystems."/home" =
+    { device = "/dev/disk/by-label/HEHEHE";
+      fsType = "btrfs";
+      options = [ "subvol=@/home" "compress=zstd" ];
+    };
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-label/BOOT";
       fsType = "vfat";

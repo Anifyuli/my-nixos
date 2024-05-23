@@ -2,15 +2,14 @@
 {
   isNormalUser = true;
   description = "fmway";
+  home = "/home/fmway";
   extraGroups = ["networkmanager" "wheel" "video" "gdm" "dialout"];
   packages = with pkgs; [
     gnome-extension-manager
     gnome.dconf-editor
     gnome.gnome-tweaks
-    gnomeExtensions.appindicator
-    gnomeExtensions.thinkpad-battery-threshold
-    gnomeExtensions.pop-shell
     winbox
+    # youtube-music
     # Google chrome with wayland support
     (google-chrome.override {
       commandLineArgs = [
@@ -51,38 +50,13 @@
         obs-pipewire-audio-capture
       ];
      })
-  ];
+  ] ++ (with pkgs.gnomeExtensions; [
+    paperwm
+    appindicator
+    thinkpad-battery-threshold
+    blur-my-shell
+    net-speed
+    totp
+  ]);
   shell = pkgs.fish;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,7 +2,7 @@
   imports = [
     ./env.nix
     ./security.nix
-    ./bootloader.nix
+    ./boot.nix
     ./network.nix
     ./xserver.nix
     ./timezone.nix

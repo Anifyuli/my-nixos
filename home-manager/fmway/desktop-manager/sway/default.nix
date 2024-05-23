@@ -8,7 +8,7 @@
 in {
   enable = true;
   wrapperFeatures.gtk = true;
-  package = pkgs.swayfx; 
+  package = pkgs.stable.swayfx; 
   config = rec {
     left = "h";
     down = "j";

@@ -1,4 +1,17 @@
-{ pkgs, ...}: {
+{ pkgs, inputs, ...}: {
+
+  # btrfs
+  services.btrfs = {
+    autoScrub = {
+      enable = true;
+      interval = "weekly";
+      fileSystems = [
+        "/"
+        "/home/fmway"
+      ];
+    };
+  };
+
   # Enable GNOME keyring.
   services.gnome.gnome-keyring.enable = true;
 
@@ -30,6 +43,16 @@
   services.udev.packages = [
     pkgs.android-udev-rules
   ];
+
+  # Enable fprintd and python-validity
+  services.open-fprintd.enable = true;
+  services.python-validity.enable = true;
+
+  # add fingerprint to sudo
+  security.pam.services.sudo.fprintAuth = true;
+  security.pam.services.login.fprintAuth = true;
+  # security.pam.services.sudo.fprintAuth = true;
+
 
   # Enable fwupd for updating firmware.
   services.fwupd.enable = true;

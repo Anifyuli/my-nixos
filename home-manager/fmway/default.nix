@@ -11,10 +11,11 @@
 
   # packages
   home.packages = with pkgs; [
+    gh
+    lazygit
     grim
     slurp
     wl-clipboard
-    swayfx
     swaylock-effects
     dejavu_fonts
   ];
@@ -33,11 +34,18 @@
     enable = true;
     userName = "fmway";
     userEmail = "fm18lv@gmail.com";
-  };
-
-    # Lazygit
-  programs.lazygit = {
-    enable = true;
+    aliases = {
+      a = "add";
+      cm = "commit";
+      ch = "checkout";
+      s = "status";
+    };
+    extraConfig = {
+      hub.protocol = "ssh";
+      credential.helper = "${
+        pkgs.git.override { withLibsecret = true; }
+      }/bin/git-credential-libsecret";
+    };
   };
 
   # Direnv

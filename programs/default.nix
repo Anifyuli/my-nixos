@@ -1,8 +1,10 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   imports = [
     ./services.nix
     ./server.nix
     ./desktop.nix
+    ./overlays.nix
     ./container.nix
   ];
 
@@ -20,9 +22,20 @@
   environment.systemPackages = with pkgs; [
     # vim
     neovim
+    popsicle
+    nixgl.nixGLIntel
     # nvim-pkg
     vscode
     # neovim-maximal
+    custom.xdman
+    qemu
+    # qemu with efi 
+    (pkgs.writeShellScriptBin "qemu-system-x86_64-uefi" ''
+      qemu-system-x86_64 \
+        -bios ${pkgs.OVMF.fd}/FV/OVMF.fd \
+        "$@"
+    '')
+    quickemu
     wget
     doas
     starship
@@ -39,9 +52,7 @@
     docker-compose
     btop
     mako
-    gcc
     firefoxpwa
-    gcc
 
     distrobox
   ];
@@ -81,10 +92,6 @@
   programs.kdeconnect.enable = true;
   programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
 
-  # Captive browser support.
-  programs.captive-browser.enable = true;
-  programs.captive-browser.interface = "wlp3s0";
-
   # Nano
   programs.nano = {
     enable = true;
@@ -94,6 +101,7 @@
       set tabsize 2
       set linenumbers
       set autoindent
+      set mouse
     '';
   };
 
@@ -101,6 +109,7 @@
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
       "genymotion"
+      "spotify"
     ];
 
   # NixVim
