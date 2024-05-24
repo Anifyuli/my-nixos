@@ -24,7 +24,7 @@
     gnome.adwaita-icon-theme
     gst_all_1.gstreamer
     inxi
-    jdk
+    jdk17
     nodePackages_latest.nodejs
     ntfs3g
     openssl

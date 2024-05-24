@@ -25,7 +25,13 @@
   
   # Enable GNOME keyring.
   services.gnome.gnome-keyring.enable = true;
-  
+
+  # Noisetorch
+  programs.noisetorch = {
+    enable = true;
+    package = pkgs.noisetorch;
+  };
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
