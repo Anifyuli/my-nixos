@@ -1,34 +1,30 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, genImports, ... }:
 {
-  imports = [
-    ./services.nix
-    ./server.nix
-    ./desktop.nix
-    ./overlays.nix
-    ./container.nix
-  ];
+  imports = genImports ./.;
 
-  programs.firefox = {
-    enable = true;
-    package = pkgs.firefox;
-    nativeMessagingHosts.packages = [pkgs.firefoxpwa];
-    wrapperConfig = {
-      pipewireSupport = true;
-    };
-  };
+  # allow unfree pkgs
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "genymotion"
+      "spotify"
+    ];
+
 
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # vim
     neovim
+    appimagekit
     popsicle
+    speechd
     nixgl.nixGLIntel
     # nvim-pkg
     vscode
     # neovim-maximal
     custom.xdman
     qemu
+    cloudflare-warp
     # qemu with efi 
     (pkgs.writeShellScriptBin "qemu-system-x86_64-uefi" ''
       qemu-system-x86_64 \
@@ -40,6 +36,7 @@
     doas
     starship
     zip
+    niri
     unzip
     ffmpeg-full
     fwupd
@@ -53,7 +50,6 @@
     btop
     mako
     firefoxpwa
-
     distrobox
   ];
 
@@ -62,82 +58,93 @@
     pkgs.xterm
   ];
 
-  programs.fish.enable = true;
-  programs.adb.enable = true; 
+  programs = {
+    firefox = {
+      enable = true;
+      package = pkgs.firefox;
+      nativeMessagingHosts.packages = [pkgs.firefoxpwa];
+      wrapperConfig = {
+        pipewireSupport = true;
+      };
+    };
 
-  # Java
-  programs.java.enable = true;
+    fish.enable = true;
+    adb.enable = true; 
 
-  # Steam
-  programs.steam = {
-    enable = true;
-    #remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    #dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    # Java
+    # programs.java.enable = true;
+
+    # Steam
+    steam = {
+      enable = true;
+      #remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+      #dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+      gamescopeSession.enable = true;
+    };
+
+    # Some programs need SUID wrappers, can be configured further or are started in user sessions.
+    mtr.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+
+    # Add GSConnect connection configuration.
+    kdeconnect.enable = true;
+    kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
+
+    # Nano
+    nano = {
+      enable = true;
+      nanorc = ''
+        set nowrap
+        set tabstospaces
+        set tabsize 2
+        set linenumbers
+        set autoindent
+        set mouse
+      '';
+    };
+
+    # nix-ld for handling dynamic lib
+    # nix-ld = {
+      # enable = true;
+      # libraries = with pkgs; [
+        # glibc
+        # openssl
+        # gcc.cc.lib
+      # ];
+    # };
+
+    
+    # NixVim
+    # nixvim = {
+    #   enable = true;
+    #   colorschemes.gruvbox.enable = true;
+    #   plugins.lightline.enable = true;
+    #   extraPlugins = with pkgs.vimPlugins; [
+    #     vim-nix
+    #   ];
+
+    #   opts = {
+    #     number = true;
+    #     relativenumber = true;
+    #     shiftwidth = 2;
+    #   };
+
+    #   keymaps = [
+    #     {
+    #       key = ";";
+    #       action = ":";
+    #     }
+    #     {
+    #       mode = "n";
+    #       key = "<leader>m";
+    #       options.silent = true;
+    #       action = "<cmd>!make<CR>";
+    #     }
+    #   ];
+    # };
   };
-  # programs.steam.package = pkgs.steam-small.override {
-  # withPrimus = true;
-  # extraPkgs = pkgs: [ bumblebee glxinfo ];
-  # withJava = true;
-  # };
-  programs.steam.gamescopeSession.enable = true;
 
-  # Some programs need SUID wrappers, can be configured further or are started in user sessions.
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-  # Add GSConnect connection configuration.
-  programs.kdeconnect.enable = true;
-  programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
-
-  # Nano
-  programs.nano = {
-    enable = true;
-    nanorc = ''
-      set nowrap
-      set tabstospaces
-      set tabsize 2
-      set linenumbers
-      set autoindent
-      set mouse
-    '';
-  };
-
-  # allow unfree pkgs
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "genymotion"
-      "spotify"
-    ];
-
-  # NixVim
-  # programs.nixvim = {
-  #   enable = true;
-  #   colorschemes.gruvbox.enable = true;
-  #   plugins.lightline.enable = true;
-  #   extraPlugins = with pkgs.vimPlugins; [
-  #     vim-nix
-  #   ];
-
-  #   opts = {
-  #     number = true;
-  #     relativenumber = true;
-  #     shiftwidth = 2;
-  #   };
-
-  #   keymaps = [
-  #     {
-  #       key = ";";
-  #       action = ":";
-  #     }
-  #     {
-  #       mode = "n";
-  #       key = "<leader>m";
-  #       options.silent = true;
-  #       action = "<cmd>!make<CR>";
-  #     }
-  #   ];
-  # };
 }

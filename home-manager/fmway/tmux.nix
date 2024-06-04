@@ -2,7 +2,7 @@
 {
   enable = true;
   clock24 = true;
-  extraConfig = ''
+  extraConfig = with pkgs.tmuxPlugins; ''
     set -g mouse on
     set -g allow-passthrough on
     tmux_commands_with_legacy_scroll="nano less more man git"
@@ -18,7 +18,6 @@
         'send -Mt=' \
         'if-shell -t= "#{?alternate_on,true,false} || echo \"#{tmux_commands_with_legacy_scroll}\" | grep -q \"#{pane_current_command}\"" \
         "send -t= Down" "send -Mt="'
-    set -g base-index 1
 
     # Set the base index for windows to 1 instead of 0.
     set -g base-index 1
@@ -29,32 +28,40 @@
     # Show pane details.
     set -g pane-border-status top
     set -g pane-border-format '<(#P) #{pane_title}>'
-    set -g @online_icon "online!"
-    set -g @offline_icon "offline!"
+    set -g @catppuccin_pane_border_format '<(#P) #{pane_title}>'
+    # set -g pane-border-format "mancing"
 
     #catpuccin
     set -g @catppuccin_flavour 'frappe' #latte frappe, macchiato, mocha
-    #set -g @catppuccin_left_separator "█"
-    #set -g @catppuccin_right_separator "█"
-    set -g @catppuccin_user "on"
-    set -g @catppuccin_host "off"
-    set -g @catppuccin_date_time "%Y-%m-%d %H:%M"
+    set -g @catppuccin_window_left_separator "█"
+    set -g @catppuccin_window_right_separator "█ "
+    set -g @catppuccin_window_number_position "right"
+    set -g @catppuccin_window_middle_separator "  █"
+    set -g @catppuccin_window_default_fill "number"
+    set -g @catppuccin_window_default_text "#W"
+
+    set -g @catppuccin_window_current_fill "number"
+    set -g @catppuccin_window_current_text "#W"
+    set -g @catppuccin_status_modules_right "directory user host session date_time"
+    set -g @catppuccin_date_time_text "%Y-%m-%d %H:%M"
     #set -g @catppuccin_prepend 'anjimlah'
+    set -g @catppuccin_directory_text "#{pane_current_path}"
 
     #set -g status-right '#{prefix_highlight} | #{online_status} | %a %Y-%m-%d %H:%M'
     #set -g status-right '#{pomodoro_status}'
     #set -g status-right "#{?window_bigger,[#{window_offset_x}#,#{window_offset_y}] ,}\"#{=21:pane_title}\" %H:%M:%S %d-%b-%y"
-    #set -g status-right "#{?window_bigger,[#{window_offset_x}#,#{window_offset_y}] ,}\"#{=21:pane_title}\"#{prefix_highlight} %H:%M %d-%b-%y"
+    # set -g status-right "#{?window_bigger,[#{window_offset_x}#,#{window_offset_y}] ,}\"#{=21:pane_title}\"#{prefix_highlight} %H:%M %d-%b-%y"
 
-    run-shell ${pkgs.tmuxPlugins.sensible}/share/tmux-plugins/sensible/sensible.tmux
-    run-shell ${pkgs.tmuxPlugins.battery}/share/tmux-plugins/battery/battery.tmux
-    run-shell ${pkgs.tmuxPlugins.logging}/share/tmux-plugins/logging/logging.tmux
-    run-shell ${pkgs.tmuxPlugins.jump}/share/tmux-plugins/jump/tmux-jump.tmux
-    run-shell ${pkgs.tmuxPlugins.yank}/share/tmux-plugins/yank/yank.tmux
-    run-shell ${pkgs.tmuxPlugins.copycat}/share/tmux-plugins/copycat/copycat.tmux
-    run-shell ${pkgs.tmuxPlugins.online-status}/share/tmux-plugins/online-status/online_status.tmux
-    run-shell ${pkgs.tmuxPlugins.prefix-highlight}/share/tmux-plugins/prefix-highlight/prefix_highlight.tmux
-    run-shell ${pkgs.tmuxPlugins.pain-control}/share/tmux-plugins/pain-control/pain_control.tmux
-    run-shell ${pkgs.tmuxPlugins.catppuccin}/share/tmux-plugins/catppuccin/catppuccin.tmux
+    run-shell ${sensible}/share/tmux-plugins/sensible/sensible.tmux
+    run-shell ${battery}/share/tmux-plugins/battery/battery.tmux
+    run-shell ${logging}/share/tmux-plugins/logging/logging.tmux
+    run-shell ${jump}/share/tmux-plugins/jump/tmux-jump.tmux
+    run-shell ${yank}/share/tmux-plugins/yank/yank.tmux
+    run-shell ${copycat}/share/tmux-plugins/copycat/copycat.tmux
+    run-shell ${online-status}/share/tmux-plugins/online-status/online_status.tmux
+    run-shell ${prefix-highlight}/share/tmux-plugins/prefix-highlight/prefix_highlight.tmux
+    run-shell ${pain-control}/share/tmux-plugins/pain-control/pain_control.tmux
+    run-shell ${catppuccin}/share/tmux-plugins/catppuccin/catppuccin.tmux
+    run-shell ${fzf-tmux-url}/share/tmux-plugins/fzf-tmux-url/fzf-url.tmux
   '';
 }

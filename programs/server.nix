@@ -66,6 +66,7 @@ in {
   # register your ssl cert
   security.pki.certificateFiles = [
     # example
+    # "${anu-cert}/cert.crt"
   ];
 
   #security.acme = {
@@ -106,6 +107,7 @@ in {
       }
     '';
   };
+
   services.fcgiwrap = {
     enable = true;
     group = config.services.nginx.user;

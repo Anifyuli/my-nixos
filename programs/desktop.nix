@@ -33,6 +33,7 @@
   # Add list DE
   services.displayManager.sessionPackages = with pkgs; [
     sway
+    niri
   ];
   
   # Enable ls colors in Bash

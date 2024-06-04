@@ -1,6 +1,12 @@
 { config, pkgs, ... }:
 {
   boot = {
+     # tmp
+    tmp = {
+      cleanOnBoot = true;
+      useTmpfs = true;
+      tmpfsSize = "10G";
+    };
     loader = {
       efi.canTouchEfiVariables = true;
       # systemd-boot
@@ -8,7 +14,8 @@
         enable = true;
         memtest86.enable = true;
       };
-      # grub
+
+     # grub
       # grub = {
       #   enable = true;
       #   copyKernels = true;
@@ -26,15 +33,15 @@
       timeout = 3;
     };
 
-    # Register appimage to binfmt
-    binfmt.registrations.appimage = {
-      wrapInterpreterInShell = false;
-      interpreter = "${pkgs.appimage-run}/bin/appimage-run";
-      recognitionType = "magic";
-      offset = 0;
-      mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
-      magicOrExtension = ''\x7fELF....AI\x02'';
-    };
+    # # Register appimage to binfmt
+    # binfmt.registrations.appimage = {
+    #   wrapInterpreterInShell = false;
+    #   interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+    #   recognitionType = "magic";
+    #   offset = 0;
+    #   mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+    #   magicOrExtension = ''\x7fELF....AI\x02'';
+    # };
 
     # plymouth
     plymouth = {

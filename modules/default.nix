@@ -1,3 +1,4 @@
-{ genImports, ...}: {
+{ genImports, ... }:
+{
   imports = genImports ./.;
 }

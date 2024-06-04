@@ -3,25 +3,17 @@
   isNormalUser = true;
   description = "fmway";
   home = "/home/fmway";
-  extraGroups = ["networkmanager" "wheel" "video" "gdm" "dialout"];
+  extraGroups = ["networkmanager" "wheel" "video" "gdm" "dialout" "kvm" "adbusers"];
   packages = with pkgs; [
     gnome-extension-manager
     gnome.dconf-editor
     gnome.gnome-tweaks
-    winbox
+    foliate
     # youtube-music
     # Google chrome with wayland support
     (google-chrome.override {
       commandLineArgs = [
-        "--enable-features=VaapiVideoDecodeLinuxGL"
-        "--use-gl=angle"
-        "--use-angle=gl"
-        "--ozone-platform=wayland"
-      ];
-    })
-    (microsoft-edge.override {
-      commandLineArgs = [
-        "--enable-features=VaapiVideoDecodeLinuxGL"
+        "--enable-features=VaapiVideoDecodeLinuxGL,TouchpadOverscrollHistoryNavigation"
         "--use-gl=angle"
         "--use-angle=gl"
         "--ozone-platform=wayland"
@@ -57,6 +49,8 @@
     blur-my-shell
     net-speed
     totp
+    cloudflare-warp-toggle
+    system-monitor
   ]);
   shell = pkgs.fish;
 }

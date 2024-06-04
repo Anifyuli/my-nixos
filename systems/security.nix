@@ -14,8 +14,15 @@
       }
     ];
  };
+
   # security.doas.enable = true;
   security.polkit = {
     enable = true;
+  };
+
+
+  # add pam services
+  security.pam.services = {
+    swaylock = {};
   };
 }
