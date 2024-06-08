@@ -3,13 +3,20 @@
 
 {
 
-  # Enable the X11 windowing system.
+  # Enable the X11 & XWayland windowing system.
   services.xserver.enable = true;
+  programs.xwayland.enable = true;
+  services.xserver.desktopManager.xterm.enable = false;
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  # Exclude packages from the X server.
+  services.xserver.excludePackages = [
+    pkgs.xterm
+  ];
+ 
   # bindfs for Flatpak fonts & icons integration.
   system.fsPackages = [ pkgs.bindfs ];
   fileSystems = let
@@ -42,8 +49,8 @@
     packages = with pkgs; [
       amiri
       corefonts
-      unstable.fira-code-nerdfont
-      unstable.fira-code-symbols
+      fira-code-nerdfont
+      fira-code-symbols
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-emoji
@@ -67,16 +74,5 @@
   
   # Enable ls colors in Bash
   programs.bash.enableLsColors = true;
-
-  # Add environment variables.
-  environment.variables = {
-    CHROME_EXECUTABLE = "google-chrome-stable";
-    QT_QPA_PLATFORM = "xcb";
-  };
-
-  # Qt apps theming
-  qt.enable = true;
-  qt.style = "adwaita";
-  qt.platformTheme = "gnome";
-  
+ 
 }

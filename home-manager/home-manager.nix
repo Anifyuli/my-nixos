@@ -10,13 +10,10 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    # Stable channel
     alacritty-theme
-
-    # Unstable channel
-    unstable.nodePackages_latest.pnpm
+    mongodb-compass
   ];
-
+  
   # Alacritty
   programs.alacritty= { 
     enable = true;
@@ -39,9 +36,6 @@
     ];
   };
 
-  # Fzf configurations.
-  programs.fzf.enableBashIntegration = true;
-
   # Vim configurations.
   programs.vim = {
     enable = true;
@@ -61,7 +55,7 @@
   };
 
   # Home Manager version
-  home.stateVersion = "23.11";  
+  home.stateVersion = "24.11";  
   };
 
 }

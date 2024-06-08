@@ -2,16 +2,12 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # Stable channel
-    android-sdk
+    android-studio
+    android-tools
     clang
     cmake
+    flutter
     ninja
     pkg-config-unwrapped
-
-    # Unstable channel 
-    unstable.android-studio
-    unstable.android-tools
-    unstable.flutter
   ];
 }

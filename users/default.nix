@@ -10,38 +10,29 @@
     description = "Moh Anif Yuliansyah";
     extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm"];
     packages = with pkgs; [
-      # Stable channel
       adw-gtk3
+      anytype
+      blender
+      ciscoPacketTracer8
+      endeavour
+      fastfetch
       firefox
+      foliate
       gnome-extension-manager
       gnome.dconf-editor
       gnome.gnome-tweaks
       gnomeExtensions.appindicator
+      gnomeExtensions.thinkpad-battery-threshold
       google-chrome
       hunspell
       libreoffice-fresh
       lollypop
       neovim
-      zotero
-
-      # OBS Studio wrapping in unstable channel
-      (unstable.wrapOBS {
-        plugins = with unstable.obs-studio-plugins; [
-          wlrobs
-          obs-backgroundremoval
-          obs-pipewire-audio-capture
-        ];
-       })
-      
-      # Unstable channel
-      unstable.anytype
-      unstable.blender
-      unstable.ciscoPacketTracer8
-      unstable.foliate
-      unstable.fzf-obc
-      unstable.gnomeExtensions.thinkpad-battery-threshold
-      unstable.vscode
-      unstable.youtube-music
+      obs-studio
+      ptyxis
+      vscode
+      youtube-music
+      zotero  
     ];
   };
 }

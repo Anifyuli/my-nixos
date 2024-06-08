@@ -4,54 +4,48 @@
 {
   # Import configurations for Apache2, MariaDB, PHP stack.
   imports = [
-    ./android.nix         # Android SDK
-    ./lamp-stack.nix      # Lamp stack configurations
-    ./container.nix       # Container configurations
-    ./desktop.nix         # Desktop configurations
-    ./overrides.nix       # Override packages
-    ./services.nix        # Service configurations
-    ./virtualbox.nix      # VirtualBox configurations
+    ./android.nix           # Android SDK
+    ./desktop.nix           # Desktop configurations
+    ./overrides.nix         # Override packages
+    ./services.nix          # Service configurations
+    ./virtualization.nix    # Virtualization configurations
   ];
 
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # Stable channel
     btop
+    desktop-file-utils
     dive
     docker-compose
+    distrobox
     ffmpeg-full
     fwupd
     git
     gnome.adwaita-icon-theme
+    go
     gst_all_1.gstreamer
     inxi
-    jdk
-    neofetch
+    jdk17
+    nodePackages_latest.nodejs
     ntfs3g
     openssl
+    pciutils
+    php
     podman-tui
     qemu_kvm
+    rar
     tree
+    usbutils
     vim
     wget
-    xorg.xhost
-
-    # Unstable channel
-    unstable.distrobox
-    unstable.fzf
-    unstable.nodePackages_latest.nodejs
   ];
 
-  # Environment variables
+  # Add environment variables.
   environment.variables = {
+    CHROME_EXECUTABLE = "google-chrome-stable";
   };
 
-  # Exclude packages from the X server.
-  services.xserver.excludePackages = [
-    pkgs.xterm
-  ];
- 
   # Some programs need SUID wrappers, can be configured further or are started in user sessions.
   programs.mtr.enable = true;
   programs.gnupg.agent = {
@@ -60,11 +54,20 @@
   };
  
   # Add GSConnect connection configuration.
-  programs.kdeconnect.enable = true;
-  programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
+  programs.kdeconnect = {
+    enable = true;
+    package = pkgs.gnomeExtensions.gsconnect;
+  };
+
+  # Noisetorch
+  programs.noisetorch = {
+    enable = true;
+    package = pkgs.noisetorch;
+  };
   
   # Captive browser support.
-  programs.captive-browser.enable = true;
-  programs.captive-browser.interface = "wlp59s0";
-
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp59s0";
+  };
 }
