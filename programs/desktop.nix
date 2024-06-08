@@ -3,7 +3,7 @@
 
 {
 
-  # Enable the X11 XWayland windowing system.
+  # Enable the X11 & XWayland windowing system.
   services.xserver.enable = true;
   programs.xwayland.enable = true;
   services.xserver.desktopManager.xterm.enable = false;

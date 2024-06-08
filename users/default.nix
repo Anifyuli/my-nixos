@@ -14,6 +14,7 @@
       anytype
       blender
       ciscoPacketTracer8
+      endeavour
       fastfetch
       firefox
       foliate

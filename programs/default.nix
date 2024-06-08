@@ -15,6 +15,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     btop
+    desktop-file-utils
     dive
     docker-compose
     distrobox
@@ -22,17 +23,20 @@
     fwupd
     git
     gnome.adwaita-icon-theme
+    go
     gst_all_1.gstreamer
     inxi
     jdk17
     nodePackages_latest.nodejs
     ntfs3g
     openssl
+    pciutils
     php
     podman-tui
     qemu_kvm
     rar
     tree
+    usbutils
     vim
     wget
   ];
@@ -50,11 +54,20 @@
   };
  
   # Add GSConnect connection configuration.
-  programs.kdeconnect.enable = true;
-  programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
+  programs.kdeconnect = {
+    enable = true;
+    package = pkgs.gnomeExtensions.gsconnect;
+  };
+
+  # Noisetorch
+  programs.noisetorch = {
+    enable = true;
+    package = pkgs.noisetorch;
+  };
   
   # Captive browser support.
-  programs.captive-browser.enable = true;
-  programs.captive-browser.interface = "wlp59s0";
-
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp59s0";
+  };
 }

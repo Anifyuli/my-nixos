@@ -12,9 +12,8 @@
   home.packages = with pkgs; [
     alacritty-theme
     mongodb-compass
-    nodePackages_latest.pnpm
   ];
-
+  
   # Alacritty
   programs.alacritty= { 
     enable = true;
@@ -56,7 +55,7 @@
   };
 
   # Home Manager version
-  home.stateVersion = "24.05";  
+  home.stateVersion = "24.11";  
   };
 
 }
