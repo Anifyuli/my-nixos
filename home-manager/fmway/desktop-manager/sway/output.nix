@@ -1,6 +1,6 @@
 _: {
   "*" = {
-    bg = "~/.wallpaper fit";
+    bg = "~/.wallpaper fill";
     adaptive_sync = "on";
   };
   HDMI1 = {

@@ -3,7 +3,7 @@
   isNormalUser = true;
   description = "fmway";
   home = "/home/fmway";
-  extraGroups = ["networkmanager" "wheel" "video" "gdm" "dialout" "kvm" "adbusers"];
+  extraGroups = ["networkmanager" "docker" "wheel" "video" "gdm" "dialout" "kvm" "adbusers"];
   packages = with pkgs; [
     gnome-extension-manager
     gnome.dconf-editor

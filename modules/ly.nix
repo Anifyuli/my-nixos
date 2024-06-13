@@ -33,8 +33,8 @@ with lib; let
     # An empty path variable will prevent ly from setting it
     path =
     # We will rely on the save_file
-    save = false
-    save_file = ${save_file}
+    save = true
+    save_file = /etc/ly/ly-prefs 
     load = ${
       if mk_save
       then "true"

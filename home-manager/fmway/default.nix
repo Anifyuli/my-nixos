@@ -1,9 +1,9 @@
 { pkgs, programs, lib, ... }: let
   getDefaultNixs = folder: lib.mapAttrsToList (name: value: "${name}") (lib.filterAttrs (key: value: value == "directory" && lib.pathExists (lib.path.append folder "${key}/default.nix")) (builtins.readDir folder));
-  getNixs = folder: lib.mapAttrsToList (name: value: "${name}") (lib.filterAttrs (key: value: value == "regular" && lib.hasSuffix ".nix" key && key != "default.nix") (builtins.readDir folder));
-  basename = k: builtins.head (builtins.match "^(.*)\\.(.*)$" (builtins.baseNameOf k));
   user = "fmway";
   home = "/home/${user}";
+  # closure for create environment path
+  genPaths = home: paths: builtins.foldl' (acc: curr: [ "${home}/${curr}/bin" ] ++ acc) [] (lib.reverseList paths);
 in {
 
   imports = builtins.foldl' (acc: curr: [
@@ -17,8 +17,16 @@ in {
     sessionVariables = {
       GITHUB = "${home}/assets/Github";
       PL = "${home}/assets/pl";
-      PROJECTS = "${home}/assets/Projects";
-    };
+      PROJECTS = "${home}/assets/Projects"; 
+    } // (pkgs.getEnv "fmway");
+
+    sessionPath = genPaths home [
+      ".local" # must be ${home}/.local/bin
+      ".cargo" # etc
+      ".deno"
+      ".bun"
+      ".foundry"
+    ];
 
     # packages
     packages = with pkgs; [
@@ -38,9 +46,9 @@ in {
 
   programs = let
     folder = ./.;
-    list = getNixs folder;
+    list = pkgs.getNixs folder;
   in lib.lists.foldl (acc: curr: {
-    "${basename curr}" = import (lib.path.append folder curr) { inherit pkgs; };
+    "${pkgs.basename curr}" = import (lib.path.append folder curr) { inherit pkgs; };
     } // acc
   ) {} list // {
 

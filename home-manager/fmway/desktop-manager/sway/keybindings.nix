@@ -11,7 +11,7 @@
 , mode
 , btop
 , commands
-, light
+, brightnessctl
 , ...
   }: with commands; {
   # Standart keybind
@@ -81,8 +81,8 @@
   "XF86AudioRaiseVolume" = exec "amixer sset Master 2%+";
   "XF86AudioLowerVolume" = exec "amixer sset Master 2%-";
   "XF86AudioMute" = exec "amixer sset Master toggle";
-  "XF86MonBrightnessUp" = exec "${light} -A 2%";
-  "XF86MonBrightnessDown" = exec "${light} -U 2%";
+  "XF86MonBrightnessUp" = exec "${brightnessctl} s +2%";
+  "XF86MonBrightnessDown" = exec "${brightnessctl} s 2%-";
 
 
   "${mod}+Shift+r" = reload;

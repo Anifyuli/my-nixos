@@ -22,6 +22,15 @@
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # auto optimise the store
+  nix.settings.auto-optimise-store = true;
+  # GC
+  nix.gc = {
+    automatic = true;
+    dates = "Mon,Fri *-*-* 00:00:00";
+    options = "--delete-older-than 5d";
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

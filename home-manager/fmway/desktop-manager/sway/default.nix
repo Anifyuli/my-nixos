@@ -3,10 +3,10 @@
   # var for command
   menu = "${pkgs.fuzzel}/bin/fuzzel";
   menu_run = "${pkgs.dmenu}/bin/dmenu_path | ${menu} -d | xargs swaymsg exec --";
-  lock = "swaylock";
+  lock = "${pkgs.swaylock-effects}/bin/swaylock";
   terminal = "${pkgs.foot}/bin/footclient";
   btop = "${pkgs.btop}/bin/btop";
-  light = "${pkgs.light}/bin/light";
+  brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   mode = {
     workspace = "Workspace: 0-9 (eDP-1), Shift + 0-9 (HDMI1)";
   };
@@ -68,7 +68,7 @@ in {
   # read config in all *.nix with some excludes
   config = lib.foldl (acc: curr: {
     "${basename curr}" = import (lib.path.append folder curr) {
-        inherit commands pkgs lock left down up right mod menu terminal menu_run mode btop light; 
+        inherit commands pkgs lock left down up right mod menu terminal menu_run mode btop brightnessctl; 
       };
     } // acc
   ) {} (builtins.filter (x: ! builtins.any (y: x == y) excludes) list) // {
@@ -77,7 +77,8 @@ in {
   };
 
   extraConfig = ''
-    font pango:Noto Sans 0 
+    xwayland enable
+    font pango:Noto Sans 1 
     gaps inner 0
     gaps outer 0
     default_border pixel 4 

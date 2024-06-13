@@ -30,6 +30,12 @@
     ];
   };
 
+  # packages
+  environment.systemPackages = with pkgs; [
+    nixgl.nixGLIntel
+    niri
+  ];
+
   # Add list DE
   services.displayManager.sessionPackages = with pkgs; [
     sway

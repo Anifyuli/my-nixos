@@ -2,14 +2,11 @@
   services.xserver.enable = true;
 
   # GDM
-  # services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
   # Ly Display Manager
-  services.xserver.displayManager.ly = {
-    enable = true;
-    defaultUser = "fmway";
-  };
+  # services.xserver.displayManager.ly.enable = true;
 
   # Keymap
   console.keyMap = "us";
