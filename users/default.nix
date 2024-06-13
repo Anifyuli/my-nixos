@@ -15,7 +15,6 @@
       blender
       ciscoPacketTracer8
       endeavour
-      fastfetch
       firefox
       foliate
       gnome-extension-manager
@@ -27,11 +26,13 @@
       hunspell
       libreoffice-fresh
       lollypop
+      lunacy
       neovim
       obs-studio
       ptyxis
       vscode
       youtube-music
+      zed-editor
       zotero  
     ];
   };

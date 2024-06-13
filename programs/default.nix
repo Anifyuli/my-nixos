@@ -4,7 +4,6 @@
 {
   # Import configurations for Apache2, MariaDB, PHP stack.
   imports = [
-    ./android.nix           # Android SDK
     ./desktop.nix           # Desktop configurations
     ./overrides.nix         # Override packages
     ./services.nix          # Service configurations
@@ -13,13 +12,19 @@
 
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [ 
+    android-studio
+    android-tools
     btop
+    clang
+    cmake
     desktop-file-utils
     dive
     docker-compose
     distrobox
+    fastfetch
     ffmpeg-full
+    flutter
     fwupd
     git
     gnome.adwaita-icon-theme
@@ -27,11 +32,13 @@
     gst_all_1.gstreamer
     inxi
     jdk17
+    ninja
     nodePackages_latest.nodejs
     ntfs3g
     openssl
     pciutils
     php
+    pkg-config-unwrapped
     podman-tui
     qemu_kvm
     rar
