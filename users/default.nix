@@ -33,7 +33,7 @@
       vscode
       youtube-music
       zed-editor
-      zotero  
+      zotero-beta
     ];
   };
 }

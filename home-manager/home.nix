@@ -36,6 +36,13 @@
     ];
   };
 
+  # Golang configurations.
+  programs.go = {
+    enable = true;
+    goBin = ".go/bin";
+    goPath = ".go";
+  };
+  
   # Vim configurations.
   programs.vim = {
     enable = true;

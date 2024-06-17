@@ -31,7 +31,7 @@
     home-manager.useGlobalPkgs = true;
     home-manager.useUserPackages = true;
     imports = [
-      ./home-manager/home-manager.nix # your home-manager config
+      ./home-manager/home.nix # your home-manager config
     ];
   }
 
@@ -44,7 +44,6 @@
   ];
 
   # list overlays 
-  # unstable overlay
     overlay-androidsdk = _final: _prev: {
       android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
           cmdline-tools-latest
