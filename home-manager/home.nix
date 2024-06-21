@@ -11,7 +11,9 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     alacritty-theme
+    exercism
     mongodb-compass
+    postman
   ];
   
   # Alacritty
