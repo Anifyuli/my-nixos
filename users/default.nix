@@ -15,6 +15,7 @@
       blender
       ciscoPacketTracer8
       endeavour
+      fastfetch
       firefox
       foliate
       gnome-extension-manager
@@ -32,7 +33,6 @@
       ptyxis
       vscode
       youtube-music
-      zed-editor
       zotero-beta
     ];
   };

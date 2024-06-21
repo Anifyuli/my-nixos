@@ -22,7 +22,6 @@
     dive
     docker-compose
     distrobox
-    fastfetch
     ffmpeg-full
     flutter
     fwupd
