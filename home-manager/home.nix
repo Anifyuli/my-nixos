@@ -12,7 +12,10 @@
   home.packages = with pkgs; [
     alacritty-theme
     exercism
+    gnomeExtensions.cloudflare-warp-toggle
+    gnomeExtensions.x11-gestures
     mongodb-compass
+    pnpm
     postman
   ];
   
@@ -24,6 +27,16 @@
 
   # Bash configurations.
   programs.bash = {
+    enable = true;
+    enableVteIntegration = true;
+    historyControl = [
+      "ignoreboth"
+      "erasedups"
+    ];
+    historyIgnore = [
+      "?"
+      "??"
+    ];
     historyFile = "~/.bash_history";
     shellOptions = [
       "autocd"
@@ -36,8 +49,11 @@
       "nocaseglob" 
       "no_empty_cmd_completion"
     ];
+    bashrcExtra = "
+      source ~/.bash/themes/aphrodite/aphrodite.theme.sh # Use Aphrodite prompt theme
+    ";
   };
-
+ 
   # Golang configurations.
   programs.go = {
     enable = true;
