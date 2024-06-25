@@ -33,9 +33,23 @@
   services.flatpak.enable =  true;
   xdg.portal.enable = true;
 
+  # Enable touchegg for X11 gesture support.
+  services.touchegg.enable = true;
+
   # Enable fwupd for updating firmware.
   services.fwupd.enable = true;
 
   # Enable throttled.service for fix Intel CPU throttling.
   services.throttled.enable = false;
+
+  # Enable systemd services which is not configured from services options
+  systemd = {
+    packages = with pkgs; [
+      cloudflare-warp
+    ];
+    targets.multi-user.wants = [
+      "warp-svc.service"
+    ];
+  };
+
 }
