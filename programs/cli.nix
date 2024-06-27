@@ -14,6 +14,7 @@
     fwupd
     tree
     btop
+    waypipe
   ];
 
   programs = {

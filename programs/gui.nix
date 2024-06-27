@@ -3,10 +3,12 @@
   environment.systemPackages = with pkgs; [
     appimagekit
     popsicle
+    wezterm
     vscode
     custom.xdman
     zed-editor
     gnome.adwaita-icon-theme
+    youtube-music
     gst_all_1.gstreamer
     keepassxc
     qutebrowser

@@ -37,6 +37,7 @@
     } // acc) {} (
       builtins.map (x: builtins.elemAt (builtins.split "^([^= ]+)=(.*)$" x) 1) (builtins.filter (x: x != "") (lib.splitString "\n" (builtins.readFile file)))); # Just to parse .env file to mapAttrs
     getEnv = entity: readEnv (lib.path.append ../secrets "${entity}.env");
+    genPaths = home: paths: builtins.foldl' (acc: curr: [ "${home}/${curr}/bin" ] ++ acc) [] (lib.reverseList paths);
   };
 
   package-overlay = final: prev: {

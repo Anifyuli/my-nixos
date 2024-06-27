@@ -46,7 +46,7 @@
       } 
     ]; 
 
-  in {
+  in rec {
     nixosConfigurations = {
       Namaku1801 = nixpkgs.lib.nixosSystem {
         inherit system;
@@ -58,10 +58,6 @@
         ];
       };
     };
-    packages.${system} = let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in builtins.foldl' (acc: curr: {
-        "${curr}" = pkgs.callPackage (lib.path.append ./programs/customs curr) { };
-      } // acc) {} (getDefaultNixs ./programs/customs);
+    packages.${system} = nixosConfigurations.Namaku1801.pkgs;
   };
 }

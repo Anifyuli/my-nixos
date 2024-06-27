@@ -2,8 +2,6 @@
   getDefaultNixs = folder: lib.mapAttrsToList (name: value: "${name}") (lib.filterAttrs (key: value: value == "directory" && lib.pathExists (lib.path.append folder "${key}/default.nix")) (builtins.readDir folder));
   user = "fmway";
   home = "/home/${user}";
-  # closure for create environment path
-  genPaths = home: paths: builtins.foldl' (acc: curr: [ "${home}/${curr}/bin" ] ++ acc) [] (lib.reverseList paths);
 in {
 
   imports = builtins.foldl' (acc: curr: [
@@ -20,7 +18,7 @@ in {
       PROJECTS = "${home}/assets/Projects"; 
     } // (pkgs.getEnv "fmway");
 
-    sessionPath = genPaths home [
+    sessionPath = pkgs.genPaths home [
       ".local" # must be ${home}/.local/bin
       ".cargo" # etc
       ".deno"
