@@ -2,22 +2,28 @@
 {
   imports = genImports ./.;
 
-  # allow unfree pkgs
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "genymotion"
-      "spotify"
-    ];
+  nixpkgs.config = {
+    # allow unfree pkgs
+    allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "genymotion"
+        "spotify"
+      ];
 
+    # allow insecure packages
+    permittedInsecurePackages = [
+      "python3.12-youtube-dl-2021.12.17"
+    ];
+  };
 
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     cloudflare-warp
     # qemu with efi 
-    (pkgs.writeShellScriptBin "qemu-system-x86_64-uefi" ''
+    (writeShellScriptBin "qemu-system-x86_64-uefi" ''
       qemu-system-x86_64 \
-        -bios ${pkgs.OVMF.fd}/FV/OVMF.fd \
+        -bios ${OVMF.fd}/FV/OVMF.fd \
         "$@"
     '')
     quickemu

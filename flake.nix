@@ -8,14 +8,16 @@
     nixpkgs-23_11.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nix-colors.url = "github:misterio77/nix-colors";
     home-manager.url = "github:nix-community/home-manager/master";
     fingerprint-sensor = {
       url = "github:ahbnr/nixos-06cb-009a-fingerprint-sensor";
+      inputs.nixpkgs.follows = "nixpkgs-23_11";
     };
     nixgl.url = "github:nix-community/NixGL";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, fingerprint-sensor, home-manager, nixpkgs-23_11, nixpkgs-24_05, nixpkgs-master, ... } @ inputs: let
+  outputs = { self, nixpkgs, nixos-hardware, fingerprint-sensor, nix-colors, home-manager, ... } @ inputs: let
     inherit (self) outputs;
     system = "x86_64-linux";
     lib = nixpkgs.lib;
@@ -38,8 +40,11 @@
       home-manager.nixosModules.home-manager
       {
         nix.registry.nixos.flake = inputs.self;
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = { inherit nix-colors getNixs genImports basename getDefaultNixs; };
+        };
         imports = [
           ./home-manager
         ];

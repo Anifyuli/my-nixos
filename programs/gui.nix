@@ -1,13 +1,14 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    # protonmail-desktop
     appimagekit
     popsicle
     wezterm
     vscode
     custom.xdman
     zed-editor
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
     youtube-music
     gst_all_1.gstreamer
     keepassxc

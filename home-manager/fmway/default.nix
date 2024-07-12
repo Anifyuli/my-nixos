@@ -1,5 +1,4 @@
-{ pkgs, programs, lib, ... }: let
-  getDefaultNixs = folder: lib.mapAttrsToList (name: value: "${name}") (lib.filterAttrs (key: value: value == "directory" && lib.pathExists (lib.path.append folder "${key}/default.nix")) (builtins.readDir folder));
+{ pkgs, programs, lib, getDefaultNixs, ... }: let
   user = "fmway";
   home = "/home/${user}";
 in {
@@ -28,12 +27,41 @@ in {
 
     # packages
     packages = with pkgs; [
-      custom.cargo-tauri
+      # custom.cargo-tauri
+      # custom.cargo-create-tauri-app
+      # trunk
       gh
-      fastfetch
+      pup
+      flyctl
+      # wrangler
       lazygit
       zellij
+      jq
+      yq
       grim
+      nix-search-cli
+      nixd
+      # rnix-lsp
+      nil
+      eza
+      bat
+      appimage-run
+      du-dust
+      fzf
+      scrcpy
+      manix
+      translate-shell
+      nixpacks
+      yt-dlp
+      nurl
+      nix-init
+      cachix
+      ytui-music
+      ripgrep
+      nmap
+      nixfmt-rfc-style
+      wayvnc
+      ttyper
       slurp
       wl-clipboard
       dejavu_fonts
@@ -42,11 +70,16 @@ in {
     stateVersion = "24.11"; 
   };
 
+  # $HOME/.config refers to ./configs
+  xdg.configFile = builtins.foldl' (acc: curr: {
+      "${curr}".source = ./configs + ("/" + curr); 
+  } // acc ) {} (pkgs.tree-path { dir = ./configs; prefix = ""; });
+
   programs = let
     folder = ./.;
     list = pkgs.getNixs folder;
   in lib.lists.foldl (acc: curr: {
-    "${pkgs.basename curr}" = import (lib.path.append folder curr) { inherit pkgs; };
+    "${pkgs.basename curr}" = import (lib.path.append folder curr) { inherit pkgs getDefaultNixs; };
     } // acc
   ) {} list // {
 

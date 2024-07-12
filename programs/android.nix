@@ -6,8 +6,8 @@
     # cmake
     # ninja
     # pkg-config-unwrapped
-    android-studio
-    android-tools
+    # android-studio
+    # android-tools
     # flutter
   ];
 

@@ -1,7 +1,7 @@
 { pkgs, programs, lib, ... }: let
 
   # var for command
-  menu = "${pkgs.fuzzel}/bin/fuzzel";
+  menu = "fuzzel";
   menu_run = "${pkgs.dmenu}/bin/dmenu_path | ${menu} -d | xargs swaymsg exec --";
   lock = "${pkgs.swaylock-effects}/bin/swaylock";
   terminal = "${pkgs.foot}/bin/footclient";

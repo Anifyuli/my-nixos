@@ -6,9 +6,10 @@
   extraGroups = ["networkmanager" "docker" "wheel" "video" "gdm" "dialout" "kvm" "adbusers"];
   packages = with pkgs; [
     custom.bootstrap-studio
+    custom.popsql
     gnome-extension-manager
-    gnome.dconf-editor
-    gnome.gnome-tweaks
+    dconf-editor
+    gnome-tweaks
     foliate
     # youtube-music
     # Google chrome with wayland support
@@ -20,7 +21,7 @@
         "--ozone-platform=wayland"
       ];
     })
-
+    dbeaver-bin
     zoom-us
     discord
     telegram-desktop

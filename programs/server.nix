@@ -30,7 +30,7 @@ in {
   #       gzip off;
   #
   #       include fastcgi_params;
-  #       fastcgi_pass = unix:${config.services.fcgiwrap.socketAddress};
+  #       fastcgi_pass = unix:${config.services.fcgiwrap.fucek.socket.address};
   #       fastcgi_param SCRIPT_FILENAME /srv/cgi$fastcgi_script_name;
   #     '';
   #   };
@@ -98,7 +98,7 @@ in {
       handle {
         root * /srv/cgi
         try_files {path} {path}/index.cgi {path}/index {path}.cgi
-        reverse_proxy unix/${config.services.fcgiwrap.socketAddress} {
+        reverse_proxy unix/${config.services.fcgiwrap.fucek.socket.address} {
           transport fastcgi {
             env PATH /run/current-system/sw/bin
             split .cgi
@@ -109,8 +109,9 @@ in {
   };
 
   services.fcgiwrap = {
-    enable = true;
-    group = config.services.nginx.user;
+    fucek = {
+      process.group = config.services.nginx.user;
+    };
   };
   # services.phpfpm.pools.mypool = {
   #   user = "nobody";
