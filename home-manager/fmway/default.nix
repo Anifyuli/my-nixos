@@ -100,7 +100,7 @@ in {
       extraConfig = {
         hub.protocol = "ssh";
         credential.helper = "${
-          pkgs.git-secret
+          pkgs.custom.git
         }/bin/git-credential-libsecret";
       };
     };

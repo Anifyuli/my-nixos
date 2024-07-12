@@ -9,9 +9,6 @@
       });
     });
   };
-  git-overlay = _final: prev: {
-    git = prev.git.override { withLibsecret = true; };
-  };
   nixpkgs-overlay = _final: _prev: {
     _23_11 = import inputs.nixpkgs-23_11 {
       inherit system;
@@ -27,13 +24,16 @@
     };
   };
 
-  custom-overlay = _final: _prev: {
+  custom-overlay = _final: prev: {
     custom = builtins.foldl' (acc: curr: {
         "${curr}" = pkgs.callPackage (lib.path.append ./customs curr) { };
-      } // acc) {} (getDefaultNixs ./customs);
+      } // acc) {} (getDefaultNixs ./customs) // {
+      
+      git = prev.git.override { withLibsecret = true; };
+    };
   };
 
-  custom-closure = _final: _prev: let
+  custom-closure = _final: prev: let
     toList = { attr, prefix, base ? ./. }: 
       builtins.map (x: { 
         path = base + ("/" + x); 
@@ -81,7 +81,6 @@
 in {
   nixpkgs.overlays = [
     gnome-overlay
-    git-overlay
     nixpkgs-overlay
     custom-closure
     custom-overlay
