@@ -10,7 +10,7 @@
     });
   };
   git-overlay = _final: prev: {
-    git = prev.override { withLibsecret = true; };
+    git = prev.git.override { withLibsecret = true; };
   };
   nixpkgs-overlay = _final: _prev: {
     _23_11 = import inputs.nixpkgs-23_11 {
