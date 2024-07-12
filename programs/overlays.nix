@@ -9,6 +9,9 @@
       });
     });
   };
+  git-overlay = _final: prev: {
+    git = prev.override { withLibsecret = true; };
+  };
   nixpkgs-overlay = _final: _prev: {
     _23_11 = import inputs.nixpkgs-23_11 {
       inherit system;
@@ -78,6 +81,7 @@
 in {
   nixpkgs.overlays = [
     gnome-overlay
+    git-overlay
     nixpkgs-overlay
     custom-closure
     custom-overlay
