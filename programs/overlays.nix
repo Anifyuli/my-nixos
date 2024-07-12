@@ -75,7 +75,7 @@
   };
 
   package-overlay = final: prev: {
-    qutebrowser = prev.qutebrowser.override { enableWideVine = true; }; 
+    # qutebrowser = prev.qutebrowser.override { enableWideVine = true; }; 
   };
 
 in {
