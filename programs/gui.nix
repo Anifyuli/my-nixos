@@ -6,14 +6,14 @@
     popsicle
     wezterm
     vscode
-    custom.xdman
+    fmpkgs.xdman
     zed-editor
     adwaita-icon-theme
     youtube-music
     gst_all_1.gstreamer
     keepassxc
-    qutebrowser
-    custom.keypunch
+    # qutebrowser
+    fmpkgs.keypunch
     mako
     firefoxpwa
   ];

@@ -27,14 +27,24 @@ in {
 
     # packages
     packages = with pkgs; [
-      # custom.cargo-tauri
-      # custom.cargo-create-tauri-app
+      # fmpkgs.cargo-tauri
+      # fmpkgs.cargo-create-tauri-app
       # trunk
       gh
       pup
       flyctl
       # wrangler
       lazygit
+      yarn
+      devbox
+      devenv
+      nodejs
+      wasmer
+      nix-prefetch
+      filebrowser
+      httpie
+      argc
+      nodejs
       zellij
       jq
       yq

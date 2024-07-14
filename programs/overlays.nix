@@ -22,50 +22,49 @@
       inherit system;
       config.allowUnfree = true;
     };
+    fmpkgs = import inputs.fmpkgs {
+      inherit system pkgs lib;
+    };
   };
 
   custom-overlay = _final: prev: {
-    custom = builtins.foldl' (acc: curr: {
-        "${curr}" = pkgs.callPackage (lib.path.append ./customs curr) { };
-      } // acc) {} (getDefaultNixs ./customs) // {
-      
+    custom = {
       git = prev.git.override { withLibsecret = true; };
     };
   };
 
-  custom-closure = _final: prev: let
-    toList = { attr, prefix, base ? ./. }: 
-      builtins.map (x: { 
-        path = base + ("/" + x); 
-        prefix = if prefix == "" then x else prefix + ("/" + x);
-        type = builtins.getAttr x attr;
-      }) (builtins.attrNames attr);
-    # filtered = list: builtins.filter (val: (builtins.getAttr "type" val) == "regular") list;
-    condition = val: 
-      let
-        type = builtins.getAttr "type" val;
-        path = builtins.getAttr "path" val;
-        prefix = builtins.getAttr "prefix" val;
-      in
-      if type == "regular" then
-        prefix
-      else
-        all { dir = path; prefix = prefix; };
-    all = { dir, prefix }: builtins.map condition (toList {
-      attr = builtins.readDir dir;
-      prefix = prefix;
-      base = dir;
-    });
-  in  rec {
+  custom-closure = _final: _prev: rec {
     inherit getDefaultNixs getNixs genImports basename;
     tree-path = var: let
       dir = if builtins.isAttrs var && builtins.hasAttr "dir" var then 
-          builtins.getAttr "dir" var 
+          var.dir 
         else var;
       prefix = if builtins.isAttrs var && builtins.hasAttr"prefix" var then
-          builtins.getAttr "prefix" var 
+          var.prefix 
         else dir;
+      toList = { attr, prefix, base ? ./. }: 
+        builtins.map (x: { 
+          path = base + ("/" + x); 
+          prefix = if prefix == "" then x else prefix + ("/" + x);
+          type = builtins.getAttr x attr;
+        }) (builtins.attrNames attr);
+      condition = val: 
+        let
+          type = val.type;
+          path = val.path;
+          prefix = val.prefix;
+        in
+        if type == "regular" then
+          prefix
+        else
+          all { dir = path; prefix = prefix; };
+      all = { dir, prefix }: builtins.map condition (toList {
+        attr = builtins.readDir dir;
+        prefix = prefix;
+        base = dir;
+      });
     in  lib.flatten (all { dir = dir; prefix = prefix; });
+
     readEnv = file: builtins.foldl' (acc: curr: {
       "${builtins.elemAt curr 0}" = "${builtins.elemAt curr 1}";
     } // acc) {} (

@@ -5,8 +5,8 @@
   home = "/home/fmway";
   extraGroups = ["networkmanager" "docker" "wheel" "video" "gdm" "dialout" "kvm" "adbusers"];
   packages = with pkgs; [
-    custom.bootstrap-studio
-    custom.popsql
+    fmpkgs.bootstrap-studio
+    fmpkgs.popsql
     gnome-extension-manager
     dconf-editor
     gnome-tweaks
@@ -44,7 +44,7 @@
         obs-pipewire-audio-capture
       ];
      })
-  ] ++ (with pkgs.gnomeExtensions; [
+  ] ++ (with gnomeExtensions; [
     paperwm
     appindicator
     clipboard-indicator
