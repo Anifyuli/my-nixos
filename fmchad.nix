@@ -4,24 +4,29 @@
 , ...
 }: let
   inherit (lib) path pathExists splitString mapAttrsToList hasSuffix filterAttrs flatten reverseList;
-  inherit (builtins) isNull isPath isString isList any readDir head foldl' match length baseNameOf isAttrs hasAttr map attrNames elemAt split readFile filter typeOf;
+  inherit (builtins) isNull isPath isString isFunction isList any readDir head foldl' match length baseNameOf isAttrs hasAttr map attrNames elemAt split readFile filter typeOf;
   
   # basename without extension
   basename = k: let
     matched = match "^(.*)\\.(.*)$" (baseNameOf k);
   in if matched == null then k else head matched;
 
-  templateSingleImport = { folder, variables, list, excludes }: let
+  excludeItems = excludes: inputs: let
     filtering = x: ! any (y: x == y) excludes;
-    filtered = if length excludes == 0 then list else filter filtering list;
-  in foldl' (acc: curr: {
-    "${basename curr}" = if isNull variables then
-      import (path.append folder curr) 
-    else import (path.append folder curr) variables;
-  } // acc) {} filtered;
+  in filter filtering inputs;
+
+  templateSingleImport = { folder, variables, list, excludes, initial }: let
+    filtered = if length excludes == 0 then list else excludeItems excludes list;
+  in foldl' (acc: curr: let
+    imported = import (path.append folder curr);
+  in {
+    "${basename curr}" = if isFunction imported && ! isNull variables then
+       imported variables
+    else imported;
+  } // acc) initial filtered;
 
 in rec {
-  inherit basename;
+  inherit basename excludeItems;
 
   # get all directory that have default.nix
   getDefaultNixs = folder: let
@@ -39,6 +44,9 @@ in rec {
     dir = readDir folder;
   in mapAttrsToList (name: value: "${name}") (filterAttrs filtered dir);
 
+  # get all <file>.nix except default.nix also all directory that have default.nix
+  getNixsWithDefault = folder: (getNixs folder) ++ (getDefaultNixs folder);
+
   # generate array for imports keyword using getNixs
   genImports = folder: foldl' (acc: curr: [
     (path.append folder curr)
@@ -48,22 +56,38 @@ in rec {
   genDefaultImports = folder: foldl' (acc: curr: [
     (path.append folder curr)
   ] ++ acc) [] (getDefaultNixs folder);
+
+  # generate array for imports keyword using getNixsWithDefault
+  genImportsWithDefault = folder: foldl' (acc: curr: [
+    (path.append folder curr)
+  ] ++ acc) [] (getNixsWithDefault folder);
   
   # generate object for single import for all <file>.nix exclude default.nix
   customImport = var: let
     folder = if isPath var then var else var.folder;
-    variables = if isAttrs var && hasAttr "variables" var then var.variables else null;
+    variables = if isAttrs var && hasAttr "variables" var && isAttrs var.variables then var.variables else if isPath var then null else {};
     list = getNixs folder;
     excludes = if isAttrs var && hasAttr "excludes" var && isList var.excludes then var.excludes else [];
-  in templateSingleImport { inherit folder variables list excludes; };
+    initial = if isAttrs var && hasAttr "initial" var && isAttrs var.initial then var.initial else {};
+  in templateSingleImport { inherit folder variables list excludes initial; };
   
   # generate object for single import for all directory that have default.nix
   customDefaultImport = var: let
     folder = if isPath var then var else var.folder;
-    variables = if isAttrs var && hasAttr "variables" var then var.variables else null;
+    variables = if isAttrs var && hasAttr "variables" var && isAttrs var.variables then var.variables else if isPath var then null else {};
     excludes = if isAttrs var && hasAttr "excludes" var && isList var.excludes then var.excludes else [];
+    initial = if isAttrs var && hasAttr "initial" var && isAttrs var.initial then var.initial else {};
     list = getDefaultNixs folder;
-  in templateSingleImport { inherit folder variables list excludes; };
+  in templateSingleImport { inherit folder variables list excludes initial; };
+
+  # generate object for single import for all <file>.nix except default.nix also all directory that have default.nix
+  customImportWithDefault = var: let
+    folder = if isPath var then var else var.folder;
+    variables = if isAttrs var && hasAttr "variables" var && isAttrs var.variables then var.variables else if isPath var then null else {};
+    excludes = if isAttrs var && hasAttr "excludes" var && isList var.excludes then var.excludes else [];
+    initial = if isAttrs var && hasAttr "initial" var && isAttrs var.initial then var.initial else {};
+    list = getNixsWithDefault folder;
+  in templateSingleImport { inherit folder variables list excludes initial; };
 
   # like tree in shell command, returning array
   tree-path = var: let

@@ -1,0 +1,51 @@
+{ pkgs, ... }: with pkgs;
+[
+  fmpkgs.cargo-tauri
+  fmpkgs.cargo-create-tauri-app
+  trunk
+  gh
+  pup
+  flyctl
+  wrangler
+  lazygit
+  yarn
+  devbox
+  devenv
+  nodejs
+  wasmer
+  nix-prefetch
+  filebrowser
+  httpie
+  argc
+  nodejs
+  zellij
+  jq
+  yq
+  grim
+  nix-search-cli
+  nixd
+  # rnix-lsp
+  nil
+  eza
+  bat
+  appimage-run
+  du-dust
+  fzf
+  scrcpy
+  manix
+  translate-shell
+  nixpacks
+  yt-dlp
+  nurl
+  nix-init
+  cachix
+  ytui-music
+  ripgrep
+  nmap
+  nixfmt-rfc-style
+  wayvnc
+  ttyper
+  slurp
+  wl-clipboard
+  dejavu_fonts
+]

@@ -1,0 +1,60 @@
+{ pkgs, ... }: {
+  hostName = "Namaku1801"; # Define your hostname.
+  # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Configure network proxy if necessary
+  # proxy.default = "http://user:password@proxy:port/";
+  # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Enable networking
+  networkmanager.enable = true;
+
+  # Open ports in the firewall.
+  # firewall.allowedTCPPorts = [ ... ];
+  # firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # firewall.enable = false;
+  firewall.allowedTCPPorts = [80 443 51820];
+
+  # /etc/hosts
+  extraHosts = ''
+    127.0.0.1 fmway
+    127.0.0.1 php.local.com
+    127.0.0.1 cgi.local.com
+    127.0.0.1 web.goblock.me
+    127.0.0.1 nyoba.com
+    127.0.0.1 download.mikrotik.com
+  '';
+
+  # wireguard
+  wireguard.enable = true;
+
+  # Setup DNS
+  nameservers = ["127.0.0.1" "::1"];
+  networkmanager.dns = "none";
+
+
+  # Proxy
+  # proxy = {
+  #   httpProxy = "http://192.168.43.1:8080";
+  #   httpsProxy = "http://192.168.43.1:8080";
+  #   allProxy = "http://192.168.43.1:8080";
+  # };
+
+  # register Wireguard to firewall
+  firewall = {
+    checkReversePath = "loose";
+    logReversePathDrops = true;
+    # up
+    extraCommands = ''
+      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN
+      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN
+    '';
+
+    # down
+    extraStopCommands = ''
+      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN || true
+      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN || true
+    '';
+  };
+}

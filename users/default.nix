@@ -1,7 +1,7 @@
-{ pkgs, customImport, ... }:
+variables @ { pkgs, ... }:
 {
-  users.users = customImport {
+  users.users = variables.customImport {
     folder = ./.;
-    variables = { inherit pkgs; };
+    inherit variables;
   };
 }

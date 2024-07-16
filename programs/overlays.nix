@@ -1,4 +1,16 @@
-{ pkgs, inputs, system, lib, ... }:let
+{ pkgs, inputs, customImport, system, lib, ... }: let
+  # create cert
+  tls-cert = {  alt ? [], cname ? "localhost" }: let
+    result = pkgs.runCommand "selfSignedCert" { buildInputs = [ pkgs.openssl ]; } ''
+      mkdir -p $out
+      openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -days 365 -nodes \
+        -keyout $out/cert.key -out $out/cert.crt \
+        -subj "/CN=${cname}" -addext "subjectAltName=DNS:localhost,${builtins.concatStringsSep "," (["IP:127.0.0.1"] ++ alt)}"
+    '';
+    in result;
+  certs = {
+    anu-cert = tls-cert { cname = "download.mikrotik.com"; alt = [ "DNS:download.mikrotik.com" ]; };
+  };
   nixpkgs-overlay = _final: _prev: let
     inherit (builtins) foldl' getAttr;
     overlayNixpkgs = arr: obj: foldl' (acc: curr: let
@@ -17,6 +29,7 @@
   };
 
   custom-overlay = _final: prev: {
+    inherit certs;
     custom = {
       git = prev.git.override { withLibsecret = true; };
     };
@@ -28,7 +41,7 @@
     '';
   };
 
-  package-overlay = self: super: self.customImport {
+  package-overlay = self: super: customImport {
     folder = ./customs;
     variables = { inherit self super; };
     excludes = [

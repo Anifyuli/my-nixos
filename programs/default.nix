@@ -1,6 +1,6 @@
-{ pkgs, lib, customImport, genImports, genDefaultImports, ... }:
+{ pkgs, lib, customImport, genImportsWithDefault, ... }:
 {
-  imports = (genImports ./.) ++ (genDefaultImports ./.);
+  imports = genImportsWithDefault ./.;
 
   nixpkgs.config = {
     # allow unfree pkgs
