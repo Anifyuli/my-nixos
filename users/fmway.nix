@@ -12,15 +12,7 @@
     gnome-tweaks
     foliate
     # youtube-music
-    # Google chrome with wayland support
-    (google-chrome.override {
-      commandLineArgs = [
-        "--enable-features=VaapiVideoDecodeLinuxGL,TouchpadOverscrollHistoryNavigation"
-        "--use-gl=angle"
-        "--use-angle=gl"
-        "--ozone-platform=wayland"
-      ];
-    })
+    google-chrome
     dbeaver-bin
     zoom-us
     discord
@@ -34,14 +26,7 @@
     zig
     deno
     bun
-
-    (wrapOBS {
-      plugins = with obs-studio-plugins; [
-        wlrobs
-        obs-backgroundremoval
-        obs-pipewire-audio-capture
-      ];
-     })
+    obs-studio
   ] ++ (with gnomeExtensions; [
     paperwm
     appindicator

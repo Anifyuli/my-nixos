@@ -21,7 +21,6 @@
     127.0.0.1 fmway
     127.0.0.1 php.local.com
     127.0.0.1 cgi.local.com
-    127.0.0.1 web.goblock.me
     127.0.0.1 nyoba.com
     127.0.0.1 download.mikrotik.com
   '';
