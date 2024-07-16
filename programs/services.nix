@@ -61,42 +61,4 @@
     #  xdg-desktop-portal-gtk
     #];
   };
-
-  # Setup Cloudflared tunnel
-  users.users.cloudflared = {
-    group = "cloudflared";
-    isSystemUser = true;
-  };
-
-  users.groups.cloudflared = { };
-
-  # systemd services
-  systemd = {
-
-    # Systemd for cloudflared tunnel
-    services.cloudflared = {
-      description = "Cloudflare Tunnel";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
-      serviceConfig = {
-        EnvironmentFile = "/etc/nixos/secrets/cloudflared.env";
-        ExecStart = "${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token \${TOKEN}";
-        Restart = "always";
-        User = "cloudflared";
-        Group = "cloudflared";
-      };
-    };
-
-    # Handling for packages that have init systemd
-    packages = with pkgs; [
-      cloudflare-warp
-    ]; 
-
-    targets.multi-user.wants = [
-      "warp-svc.service"
-    ];
-
-  };
-
 }

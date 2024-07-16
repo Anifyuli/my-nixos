@@ -1,4 +1,15 @@
-{ virtualisation, ... }: {
+{ pkgs, ... }: {
+  environment.systemPackages = with pkgs; [
+    # qemu with efi 
+    (writeShellScriptBin "qemu-system-x86_64-uefi" ''
+      qemu-system-x86_64 \
+        -bios ${OVMF.fd}/FV/OVMF.fd \
+        "$@"
+    '')
+    quickemu
+    docker-compose
+    distrobox
+  ];
   # Podman configurations
   # Enable common container config files in /etc/containers
   virtualisation.containers.enable = true;

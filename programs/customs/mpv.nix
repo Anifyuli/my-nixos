@@ -11,6 +11,7 @@ in super.mpv.override {
     quality-menu
     quack
     mpv-playlistmanager
+    autosubsync-mpv
     # mpv-osc-modern
     mpv-cheatsheet
     mpris

@@ -1,6 +1,6 @@
-{ pkgs, lib, genImports, ... }:
+{ pkgs, lib, customImport, genImports, genDefaultImports, ... }:
 {
-  imports = genImports ./.;
+  imports = (genImports ./.) ++ (genDefaultImports ./.);
 
   nixpkgs.config = {
     # allow unfree pkgs
@@ -20,15 +20,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     cloudflare-warp
-    # qemu with efi 
-    (writeShellScriptBin "qemu-system-x86_64-uefi" ''
-      qemu-system-x86_64 \
-        -bios ${OVMF.fd}/FV/OVMF.fd \
-        "$@"
-    '')
-    quickemu
-    docker-compose
-    distrobox
   ];
 
   # Exclude packages from the X server.
@@ -36,22 +27,24 @@
     pkgs.xterm
   ];
 
-  programs = {
- 
-    # Java
-    # programs.java.enable = true;
+  programs = let
+    inherit (builtins) foldl';
+    myImport = arr: obj: foldl' (acc: folder: customImport {
+      inherit folder;
+      variables = { inherit pkgs; };
+      excludes = [ "nixvim.nix" "nix-ld.nix" ];
+    } // acc) obj arr;
 
+  in myImport [ ./cli ./gui ] {
+ 
     # Some programs need SUID wrappers, can be configured further or are started in user sessions.
     mtr.enable = true;
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
     };
-
-    # Add GSConnect connection configuration.
-    kdeconnect.enable = true;
-    kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
-
+    
+    # enable fish
+    fish.enable = true;
   };
-
 }

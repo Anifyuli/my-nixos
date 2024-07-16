@@ -28,8 +28,13 @@
     '';
   };
 
-  package-overlay = import ./customs;
-  
+  package-overlay = self: super: self.customImport {
+    folder = ./customs;
+    variables = { inherit self super; };
+    excludes = [
+      "qutebrowser.nix"
+    ];
+  };  
 in {
   nixpkgs.overlays = [
     nixpkgs-overlay
