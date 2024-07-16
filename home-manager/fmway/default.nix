@@ -1,11 +1,9 @@
-{ pkgs, programs, lib, getDefaultNixs, ... }: let
+{ pkgs, customImport, genDefaultImports, ... }: let
   user = "fmway";
   home = "/home/${user}";
 in {
 
-  imports = builtins.foldl' (acc: curr: [
-    (lib.path.append ./. curr)
-  ] ++ acc) [] (getDefaultNixs ./.);
+  imports = genDefaultImports ./.;
 
   home = {
     username = user;
@@ -27,13 +25,13 @@ in {
 
     # packages
     packages = with pkgs; [
-      # fmpkgs.cargo-tauri
-      # fmpkgs.cargo-create-tauri-app
-      # trunk
+      fmpkgs.cargo-tauri
+      fmpkgs.cargo-create-tauri-app
+      trunk
       gh
       pup
       flyctl
-      # wrangler
+      wrangler
       lazygit
       yarn
       devbox
@@ -85,14 +83,22 @@ in {
       "${curr}".source = ./configs + ("/" + curr); 
   } // acc ) {} (pkgs.tree-path { dir = ./configs; prefix = ""; });
 
-  programs = let
-    folder = ./.;
-    list = pkgs.getNixs folder;
-  in lib.lists.foldl (acc: curr: {
-    "${pkgs.basename curr}" = import (lib.path.append folder curr) { inherit pkgs getDefaultNixs; };
-    } // acc
-  ) {} list // {
+  # $HOME/.config refers to github:fmway/fmconfigs/all
+  # xdg.configFile = let
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "fmway";
+  #     repo = "fmconfigs";
+  #     rev = "all";
+  #     hash = "sha256-0rEQ28mtX1+W5Nt+tQZXMf9cHgx7vo0no2hxj1UJ9To=";
+  #   };
+  # in builtins.foldl' (acc: curr: {
+  #     "${curr}".source = src + ("/" + curr); 
+  # } // acc ) {} (pkgs.tree-path { dir = src; prefix = ""; });
 
+ programs = customImport {
+    folder = ./.;
+    variables = { inherit pkgs; };
+  } // {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
 

@@ -1,5 +1,5 @@
-{ pkgs, programs, lib, ... }: let
-
+{ pkgs, lib, ... }: let
+  inherit (builtins) foldl';
   # var for command
   menu = "fuzzel";
   menu_run = "${pkgs.dmenu}/bin/dmenu_path | ${menu} -d | xargs swaymsg exec --";
@@ -18,11 +18,11 @@
     swaymsg = str: "swaymsg ${toString str}";
     ex-default = com: exec (swaymsg "${mode-default} && ${toString com}");
     switch-workspace = num: "swaymsg workspace number ${toString num}";
-    focus = builtins.foldl' (acc: elem: { "${elem}" = "focus ${elem}"; } // acc) {} (directions ++ [ "mode_toggle" "parent" ]);
-    move = builtins.foldl' (acc: elem: { "${elem}" = "move ${elem}"; } // acc) {} (directions ++ [ "scratchpad" ]);
-    show = builtins.foldl' (acc: elem: { "${elem}" = "${elem} show"; } // acc) {} [ "scratchpad" ];
-    toggle = builtins.foldl' (acc: elem: { "${elem}" = "${elem} toggle"; } // acc) {} [ "floating" "fullscreen" ];
-    layout = builtins.foldl' (acc: elem: { "${elem}" = "layout ${elem}"; } // acc) {} [ "stacking" "tabbed" "toggle split" ];
+    focus = foldl' (acc: elem: { "${elem}" = "focus ${elem}"; } // acc) {} (directions ++ [ "mode_toggle" "parent" ]);
+    move = foldl' (acc: elem: { "${elem}" = "move ${elem}"; } // acc) {} (directions ++ [ "scratchpad" ]);
+    show = foldl' (acc: elem: { "${elem}" = "${elem} show"; } // acc) {} [ "scratchpad" ];
+    toggle = foldl' (acc: elem: { "${elem}" = "${elem} toggle"; } // acc) {} [ "floating" "fullscreen" ];
+    layout = foldl' (acc: elem: { "${elem}" = "layout ${elem}"; } // acc) {} [ "stacking" "tabbed" "toggle split" ];
     to-workspace = num: "workspace number ${toString num}";
     move-to-workspace = num: "move container to workspace number ${toString num}";
     reload = "reload";
@@ -45,15 +45,9 @@
   right = "l";
   mod = "Mod4";
 
-  # get [file.nix...] in current directory
-  folder = ./.;
-  basename = k: builtins.head (builtins.match "^(.*)\\.(.*)$" (builtins.baseNameOf k));
-  excludes = [ "window.nix" ]; # exclude directories
-  list = lib.mapAttrsToList (name: value: "${name}") (lib.filterAttrs (key: value: value == "regular" && lib.hasSuffix ".nix" key && key != "default.nix") (builtins.readDir folder)); 
-
   # Key value parsing for environment 
   env = { ... } @ obj:
-    builtins.foldl' (acc: curr:
+    foldl' (acc: curr:
       acc + "export ${curr}\n"
     ) "" (lib.mapAttrsToList (key: value: "${key}=${toString value}") obj);
 
@@ -66,12 +60,11 @@ in {
   };
 
   # read config in all *.nix with some excludes
-  config = lib.foldl (acc: curr: {
-    "${basename curr}" = import (lib.path.append folder curr) {
-        inherit commands pkgs lock left down up right mod menu terminal menu_run mode btop brightnessctl; 
-      };
-    } // acc
-  ) {} (builtins.filter (x: ! builtins.any (y: x == y) excludes) list) // {
+  config = pkgs.customImport {
+    folder = ./.;
+    variables = { inherit commands pkgs lock left down up right mod menu terminal menu_run mode btop brightnessctl; };
+    excludes = [ "window.nix" ];
+  } // {
     inherit left right up down terminal;
     modifier = mod;
   };

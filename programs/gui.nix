@@ -7,6 +7,7 @@
     wezterm
     vscode
     fmpkgs.xdman
+    mpv
     zed-editor
     adwaita-icon-theme
     youtube-music

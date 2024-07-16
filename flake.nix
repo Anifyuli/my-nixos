@@ -24,24 +24,23 @@
   outputs = { self, nixpkgs, nixos-hardware, fingerprint-sensor, nix-colors, home-manager, ... } @ inputs: let
     inherit (self) outputs;
     system = "x86_64-linux";
-    lib = nixpkgs.lib;
-    getDefaultNixs = folder: let
-      filtered = key: value: value == "directory" && lib.pathExists (lib.path.append folder "${key}/default.nix");
-      dir = builtins.readDir folder;
-    in lib.mapAttrsToList (name: value: "${name}") (lib.filterAttrs filtered dir);
-    getNixs = folder: let
-      filtered = key: value: value == "regular" && lib.hasSuffix ".nix" key && key != "default.nix";
-      dir = builtins.readDir folder;
-    in lib.mapAttrsToList (name: value: "${name}") (lib.filterAttrs filtered dir);
-    genImports = folder: builtins.foldl' (acc: curr: [
-      (lib.path.append folder curr)
-    ] ++ acc) [] (getNixs folder);
-    genDefaultImports = folder: builtins.foldl' (acc: curr: [
-      (lib.path.append folder curr)
-    ] ++ acc) [] (getDefaultNixs folder);
-    basename = k: builtins.head (builtins.match "^(.*)\\.(.*)$" (builtins.baseNameOf k));
+    fmchad = import ./fmchad.nix { inherit (nixpkgs) lib; };
+
+    # Will be imported to configuration and home-manager
+    specialArgs = fmchad // {
+      inherit inputs outputs nix-colors system;
+    };
+
     genericModules = [
+      # add fmchad to overlays
+      {
+        nixpkgs.overlays = [
+          (_: _: fmchad)
+        ]
+        ;
+      }
       ./configuration.nix
+      ./hardware-configuration.nix
       ./cachix.nix
       fingerprint-sensor.nixosModules.open-fprintd
       fingerprint-sensor.nixosModules.python-validity
@@ -58,22 +57,19 @@
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
-          extraSpecialArgs = { inherit nix-colors getNixs genImports genDefaultImports basename getDefaultNixs; };
+          extraSpecialArgs = specialArgs;
         };
         imports = [
           ./home-manager
         ];
       } 
-    ]; 
+  ]; 
 
   in {
     nixosConfigurations = {
       Namaku1801 = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs outputs system genImports getNixs getDefaultNixs genDefaultImports basename;
-        };
-        modules = genericModules ++ [
+        inherit system specialArgs;
+        modules = genericModules ++ (fmchad.genDefaultImports ./.) ++ [
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
         ];
       };

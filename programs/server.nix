@@ -75,7 +75,21 @@ in {
   #};
 
   # caddy server
-  services.caddy = {
+  services.caddy = let
+    printPath = x: let
+      user = config.users.users.${x};
+      home-manager = config.home-manager.users.${x};
+      toString = arr: builtins.concatStringsSep ":" arr;
+    in toString (
+      # home-manager level
+      home-manager.home.sessionPath ++ [ 
+        "${user.home}/.local/share/flatpak/exports" # flatpak
+        "/var/lib/flatpak/exports" # flatpak
+        "${user.home}/.nix-profile/bin" # profile level
+        "/etc/profiles/per-user/${user.name}/bin" # user level
+        "/run/current-system/sw/bin" # system level
+      ]);
+  in {
     enable = true;
     virtualHosts."http://cgi.local.com".extraConfig = ''
       log {
@@ -98,9 +112,9 @@ in {
       handle {
         root * /srv/cgi
         try_files {path} {path}/index.cgi {path}/index {path}.cgi
-        reverse_proxy unix/${config.services.fcgiwrap.fucek.socket.address} {
+        reverse_proxy unix/${config.services.fcgiwrap.fmway.socket.address} {
           transport fastcgi {
-            env PATH /run/current-system/sw/bin
+            env PATH ${printPath "fmway"}
             split .cgi
           }
         }
@@ -109,8 +123,15 @@ in {
   };
 
   services.fcgiwrap = {
-    fucek = {
-      process.group = config.services.nginx.user;
+    fmway = {
+      socket = {
+        group = config.services.caddy.group;
+        mode = "0666";
+      };
+      process = {
+        user = config.users.users.fmway.name;
+        group = config.users.groups.users.name;
+      };
     };
   };
   # services.phpfpm.pools.mypool = {

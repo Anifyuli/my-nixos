@@ -1,4 +1,4 @@
-{ pkgs, inputs, system, lib, getDefaultNixs, getNixs, basename, genImports, ... }:let
+{ pkgs, inputs, system, lib, ... }:let
   gnome-overlay = self: super: {
     gnome = super.gnome.overrideScope (gself: gsuper: {
       nautilus = gsuper.nautilus.overrideAttrs (nsuper: {
@@ -31,57 +31,44 @@
     custom = {
       git = prev.git.override { withLibsecret = true; };
     };
+    json2nix = prev.writeScriptBin "json2nix" ''
+      ${pkgs.python3}/bin/python ${prev.fetchurl {
+        url = "https://gist.githubusercontent.com/Scoder12/0538252ed4b82d65e59115075369d34d/raw/e86d1d64d1373a497118beb1259dab149cea951d/json2nix.py";
+        hash = "sha256-ROUIrOrY9Mp1F3m+bVaT+m8ASh2Bgz8VrPyyrQf9UNQ=";
+      }} $@
+    '';
   };
 
-  custom-closure = _final: _prev: rec {
-    inherit getDefaultNixs getNixs genImports basename;
-    tree-path = var: let
-      dir = if builtins.isAttrs var && builtins.hasAttr "dir" var then 
-          var.dir 
-        else var;
-      prefix = if builtins.isAttrs var && builtins.hasAttr"prefix" var then
-          var.prefix 
-        else dir;
-      toList = { attr, prefix, base ? ./. }: 
-        builtins.map (x: { 
-          path = base + ("/" + x); 
-          prefix = if prefix == "" then x else prefix + ("/" + x);
-          type = builtins.getAttr x attr;
-        }) (builtins.attrNames attr);
-      condition = val: 
-        let
-          type = val.type;
-          path = val.path;
-          prefix = val.prefix;
-        in
-        if type == "regular" then
-          prefix
-        else
-          all { dir = path; prefix = prefix; };
-      all = { dir, prefix }: builtins.map condition (toList {
-        attr = builtins.readDir dir;
-        prefix = prefix;
-        base = dir;
-      });
-    in  lib.flatten (all { dir = dir; prefix = prefix; });
-
-    readEnv = file: builtins.foldl' (acc: curr: {
-      "${builtins.elemAt curr 0}" = "${builtins.elemAt curr 1}";
-    } // acc) {} (
-      builtins.map (x: builtins.elemAt (builtins.split "^([^= ]+)=(.*)$" x) 1) (builtins.filter (x: x != "") (lib.splitString "\n" (builtins.readFile file)))); # Just to parse .env file to mapAttrs
-    getEnv = entity: readEnv (lib.path.append ../secrets "${entity}.env");
-    genPaths = home: paths: builtins.foldl' (acc: curr: [ "${home}/${curr}/bin" ] ++ acc) [] (lib.reverseList paths);
-  };
-
-  package-overlay = final: prev: {
-    # qutebrowser = prev.qutebrowser.override { enableWideVine = true; }; 
+  package-overlay = self: super: {
+    # qutebrowser = super.qutebrowser.override { enableWideVine = true; }; 
+    mpv = super.mpv.override {
+      scripts = with self.mpvScripts; [
+        youtube-upnext
+        webtorrent-mpv-hook
+        visualizer
+        sponsorblock
+        # seekTo
+        reload
+        quality-menu
+        quack
+        mpv-playlistmanager
+        # mpv-osc-modern
+        mpv-cheatsheet
+        mpris
+        # modernx
+        memo
+        # manga-reader
+        inhibit-gnome
+        evafast
+        uosc
+      ];
+    };
   };
 
 in {
   nixpkgs.overlays = [
     gnome-overlay
     nixpkgs-overlay
-    custom-closure
     custom-overlay
     package-overlay
     inputs.nixgl.overlay

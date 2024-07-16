@@ -1,15 +1,19 @@
 let
-  floating_fn = { app_id ? [ ], class ? [ ], title ? [ ] }:
-    builtins.foldl' (acc: elem: acc + ''for_window [app_id="${elem}"] floating enable'' + ''''\n'') "" app_id +
-    builtins.foldl' (acc: elem: acc + ''for_window [class="${elem}"] floating enable'' + ''''\n'') "" class +
-    builtins.foldl' (acc: elem: acc + ''for_window [title="${elem}"] floating enable'' + ''''\n'') "" title; 
-  fullscreen_fn = { app_id ? [ ], class ? [ ], title ? [ ] }:
-    builtins.foldl' (acc: elem: acc + ''for_window [app_id="${elem}"] fullscreen enable'' + ''''\n'') "" app_id +
-    builtins.foldl' (acc: elem: acc + ''for_window [class="${elem}"] fullscreen enable'' + ''''\n'') "" class +
-    builtins.foldl' (acc: elem: acc + ''for_window [title="${elem}"] fullscreen enable'' + ''''\n'') "" title; 
-  window = { fullscreen ? {}, floating ? {} }: floating_fn floating + fullscreen_fn fullscreen;
-
-in window {
+  inherit (builtins) foldl' attrNames map concatStringsSep;
+  template = feature: selection: value: 
+    ''for_window [${selection}="${value}"] ${feature} enable
+  '';
+  func = feature: { ... } @ set : let
+    names = attrNames set;
+    res = map (selection: let
+      list = set.${selection};
+      function = acc: elem: (template feature selection elem) + acc;
+    in foldl' function "" list) names;
+  in concatStringsSep "\n" res; 
+  simple-window = { fullscreen ? {}, floating ? {} }:
+    func "fullscreen" fullscreen +
+    func "floating" floating;
+in simple-window {
   fullscreen = {
     app_id = ["fullscreen-window"];
     class = ["fullscreen-window"];

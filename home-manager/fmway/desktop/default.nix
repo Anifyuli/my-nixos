@@ -1,9 +1,8 @@
-{ programs, getDefaultNixs, pkgs, lib, ... }:
+{ customDefaultImport, pkgs, lib, ... }:
 {
   # read all dir with ./**/*.defalut.nix and import them to wayland.windowManager
-  wayland.windowManager = let 
+  wayland.windowManager = customDefaultImport {
     folder = ./wayland;
-  in builtins.foldl' (acc: curr: {
-      "${curr}" = import (lib.path.append folder curr) { inherit programs pkgs lib; };
-    } // acc) {} (getDefaultNixs folder);
+    variables = { inherit pkgs lib; };
+  };
 }

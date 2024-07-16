@@ -29,8 +29,6 @@
     zotero-beta
     anytype
     kdenlive
-    mpv
-
     rustup
     zls
     zig
