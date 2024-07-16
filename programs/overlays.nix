@@ -1,27 +1,16 @@
 { pkgs, inputs, system, lib, ... }:let
-  gnome-overlay = self: super: {
-    gnome = super.gnome.overrideScope (gself: gsuper: {
-      nautilus = gsuper.nautilus.overrideAttrs (nsuper: {
-        buildInputs = nsuper.buildInputs ++ (with pkgs.gst_all_1; [
-          gst-plugins-good
-          gst-plugins-bad
-        ]);
-      });
-    });
-  };
-  nixpkgs-overlay = _final: _prev: {
-    _23_11 = import inputs.nixpkgs-23_11 {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    _24_05 = import inputs.nixpkgs-24_05 {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    _master = import inputs.nixpkgs-master {
-      inherit system;
-      config.allowUnfree = true;
-    };
+  nixpkgs-overlay = _final: _prev: let
+    inherit (builtins) foldl' getAttr;
+    overlayNixpkgs = arr: obj: foldl' (acc: curr: let
+      name = "_${curr}";
+      importName = getAttr "nixpkgs-${curr}" inputs;
+    in {
+      "${name}" = import importName {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    } // acc) obj arr;
+  in overlayNixpkgs [ "23_11" "24_05" "master" ] {
     fmpkgs = import inputs.fmpkgs {
       inherit system pkgs lib;
     };
@@ -39,35 +28,10 @@
     '';
   };
 
-  package-overlay = self: super: {
-    # qutebrowser = super.qutebrowser.override { enableWideVine = true; }; 
-    mpv = super.mpv.override {
-      scripts = with self.mpvScripts; [
-        youtube-upnext
-        webtorrent-mpv-hook
-        visualizer
-        sponsorblock
-        # seekTo
-        reload
-        quality-menu
-        quack
-        mpv-playlistmanager
-        # mpv-osc-modern
-        mpv-cheatsheet
-        mpris
-        # modernx
-        memo
-        # manga-reader
-        inhibit-gnome
-        evafast
-        uosc
-      ];
-    };
-  };
-
+  package-overlay = import ./customs;
+  
 in {
   nixpkgs.overlays = [
-    gnome-overlay
     nixpkgs-overlay
     custom-overlay
     package-overlay

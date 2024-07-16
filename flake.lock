@@ -77,11 +77,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1721004196,
-        "narHash": "sha256-OUaqrmei0ZlDOceFxNYqruOBdKAgDdlIbIanAaxhJRs=",
+        "lastModified": 1721121692,
+        "narHash": "sha256-Hi0TPAtA9BDr3YU4YlFJRWg6e7vSC6tLANQFaBkrBcw=",
         "owner": "fmway",
         "repo": "fmpkgs",
-        "rev": "f3de818b00ade51d8d3a06e6a90a51440ce30cd8",
+        "rev": "c0365b184a688616fcc61f2db6c17be5b8b9796b",
         "type": "github"
       },
       "original": {
@@ -229,11 +229,11 @@
     },
     "nixpkgs-master": {
       "locked": {
-        "lastModified": 1721106452,
-        "narHash": "sha256-0Nn6IsAQztkQQIwPfMnCal0o9HwsvnxChiQgOPCF1+A=",
+        "lastModified": 1721121941,
+        "narHash": "sha256-yWW6l8dkK1gCqdPqOZO9xZpd6g/o5RUYG2MZLWgumII=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b9e55d345e0eb227d0fd9951c4af8d1c55be31e9",
+        "rev": "0db4dfd388c59aef00a50bc187cc6f09dbf87f79",
         "type": "github"
       },
       "original": {
