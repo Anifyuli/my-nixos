@@ -11,10 +11,11 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     alacritty-theme
+    dbeaver-bin
     exercism
-    gnomeExtensions.cloudflare-warp-indicator
     gnomeExtensions.x11-gestures
     mongodb-compass
+    php82Packages.composer
     pnpm
     postman
   ];
@@ -53,7 +54,12 @@
       "nocaseglob" 
       "no_empty_cmd_completion"
     ];
-    bashrcExtra = "source ~/.bash/themes/aphrodite/aphrodite.theme.sh # Use Aphrodite prompt theme";
+    bashrcExtra = "";
+  };
+
+  # Shell aliases
+  home.shellAliases = {
+    "warpstat" = "curl https://www.cloudflare.com/cdn-cgi/trace/";
   };
 
   # dircolors configurations

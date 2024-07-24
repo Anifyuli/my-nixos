@@ -8,19 +8,19 @@
     isNormalUser = true;
     shell = pkgs.bash;
     description = "Moh Anif Yuliansyah";
-    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm"];
+    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "docker" ];
     packages = with pkgs; [
       adw-gtk3
+      anydesk
       anytype
       blender
       ciscoPacketTracer8
+      dconf-editor
       endeavour
-      fastfetch
       firefox
       foliate
       gnome-extension-manager
-      gnome.dconf-editor
-      gnome.gnome-tweaks
+      gnome-tweaks
       gnomeExtensions.appindicator
       gnomeExtensions.thinkpad-battery-threshold
       google-chrome
@@ -31,7 +31,8 @@
       neovim
       obs-studio
       ptyxis
-      vscode
+      thunderbird
+      vscode-fhs
       youtube-music
       zotero-beta
     ];

@@ -29,7 +29,7 @@
       name = "system-icons";
       paths = with pkgs; [
         #libsForQt5.breeze-qt5  # for plasma
-        gnome.gnome-themes-extra
+        gnome-themes-extra
       ];
       pathsToLink = [ "/share/icons" ];
     };
@@ -49,14 +49,20 @@
     packages = with pkgs; [
       amiri
       corefonts
+      dm-sans
+      fira
       fira-code-nerdfont
       fira-code-symbols
+      lato
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-emoji
+      open-sans
       roboto
       roboto-serif
+      roboto-slab
       vistafonts
+      work-sans
     ];
   };
 
@@ -74,5 +80,5 @@
   
   # Enable ls colors in Bash
   programs.bash.enableLsColors = true;
- 
+
 }

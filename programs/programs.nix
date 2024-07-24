@@ -1,11 +1,7 @@
 # programs.nix for handling spesific programs
 {config, pkgs, ...}:
 
-{ 
-  # Exclude packages from the X server.
-  services.xserver.excludePackages = [
-    pkgs.xterm
-  ];
+{
 
   # Some programs need SUID wrappers, can be configured further or are started in user sessions.
   programs.mtr.enable = true;
@@ -21,4 +17,19 @@
   # Captive browser support.
   programs.captive-browser.enable = true;
   programs.captive-browser.interface = "wlp59s0";
+
+  # Java configs.
+  programs.java = {
+    enable = true;
+    package = pkgs.jdk17;
+  };
+
+  # Noisetorch installation
+  programs.noisetorch.enable = true;
+
+  # Winbox setup.
+  programs.winbox = {
+    enable = true;
+    openFirewall = true;
+  };
 }
