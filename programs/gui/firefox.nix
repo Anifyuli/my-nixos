@@ -2,7 +2,9 @@
 {
   enable = true;
   package = pkgs.firefox;
-  nativeMessagingHosts.packages = [pkgs.firefoxpwa];
+  nativeMessagingHosts.packages = with pkgs; [
+    firefoxpwa
+  ];
   wrapperConfig = {
     pipewireSupport = true;
   };

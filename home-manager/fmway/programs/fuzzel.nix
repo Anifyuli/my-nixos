@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 {
   enable = true;
   settings = {

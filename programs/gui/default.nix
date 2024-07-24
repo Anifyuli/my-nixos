@@ -4,7 +4,6 @@
     # protonmail-desktop
     appimagekit
     popsicle
-    wezterm
     vscode
     fmpkgs.xdman
     mpv
@@ -17,5 +16,9 @@
     fmpkgs.keypunch
     mako
     firefoxpwa
+
+    # terminal
+    wezterm
+    contour
   ];
 }

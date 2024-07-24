@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 {
   enable = true;
   # enableFishIntegration = true; # see note on other shells below

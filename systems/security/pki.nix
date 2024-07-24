@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs }:
 {
   # register your ssl cert
   certificateFiles = [

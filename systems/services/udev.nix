@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 {
   # Add Android additional udev rules.
   packages = with pkgs; [

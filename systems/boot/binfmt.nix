@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 {
   # Register appimage to binfmt
   registrations.appimage = {

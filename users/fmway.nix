@@ -26,7 +26,7 @@
     zig
     deno
     bun
-    obs-studio
+    custom.obs-studio
   ] ++ (with gnomeExtensions; [
     paperwm
     appindicator

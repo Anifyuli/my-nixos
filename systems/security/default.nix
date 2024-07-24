@@ -1,15 +1,10 @@
-{ customImport, pkgs, ... } @ variables:
-customImport {
-  initial = {
-    polkit = {
-      enable = true;
-    };
-
-    # register package to pam services
-    pam.services = {
-      swaylock = {};
-    };
+{
+  polkit = {
+    enable = true;
   };
-  folder = ./.;
-  inherit variables;
+
+  # register package to pam services
+  pam.services = {
+    swaylock = {};
+  };
 }

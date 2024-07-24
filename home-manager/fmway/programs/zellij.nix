@@ -1,6 +1,4 @@
-{ pkgs, ... }:let
-  # bind = key: value: "bind \"${key}\"";
-in {
+{
   enable = true;
   # enableFishIntegration = true;
   # I'm frustrated

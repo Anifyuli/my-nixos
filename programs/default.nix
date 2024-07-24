@@ -20,6 +20,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     cloudflare-warp
+    scrcpy
+    wl-clipboard
   ];
 
   # Exclude packages from the X server.

@@ -1,22 +1,6 @@
 { pkgs, config , programs, services, ... }: {
 
   system.fsPackages = [ pkgs.bindfs ];
-  # Add fonts.
-  fonts = {
-    fontDir.enable = true;
-    packages = with pkgs; [
-      # amiri
-      corefonts
-      # clearlyU
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-emoji
-      roboto
-      nerdfonts
-      dejavu_fonts
-      roboto-serif
-    ];
-  };
 
   # Override default Dconf settings.
   services.xserver.desktopManager.gnome = {

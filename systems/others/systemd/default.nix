@@ -1,4 +1,4 @@
-{ pkgs, customImport, ... }:
+{ pkgs, customImport, config, lib, ... } @ variables:
 {
   # Setup Cloudflared tunnel
   users.users.cloudflared = {
@@ -13,7 +13,7 @@
 
     services = customImport {
       folder = ./.;
-      variables = { inherit pkgs; };
+      inherit variables;
     };
 
     # Handling for packages that have init systemd
