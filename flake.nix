@@ -4,15 +4,22 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # follow unstable channel
+    nixpkgs-23-11.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
     home-manager.url = "github:nix-community/home-manager/master"; # Home Manager channel
+    # Android tools Flakes
     android-nixpkgs = {
       url = "github:tadfisher/android-nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
+    }; 
+    # 06cb:009a fingerprint support Flakes
+    nixos-06cb-009a-fingerprint-sensor = {
+      url = "github:ahbnr/nixos-06cb-009a-fingerprint-sensor";
+      inputs.nixpkgs.follows = "nixpkgs-23-11";
     };
   };	
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, android-nixpkgs, ... } @ inputs: let
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, android-nixpkgs, nixos-06cb-009a-fingerprint-sensor, ... } @ inputs : let
     inherit (self) outputs; # to export the output variable
     system = "x86_64-linux"; # your system
     genericModules = [
@@ -65,6 +72,8 @@
         };
         modules = genericModules ++ [
           nixos-hardware.nixosModules.lenovo-thinkpad-x280
+          nixos-06cb-009a-fingerprint-sensor.nixosModules.open-fprintd
+          nixos-06cb-009a-fingerprint-sensor.nixosModules.python-validity
         ];
       };
     };

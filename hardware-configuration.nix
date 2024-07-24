@@ -36,12 +36,12 @@
     options = [ "fmask=0022" "dmask=0022" ];
   };
 
-  swapDevices = [ ];
+  swapDevices = lib.mkForce [ ];
 
   # Add Zram devices.
   zramSwap.enable = true;
-  zramSwap.priority = 100;
-  zramSwap.algorithm = "lzo-rle";
+  zramSwap.priority = 1000;
+  zramSwap.algorithm = "zstd";
   zramSwap.memoryPercent = 100;
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

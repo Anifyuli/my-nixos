@@ -7,13 +7,15 @@
     ./desktop.nix           # Desktop configurations
     ./nix-ld.nix            # nix-ld configurations
     ./overrides.nix         # Override packages
+    ./programs.nix          # Spesific programs
     ./services.nix          # Service configurations
-    ./virtualization.nix    # Virtualization configurations
+    ./virtualisation.nix    # Virtualisation configurations
   ];
 
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [ 
+    adwaita-icon-theme
     android-studio
     android-tools
     btop
@@ -28,10 +30,9 @@
     flutter
     fwupd
     git
-    gnome.adwaita-icon-theme
     gst_all_1.gstreamer
+    gtop
     inxi
-    jdk17
     ninja
     nodePackages_latest.nodejs
     ntfs3g
