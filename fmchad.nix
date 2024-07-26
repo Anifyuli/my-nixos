@@ -4,7 +4,7 @@
 , pkgs ? null
 , ...
 }: let
-  inherit (lib) path pathExists last splitString mapAttrsToList hasSuffix removeSuffix hasPrefix removePrefix filterAttrs flatten reverseList recursiveUpdate;
+  inherit (lib) path pathExists lists last splitString mapAttrsToList hasSuffix warn removeSuffix hasPrefix removePrefix filterAttrs flatten reverseList recursiveUpdate;
   inherit (builtins) isNull isPath isString functionArgs isFunction isList any readDir head foldl' match length baseNameOf isAttrs hasAttr map attrNames elemAt split readFile filter typeOf concatStringsSep toString;
   
   # basename without extension
@@ -25,10 +25,27 @@
     } // acc;
   in foldl' getArgs {} argNames;
 
-  excludeItems = excludes: inputs: let
+  stringMultiply = str: count:
+    foldl' (acc: _: str + acc) "" (lists.range 1 count);
+
+  excludeArray = excludes: inputs: let
     fixed = map (x: toString x) excludes;
     filtering = x: ! any (y: x == y) fixed;
   in filter filtering inputs;
+
+  excludeObj = excludes: inputs: let
+    names = excludeArray excludes (attrNames inputs);
+    func = acc: name: {
+      "${name}" = inputs.${name};
+    } // acc;
+  in foldl' func {} names;
+
+  excludeItems = excludes: inputs:
+  if isList inputs then
+    excludeArray excludes inputs
+  else if isAttrs inputs then
+    excludeObj excludes inputs
+  else abort "Tolol bet bjir, lu mau exclude apaan :(";
 
   excludePrefix = excludes: prefixs: let
     fixed = map (x: toString x) excludes;
@@ -112,23 +129,61 @@
     "${elemAt curr 0}" = "${elemAt curr 1}";
   } // acc) {} list; # Just to parse .env file to mapAttrs
 
-  treeImport = { folder, initial ? {}, variables ? null, depth ? 1, excludes ? [] }: let
+  toImport = obj: cwd: variables: if ! isAttrs obj then
+    obj
+  else let
+    keys = attrNames (excludeItems [ "imported" ] obj);
+    initial = 
+      if obj ? imported then
+        (let
+          imported = import obj.imported;
+        in if isFunction imported && ! isNull variables then
+          imported (getRequiredArgs imported variables)
+        else imported)
+      else {};
+  in foldl' (acc: key: let
+    value = obj.${key};
+    res = recursiveUpdate {} { 
+      "${key}" = let
+        __variable = cwd + "/__variable.nix";
+        var = if pathExists __variable then
+          recursiveUpdate variables (let
+            imported = import __variable;
+          in if isFunction imported && ! isNull variables then
+            imported (getRequiredArgs imported variables)
+          else imported)
+        else {};
+      in toImport value (cwd + "/${key}") (variables // var);
+    };
+  in recursiveUpdate acc res) initial keys;
+
+  treeImport = { folder, variables ? null, depth ? 1, excludes ? [] }: initial: let
     lists = tree-path { dir = folder; prefix = ""; };
     filtered = filter (x: hasSuffix ".nix" x) lists; # only <file>.nix
     filtered2 = excludePrefix excludes filtered; # excluding excludes
-    result1 = map (x: excludeItems [ "default.nix" ] (splitString "/" x)) filtered2;
+    filtered3 = excludeSuffix [ "__variable.nix" ] filtered2;
+    result1 = map (x: excludeItems [ "default.nix" ] (splitString "/" x)) filtered3;
     final = filter (x: length x >= depth) result1;
     createObj = arr: let
       name = concatStringsSep "/" arr;
-      imported = import (folder + "/${name}");
-      res = if isFunction imported && ! isNull variables then
-          imported (getRequiredArgs imported variables)
-        else imported;
-    in foldl' (acc: curr: { "${removeSuffix ".nix" curr}" = acc; }) res (reverseList arr); # [ "the" "array" ] => { the = array = {} }; 
+      # imported = import (folder + "/${name}");
+      # res = if isFunction imported && ! isNull variables then
+      #     imported (getRequiredArgs imported variables)
+      #   else imported;
+      res = { imported = folder + "/${name}"; };
+    in foldl' (acc: curr: let
+      name = removeSuffix ".nix" curr;
+      obj = if name == "" then # top-level default.nix will be ""
+          acc
+        else
+          { "${name}" = acc; };
+    in obj) res (reverseList arr); # [ "the" "array" ] => { the = array = {} }; 
 
     # fold' (acc1: curr1: lib.recursiveUpdate acc1 (fold' (acc: curr: { "${curr}" = acc; }) {} (reverse curr1))) {} anu
-  in foldl' (acc: curr: recursiveUpdate acc (createObj curr)) initial final;
-
+    res = foldl' (acc: curr:
+        recursiveUpdate acc (createObj curr)
+    ) initial final;
+  in toImport res folder variables;
   
   genTreeImports = folder: excludes: let
     list = tree-path { dir = folder; prefix = ""; };
@@ -137,52 +192,73 @@
   in map (x: folder + "/${x}") excluded;
 
   # generate array for imports keyword using getNixs
-  genImports = folder: foldl' (acc: curr: [
+  genImports = folder: excludes: let
+    list = getNixs folder;
+    excluded = excludeItems excludes list;
+  in foldl' (acc: curr: [
     (path.append folder curr)
-  ] ++ acc) [] (getNixs folder);
+  ] ++ acc) [] excluded;
+
+  firstChar = str:
+    head (filter (x: x != "") (flatten (split "(.)" str)));
   
   # generate array for imports keyword using getDefaultNixs
-  genDefaultImports = folder: foldl' (acc: curr: [
+  genDefaultImports = folder: excludes: let
+    list = getDefaultNixs folder;
+    excluded = excludeItems excludes list;
+  in foldl' (acc: curr: [
     (path.append folder curr)
-  ] ++ acc) [] (getDefaultNixs folder);
+  ] ++ acc) [] excluded;
 
   # generate array for imports keyword using getNixsWithDefault
-  genImportsWithDefault = folder: foldl' (acc: curr: [
+  genImportsWithDefault = folder: excludes: let
+    list = getNixsWithDefault folder;
+    excluded = excludeItems excludes list;
+  in foldl' (acc: curr: [
     (path.append folder curr)
-  ] ++ acc) [] (getNixsWithDefault folder);
+  ] ++ acc) [] excluded;
   
   # generate object for single import for all <file>.nix exclude default.nix
-  customImport = var: let
+  customImport = var: initial: let
     folder = if isPath var then var else var.folder;
-    variables = if isAttrs var && hasAttr "variables" var && isAttrs var.variables then var.variables else if isPath var then null else {};
-    list = getNixs folder;
     excludes = if isAttrs var && hasAttr "excludes" var && isList var.excludes then var.excludes else [];
-    initial = if isAttrs var && hasAttr "initial" var && isAttrs var.initial then var.initial else {};
+    variables = if isAttrs var && hasAttr "variables" var && isAttrs var.variables then var.variables else if isPath var then null else {};
+  in if isList folder then
+    foldl' (acc: curr: customImport {
+      folder = curr;
+      inherit excludes variables;
+    } acc) initial folder 
+  else let
+    list = getNixs folder;
   in templateSingleImport { inherit folder variables list excludes initial; };
   
   # generate object for single import for all directory that have default.nix
-  customDefaultImport = var: let
+  customDefaultImport = var: initial: let
     folder = if isPath var then var else var.folder;
     variables = if isAttrs var && hasAttr "variables" var && isAttrs var.variables then var.variables else if isPath var then null else {};
     excludes = if isAttrs var && hasAttr "excludes" var && isList var.excludes then var.excludes else [];
-    initial = if isAttrs var && hasAttr "initial" var && isAttrs var.initial then var.initial else {};
+  in if isList folder then
+    foldl' (acc: curr: customDefaultImport {
+      folder = curr;
+      inherit excludes variables;
+    } acc) initial folder 
+  else let
     list = getDefaultNixs folder;
   in templateSingleImport { inherit folder variables list excludes initial; };
 
   # generate object for single import for all <file>.nix except default.nix also all directory that have default.nix
-  customImportWithDefault = var: let
+  customImportWithDefault = var: initial: let
     folder = if isPath var then var else var.folder;
     variables = if isAttrs var && hasAttr "variables" var && isAttrs var.variables then var.variables else if isPath var then null else {};
     excludes = if isAttrs var && hasAttr "excludes" var && isList var.excludes then var.excludes else [];
-    initial = if isAttrs var && hasAttr "initial" var && isAttrs var.initial then var.initial else {};
+  in if isList folder then
+    foldl' (acc: curr: customImportWithDefault {
+      folder = curr;
+      inherit excludes variables;
+    } acc) initial folder 
+  else let
     list = getNixsWithDefault folder;
   in templateSingleImport { inherit folder variables list excludes initial; };
-
-  treeImports = { folders, variables ? null, initial ? {}, excludes ? [], ... }: let
-    result = map (folder: let
-      name = last (splitString "/" (toString folder));
-    in { "${name}" = treeImport { inherit folder variables excludes; }; }) folders;
-  in foldl' (acc: curr: recursiveUpdate acc curr) initial result;
 
   # parse env in folder ./secrets
   getEnv = entity: readEnv (path.append ./secrets "${entity}.env");
@@ -192,7 +268,7 @@
     foldl' (acc: curr: [ "${home}/${curr}/bin" ] ++ acc) [] (reverseList paths);
 
   exported = {
-      inherit basename excludeItems tree-path getDefaultNixs getNixs getNixsWithDefault readEnv excludePrefix excludeSuffix treeImport genImports genDefaultImports genImportsWithDefault getEnv genPaths treeImports customImport customDefaultImport customImportWithDefault genTreeImports;
+      inherit basename excludeItems tree-path getDefaultNixs getNixs getNixsWithDefault readEnv excludePrefix excludeSuffix treeImport genImports genDefaultImports genImportsWithDefault getEnv genPaths customImport customDefaultImport customImportWithDefault genTreeImports getRequiredArgs excludeObj excludeArray toImport firstChar stringMultiply;
   };
 
 in exported

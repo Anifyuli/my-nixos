@@ -1,12 +1,8 @@
-{ mod
-, mode
-, left ? "h"
-, up ? "k"
-, right ? "l"
-, down ? "j"
-, commands
-, ... }: {
-  resize = with commands; {
+{ extra, command, ... }: let
+  inherit (extra) mod mode left up right down;
+  inherit (command) resize mode-default ex-default swaymsg to-workspace;
+in {
+  resize = {
     "${left}" = resize.left 10;
     "${down}" = resize.down 10;
     "${up}" = resize.up 10;
@@ -18,7 +14,7 @@
     "Escape" = mode-default;
     "Return" = mode-default;
   };
-  "${mode.workspace}" = with commands; {
+  "${mode.workspace}" = {
     "1" = ex-default (swaymsg (to-workspace 1));
     "${mod}+1" = ex-default (swaymsg (to-workspace 1));
     "2" = ex-default (swaymsg (to-workspace 2));

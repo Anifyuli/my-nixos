@@ -3,7 +3,16 @@
   isNormalUser = true;
   description = "fmway";
   home = "/home/fmway";
-  extraGroups = ["networkmanager" "docker" "wheel" "video" "gdm" "dialout" "kvm" "adbusers"];
+  extraGroups = [
+    "networkmanager" 
+    "docker" 
+    "wheel"
+    "video"
+    "gdm"
+    "dialout"
+    "kvm"
+    "adbusers"
+  ];
   packages = with pkgs; [
     fmpkgs.bootstrap-studio
     fmpkgs.popsql

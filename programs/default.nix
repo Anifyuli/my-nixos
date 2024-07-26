@@ -1,6 +1,6 @@
-{ pkgs, lib, customImport, genImportsWithDefault, ... }:
+{ pkgs, lib, getNixs, customImport, basename, genImportsWithDefault, ... } @ variables:
 {
-  imports = genImportsWithDefault ./.;
+  imports = genImportsWithDefault ./. [ "customs" ];
 
   nixpkgs.config = {
     # allow unfree pkgs
@@ -18,26 +18,25 @@
 
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     cloudflare-warp
     scrcpy
     wl-clipboard
-  ];
+  ]) ++ (map (x: let # install all package in ./scripts
+    name = basename x;
+    pkg = pkgs.scripts.${name};
+  in pkg) (getNixs ./scripts));
 
   # Exclude packages from the X server.
   services.xserver.excludePackages = [
     pkgs.xterm
   ];
 
-  programs = let
-    inherit (builtins) foldl';
-    myImport = arr: obj: foldl' (acc: folder: customImport {
-      inherit folder;
-      variables = { inherit pkgs; };
-      excludes = [ "nixvim.nix" "nix-ld.nix" ];
-    } // acc) obj arr;
-
-  in myImport [ ./cli ./gui ] {
+  programs = customImport {
+    folder = [ ./cli ./gui ];
+    excludes = [ "nixvim.nix" "nix-ld.nix" ];
+    inherit variables;
+  } {
  
     # Some programs need SUID wrappers, can be configured further or are started in user sessions.
     mtr.enable = true;

@@ -1,13 +1,13 @@
 {
   enable = true;
   extraRules = [
-    {
-      groups = [ "users" ];
-      keepEnv = true;
-      persist = true;
-      setEnv = [
-        "PATH"
-      ];
-    }
+  {
+    groups = [ "users" ];
+    keepEnv = true;
+    persist = true;
+    setEnv = [
+    "PATH"
+    ];
+  }
   ];
 }

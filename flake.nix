@@ -70,7 +70,7 @@
     nixosConfigurations = {
       Namaku1801 = nixpkgs.lib.nixosSystem {
         inherit system specialArgs;
-        modules = genericModules ++ (fmchad.genDefaultImports ./.) ++ [
+        modules = genericModules ++ (fmchad.genDefaultImports ./. []) ++ (fmchad.genTreeImports ./modules []) ++ [
           ./hardware-configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
         ];

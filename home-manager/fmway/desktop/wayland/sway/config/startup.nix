@@ -1,4 +1,5 @@
-{ pkgs, lock, ... }: let
+{ pkgs, extra, ... }: let
+  inherit (extra) lock;
   com = pkg: str: "${pkgs.${pkg}}/bin/${pkg} ${str}";
 in [
   { command = com "foot" "--server"; }

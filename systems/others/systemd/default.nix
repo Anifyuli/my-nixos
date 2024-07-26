@@ -14,7 +14,7 @@
     services = customImport {
       folder = ./.;
       inherit variables;
-    };
+    } {};
 
     # Handling for packages that have init systemd
     packages = with pkgs; [

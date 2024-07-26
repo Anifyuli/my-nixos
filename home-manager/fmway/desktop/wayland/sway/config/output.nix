@@ -1,4 +1,4 @@
-_: {
+{
   "*" = {
     bg = "~/.wallpaper fill";
     adaptive_sync = "on";

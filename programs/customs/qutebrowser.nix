@@ -1,3 +1,5 @@
 { super, ... }: let
   
-in super.qutebrowser.override { enableWideVine = true; } 
+in super.qutebrowser.override {
+  enableWideVine = true;
+} 

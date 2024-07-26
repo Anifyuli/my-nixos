@@ -1,8 +1,14 @@
-{ customDefaultImport, pkgs, lib, ... }:
+{ customDefaultImport, config, treeImport, pkgs, lib, ... } @ variables:
 {
-  # read all dir with ./**/*.defalut.nix and import them to wayland.windowManager
-  wayland.windowManager = customDefaultImport {
+  # import all in folder ./wayland to wayland.windowManager
+  wayland.windowManager = treeImport {
     folder = ./wayland;
-    variables = { inherit pkgs lib; };
-  };
+    inherit variables;
+  } {};
+
+  # import all in folder ./x to xsession.windowManager
+  xsession.windowManager = treeImport {
+    folder = ./x;
+    inherit variables;
+  } {};
 }

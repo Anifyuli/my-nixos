@@ -1,5 +1,6 @@
 { config, pkgs, ... }: let 
-  printPath = pkgs.printPath;
+  inherit (pkgs.functions) printPath;
+  inherit (config.services) fcgiwrap;
 in {
   extraConfig = ''
     log {
@@ -22,7 +23,7 @@ in {
     handle {
       root * /srv/cgi
       try_files {path} {path}/index.cgi {path}/index {path}.cgi
-      reverse_proxy unix/${config.services.fcgiwrap.fmway.socket.address} {
+      reverse_proxy unix/${fcgiwrap.fmway.socket.address} {
         transport fastcgi {
           env PATH ${printPath "fmway"}
           split .cgi

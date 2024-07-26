@@ -1,19 +1,7 @@
-{ pkgs
-, left ? "h"
-, down ? "j"
-, up ? "k"
-, right ? "l"
-, mod
-, menu
-, terminal
-, menu_run
-, lock
-, mode
-, btop
-, commands
-, brightnessctl
-, ...
-  }: with commands; {
+{ pkgs, command, extra, ... }: let
+  inherit (extra) left down up right mod menu terminal menu_run lock mode brightnessctl btop;
+  inherit (command) exec focus move split layout to-workspace to-mode move-to-workspace toggle reload show;
+in {
   # Standart keybind
   "${mod}+Return" = exec terminal;
   "${mod}+Shift+q" = "kill";
