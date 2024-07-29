@@ -8,7 +8,7 @@
     isNormalUser = true;
     shell = pkgs.bash;
     description = "Moh Anif Yuliansyah";
-    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "docker" "fwupd-refresh"];
     packages = with pkgs; [
       adw-gtk3
       anydesk
@@ -19,6 +19,7 @@
       endeavour
       firefox
       foliate
+      genymotion
       gnome-extension-manager
       gnome-tweaks
       gnomeExtensions.appindicator

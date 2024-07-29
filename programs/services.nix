@@ -59,7 +59,13 @@
   services.thermald.enable = true;
 
   # Enable throttled.service for fix Intel CPU throttling.
-  services.throttled.enable = false;
+  services.throttled.enable = true;
+
+  # Enable earlyoom for handling OOM conditions.
+  services.earlyoom = {
+    enable = true;
+    enableNotifications = true;
+  };
 
   # Enable systemd services which is not configured from services options
   systemd = {
