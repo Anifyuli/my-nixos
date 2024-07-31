@@ -23,7 +23,7 @@
     inherit (self) outputs; # to export the output variable
     system = "x86_64-linux"; # your system
     genericModules = [
-    ./configuration.nix
+      ./configuration.nix
     {
     # Fix for nixpkgs without flakes
       nix.registry.nixos.flake = inputs.self;
