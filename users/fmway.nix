@@ -36,6 +36,18 @@
     deno
     bun
     custom.obs-studio
+    fmpkgs.cargo-tauri
+    fmpkgs.cargo-create-tauri-app
+    trunk
+    yarn
+    clipman
+    nodejs
+    wasmer
+    filebrowser
+    nodejs
+    # nixpacks
+    ytui-music
+    dejavu_fonts
   ] ++ (with gnomeExtensions; [
     paperwm
     appindicator

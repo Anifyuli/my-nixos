@@ -1,8 +1,9 @@
 { config, pkgs, ... }: let 
   inherit (pkgs.functions) printPath;
-  inherit (config.services) fcgiwrap;
+  inherit (config.services) fcgiwrap certs;
 in {
   extraConfig = ''
+    tls ${certs.cgi.cert} ${certs.cgi.key}
     log {
       format console
       output stdout
@@ -22,7 +23,7 @@ in {
     }
     handle {
       root * /srv/cgi
-      try_files {path} {path}/index.cgi {path}/index {path}.cgi
+      try_files {path} {path}/index.cgi {path}/index {path}.cgi 404 404.cgi
       reverse_proxy unix/${fcgiwrap.fmway.socket.address} {
         transport fastcgi {
           env PATH ${printPath "fmway"}

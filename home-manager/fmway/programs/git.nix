@@ -1,6 +1,5 @@
 { pkgs, ... }:
 {
-  enable = true;
   userName = "fmway";
   userEmail = "fm18lv@gmail.com";
   aliases = {

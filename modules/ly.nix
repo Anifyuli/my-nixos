@@ -1,11 +1,7 @@
 # taken from https://github.com/WolfangAukang/nixpkgs/commit/3c6f251f75a48281195c413a75f1ff9607726e69
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-with lib; let
+{ config, lib, pkgs, ... }:
+let
+  inherit (lib) concatMapStrings attrNames getAttr mkOption types literalExpression maintainers mkIf mkEnableOption;
   xcfg = config.services.xserver;
   dmcfg = xcfg.displayManager;
   cfg = dmcfg.ly;

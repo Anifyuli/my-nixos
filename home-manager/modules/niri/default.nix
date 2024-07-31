@@ -1,18 +1,13 @@
-{ lib, config, pkgs, ... }: let
-  inherit (lib) mkIf mkEnableOption flatten mkOption reverseList strings mkAfter types;
+{ lib, config, excludeItems, pkgs, ... }: let
+  inherit (lib) mapAttrs' getExe' mkIf mkEnableOption flatten mkOption reverseList strings mkAfter types lists;
   inherit (pkgs.functions) stringMultiply;
-  inherit (builtins) foldl' isString hasAttr concatStringsSep isAttrs isBool isList listToAttrs pathExists elem head attrNames readDir;
+  inherit (builtins) foldl' length isString hasAttr concatStringsSep isAttrs isBool isList listToAttrs pathExists elem head attrNames readDir;
   primitip = with types; [ int str bool ];
   primitiveType = types.oneOf primitip;
   kdlType = types.oneOf [
     primitiveType
-    (types.listOf (
-      types.oneOf [
-        primitiveType
-        (types.attrsOf primitiveType)
-      ]
-    ))
     (types.attrsOf kdlType)
+    (types.listOf kdlType)
   ];
 
   parse-startup = list: let
@@ -23,51 +18,63 @@
     names = attrNames obj;
   in concatStringsSep " " (map (key: "${key}=${strings.toJSON obj.${key}}") names);
 
-  simple-parse = name: obj: { avoid-boolean ? false, spaces ? 0, recursive ? false, ... }: let
-    names = attrNames obj;
+  simple-parse = name: obj: { avoid-boolean ? false, extra ? "", spaces ? 0, excludes ? [], recursive ? false, ... }: let
+    object = excludeItems excludes obj;
+    names = attrNames object;
     space = stringMultiply " " spaces;
-    first = "${space}${name} {\n";
-    last = "${space}}\n";
+    first = "${space}${name}" + (if object == {} then "" else " {\n");
+    last = (if object == {} then "" else "${space}}") + "\n";
     result = foldl' (acc: name: let
-      value = obj.${name};
+      value = object.${name};
     in acc +
       (if isBool value && avoid-boolean then 
         if value then "${space}  ${name}\n" else ""
       else if isAttrs value && recursive then
         simple-parse name value { inherit recursive avoid-boolean; spaces = spaces + 2; }
-      else if isList value then
-        (foldl' (acc: curr: "${acc} " + (
+      else if isList value then let
+        len = length value;
+        condition = len > 1 && isAttrs (lists.last value);
+        arr = if condition then lists.take (len - 1) value else value;
+        result = foldl' (acc: curr: "${acc} " + (
           if isAttrs curr then
             toKV curr
           else
             strings.toJSON curr)
-        ) "${space}  ${name}" (reverseList value)) + "\n"
+        ) name arr;
+      in 
+        (if condition then
+          simple-parse result (lists.last value) { inherit recursive avoid-boolean; spaces = spaces + 2; }
+        else "${space}  ${result}") + "\n"
       else
         "${space}  ${name} ${strings.toJSON value}\n")) "" names;
-  in first + result + last;
-  parse-bind = obj: let
-    keys = attrNames obj;
-    result = map (key: let
-      value = obj.${key};
-    in concatStringsSep " " (flatten [ "  " key (if value ? option && ! isNull value.option then
-      (toKV value.option)
-    else []) "{" (if isList value.command then 
-      map (x: if x == (head value.command) then
-        x
-      else strings.toJSON x) value.command
-    else value.command) "; }"])) keys;
-  in "binds {\n" + (concatStringsSep "\n" result) + "\n}\n"; 
-  parse-output = obj: let
+  in first + result + (if extra != "" then "\n${extra}\n" else extra) + last;
+  # parse-bind = obj: let
+  #   keys = attrNames obj;
+  #   result = map (key: let
+  #     value = obj.${key};
+  #   in concatStringsSep " " (flatten [ "  " key (if value ? option && ! isNull value.option then
+  #     (toKV value.option)
+  #   else []) "{" (if isList value.command then 
+  #     map (x: if x == (head value.command) then
+  #       x
+  #     else strings.toJSON x) value.command
+  #   else value.command) "; }"])) keys;
+  # in "binds {\n" + (concatStringsSep "\n" result) + "\n}\n"; 
+  parse-alt = name: obj: excludes: let
     names = attrNames obj;
     result = map (key:
-      simple-parse ''output "${key}"'' obj.${key}  { 
+      simple-parse ''${name} "${key}"'' obj.${key}  { 
         avoid-boolean = true;
         recursive = true;
+        inherit excludes;
       }
-    ) names;
+    ) names; 
+
   in (concatStringsSep "\n" result) + "\n";
+
   cfg = config.wayland.windowManager.niri;
-  do = { config, extraConfig, ... }:
+
+  do = { config, extraConfig, extra, ... }:
     (if isNull config.startup then
       "" else parse-startup config.startup) +
     (if isNull config.environment then
@@ -75,7 +82,9 @@
     (if isNull config.input then
       "" else simple-parse "input" config.input { avoid-boolean = true; recursive = true; }) +
     (if isNull config.output then
-      "" else parse-output config.output) +
+      "" else parse-alt "output" config.output []) +
+    (if isNull config.workspace then
+      "" else parse-alt "workspace" config.workspace [ "shortcut" ]) +
     (if isNull config.output then
       "" else simple-parse "hotkey-overlay" config.hotkey { avoid-boolean = true; }) +
     (if isNull config.window then 
@@ -83,9 +92,9 @@
     (if isNull config.cursor then
       "" else simple-parse "cursor" config.cursor {}) +
     (if isNull config.bind then
-      "" else parse-bind config.bind) +
+      "" else simple-parse "binds" config.bind { avoid-boolean = true; recursive = true; }) +
     (if isNull config.layout then
-      "" else simple-parse "layout" config.layout { avoid-boolean = true; recursive = true; }) +
+      "" else simple-parse "layout" config.layout { avoid-boolean = true; extra = extra.layout; recursive = true; }) +
     (if config.prefer-no-csd then
       "prefer-no-csd\n" else "") +
     (if isNull config.screenshot-path then
@@ -99,15 +108,71 @@ in {
       type = types.package;
       default = pkgs.niri;
     };
+    workspace = mkOption {
+      type = types.attrs;
+      default = {};
+    };
     extraConfig = mkOption {
       type = types.nullOr types.str;
       default = null;
+    };
+    lock = mkOption {
+      type = types.submodule {
+        options = {
+          enable = mkEnableOption "enable auto lock";
+          timeout = mkOption {
+            type = types.int;
+            description = "timeout in milisecond";
+            example = ''lock.timeout = 1000'';
+            default = 1000;
+          };
+        };
+      };
+    };
+    background = mkOption {
+      type = types.submodule {
+        options = {
+          enable = mkEnableOption "enable background inside systemd services";
+          path = mkOption {
+            type = types.oneOf [ types.path types.str ];
+          };
+          mode = mkOption {
+            type = types.enum [ "stretch" "fit" "fill" "center" "tile" "solid_color" ];
+            default = "fill";
+          };
+        };
+      };
+      default = {};
+    };
+    extra = mkOption {
+      type = types.submodule {
+        options = {
+          layout = mkOption {
+            type = types.str;
+            default = "";
+          };
+        };
+      };
     };
     config = mkOption {
       type = types.nullOr (types.submodule {
         options = {
           prefer-no-csd = mkEnableOption "prefer-no-csd";
           screenshot-path = mkOption { type = types.nullOr types.str; default = null; };
+          workspace = mkOption {
+            type = types.nullOr (types.attrsOf (types.oneOf [
+            (types.submodule ({ name, ... }: {
+              options = {
+                shortcut = mkOption {
+                  type = types.str;
+                  default = name;
+                };
+              };
+            }))
+            kdlType
+            ]));
+            default = null;
+          };
           startup = mkOption {
             type = types.nullOr (types.listOf (types.submodule {
               options = {
@@ -187,24 +252,7 @@ in {
             default = null;
           };
           bind = mkOption {
-            type = types.nullOr (types.attrsOf (types.submodule {
-              options = {
-                command = mkOption {
-                  type = types.oneOf (with types; [ str int bool (listOf (oneOf [str int bool])) ]);
-                  example = ''
-                  command = "fullscreen-window";
-                  command = spawn = ["amixer" "sset" "Master" "2%-"];
-                  '';
-                };
-                option = mkOption {
-                  type = types.nullOr (types.attrsOf primitiveType);
-                  example = ''
-                  cooldown-ms = 150;
-                  '';
-                  default = null;
-                };
-              };
-            }));
+            type = types.nullOr (types.attrsOf kdlType);
             example = ''
             "Mod+f" = {
               command = "fullscreen-window";
@@ -230,6 +278,69 @@ in {
     
   };
   config = mkIf cfg.enable {
-    xdg.configFile."niri/config.kdl".text = do { inherit (cfg) config extraConfig; };
+    wayland.windowManager.niri.workspace = mkIf (!isNull cfg.config.workspace) (let
+      result = mapAttrs' (name: value: {
+        name = value.shortcut;
+        value = name;
+      }) cfg.config.workspace;
+    in mkAfter result);
+    xdg.configFile."niri/config.kdl".text = do { inherit (cfg) config extraConfig extra; };
+    home.packages = mkAfter [ cfg.package ];
+    systemd.user = let
+      lock = "${pkgs.swaylock}/bin/swaylock";
+      idle = "${pkgs.swayidle}/bin/swayidle";
+      inherit (cfg.lock) timeout;
+      systemctl = config.systemd.user.systemctlPath;
+    in  {
+      services.niri-lock = mkIf cfg.lock.enable {
+        Unit = {
+          PartOf = "graphical-session.target";
+          After = "graphical-session.target";
+          Requisite = "graphical-session.target";
+        };
+        Service = {
+          ExecStart = "${idle} -w timeout ${toString (timeout + 1)} 'niri msg action power-off-monitors' timeout ${toString timeout} '${lock} -f' before-sleep '${lock} -f'";
+          Restart = "on-failure";
+        };
+        Install = {
+          WantedBy = ["niri.service"];
+        };
+      };
+
+      services.niri-background = mkIf (cfg.background.enable) {
+        Unit = {
+          PartOf = "graphical-session.target";
+          After = "graphical-session.target";
+          Requisite = "graphical-session.target";
+        };
+        Service = {
+          ExecStart = ''${pkgs.swaybg}/bin/swaybg -m ${cfg.background.mode} -i "${toString cfg.background.path}"'';
+          Restart = "on-failure";
+        };
+        Install = {
+          WantedBy = ["niri.service"];
+        };
+      };
+
+      # for handle if background changed
+      services.niri-background-watcher = mkIf cfg.background.enable {
+        Install = {
+          WantedBy = [ "niri.service" ];
+        };
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${systemctl} --user restart niri-background.service";
+        };
+      };
+      paths.niri-background-watcher = mkIf cfg.background.enable {
+        Path = {
+          # PathModified = "${cfg.background.path}";
+          PathChanged = "${cfg.background.path}";
+        };
+        Install = {
+          WantedBy = [ "niri.service" ];
+        };
+      };
+    };
   };
 }

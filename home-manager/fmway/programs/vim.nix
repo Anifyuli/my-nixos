@@ -1,5 +1,4 @@
 { pkgs, ... }: {
-  enable = true;
   packageConfigurable = pkgs.vim;
   defaultEditor = true;
   settings = {

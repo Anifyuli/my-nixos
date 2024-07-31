@@ -1,5 +1,9 @@
 { treeImport, genImports, pkgs, lib, config, customImportWithDefault, genImportsWithDefault, customImport, ... } @ variables:
-treeImport {
+treeImport
+{
+  imports = genImportsWithDefault ./others;
+}
+{
   excludes = [
     "others"
     "boot/binfmt"
@@ -10,6 +14,5 @@ treeImport {
 
   folder = ./.;
   inherit variables;
-} {
-  imports = genImportsWithDefault ./others [];
 }
+

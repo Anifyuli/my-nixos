@@ -1,6 +1,6 @@
-{ lib, config, pkgs, ... } @ variables: let
+{ config, pkgs, lib, ... } @ variables: let
   cfg = config.features.config;
-  inherit (pkgs.functions) tree-path getRequiredArgs;
+  inherit (pkgs.functions) tree-path doImport;
   inherit (builtins) foldl' isFunction;
   inherit (lib) mkIf mkEnableOption mkOption types recursiveUpdate hasSuffix removeSuffix;
 in {
@@ -13,6 +13,10 @@ in {
         cwd = ./configs;
       '';
     };
+    variables = mkOption {
+      type = types.attrs;
+      default = variables;
+    };
   };
   config.xdg.configFile = mkIf cfg.enable (let
     dir = cfg.cwd;
@@ -22,12 +26,7 @@ in {
       "${file}" = { inherit source; }; 
     } else {
       "${removeSuffix ".nix" file}" = {
-        text = let
-          imported = import source;
-        in if isFunction imported then
-          imported (getRequiredArgs imported variables)
-        else
-          imported;
+        text = doImport source cfg.variables;
       };
     })) {} (tree-path { inherit dir; prefix = ""; });
   in result);

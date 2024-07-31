@@ -17,7 +17,6 @@
   # packages
   environment.systemPackages = with pkgs; [
     nixgl.nixGLIntel
-    niri
   ];
 
   # Add list DE

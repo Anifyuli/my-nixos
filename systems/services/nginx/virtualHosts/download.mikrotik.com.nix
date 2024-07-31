@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 {
   forceSSL = true;
-  sslCertificate = "${config.certs.anu}/cert.crt";
-  sslCertificateKey = "${config.certs.anu}/cert.key";
+  sslCertificate = "${config.services.certs.anu.cert}";
+  sslCertificateKey = "${config.services.certs.anu.key}";
   locations."/" = {
     proxyPass = "http://127.0.0.1:8080";
     #proxyWebsockets = true; # needed if you need to use WebSocket

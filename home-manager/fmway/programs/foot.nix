@@ -1,5 +1,4 @@
 {
-  enable = true;
   settings = {
     main = {
       font = "DejaVu Sans Mono:style=Bold:size=14";

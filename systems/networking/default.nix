@@ -14,16 +14,8 @@
   # firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # firewall.enable = false;
-  firewall.allowedTCPPorts = [80 443 51820];
-
-  # /etc/hosts
-  extraHosts = ''
-    127.0.0.1 fmway
-    127.0.0.1 php.local.com
-    127.0.0.1 cgi.local.com
-    127.0.0.1 nyoba.com
-    127.0.0.1 download.mikrotik.com
-  '';
+  firewall.allowedTCPPorts = [80 5900 9000 3000 8080 8000 8888 9876 1234 443 445 51820];
+  firewall.allowPing = true;
 
   # wireguard
   wireguard.enable = true;

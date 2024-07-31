@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   # Enable GNOME keyring.
   gnome.gnome-keyring.enable = true;
@@ -14,6 +15,18 @@
 
   # Enable fwupd for updating firmware.
   fwupd.enable = true;
+
+  samba-wsdd = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  samba = {
+    enable = true;
+    package = pkgs.sambaFull;
+    securityType = "user";
+    openFirewall = true;
+  };
 
   # Enale throttled.service for fix Intel CPU throttling
   # throttled.enable = false;

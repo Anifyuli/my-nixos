@@ -10,10 +10,15 @@
       url = "github:ryantm/agenix";
       inputs.darwin.follows = "";
     };
+    std.url = "github:divnix/std";
     fmpkgs = {
       url = "github:fmway/fmpkgs/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # inputs.nixos-shell = {
+    #   url = "github:Mic92/nixos-shell";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nixpkgs-extra = {
       url = "github:luisnquin/nixpkgs-extra";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,14 +34,24 @@
     nur.url = "github:nix-community/nur";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, fingerprint-sensor, agenix, nix-colors, nixpkgs-extra, home-manager, ... } @ inputs: let
+  outputs = { self, nixpkgs, nixos-hardware, fingerprint-sensor, std, agenix, nix-colors, nixpkgs-extra, home-manager, ... } @ inputs:
+  std.growOn {
+    inputs = inputs // { outputs = self.outputs; };
+    cellsFrom = ./cells;
+    cellBlocks = with std.blockTypes; [
+      (functions "functions")
+    ];
+  }
+  (let
     inherit (self) outputs;
+    inherit (nixpkgs) lib;
     system = "x86_64-linux";
-    fmchad = import ./fmchad.nix { inherit (nixpkgs) lib; };
+    # fmchad = import ./fmchad.nix { inherit lib; };
+    fmchad = (std.harvest inputs.self [ "fmchad" "functions" ]).${system};
 
     # Will be imported to configuration and home-manager
     specialArgs = fmchad // {
-      inherit inputs outputs nix-colors system;
+      inherit inputs outputs system;
     };
 
     genericModules = [
@@ -45,6 +60,7 @@
       fingerprint-sensor.nixosModules.open-fprintd
       fingerprint-sensor.nixosModules.python-validity
       agenix.nixosModules.default
+      # inputs.nixos-shell.nixosModules.nixos-shell
       # {
       #   # Fix for nixpkgs without flakes
       #   nix.registry.nixos.flake = inputs.self;
@@ -58,6 +74,7 @@
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
+          verbose = true;
           extraSpecialArgs = specialArgs;
         };
         imports = [
@@ -68,14 +85,16 @@
 
   in {
     nixosConfigurations = {
-      Namaku1801 = nixpkgs.lib.nixosSystem {
+      Namaku1801 = lib.makeOverridable lib.nixosSystem {
         inherit system specialArgs;
-        modules = genericModules ++ (fmchad.genDefaultImports ./. []) ++ (fmchad.genTreeImports ./modules []) ++ [
+        modules = genericModules ++ (fmchad.genDefaultImports ./.) ++ (fmchad.genTreeImports ./modules) ++ [
           ./hardware-configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
         ];
       };
     };
+    inherit fmchad;
+    inherit (self.nixosConfigurations.Namaku1801) config lib;
     packages.${system} = self.nixosConfigurations.Namaku1801.pkgs;
-  };
+  });
 }

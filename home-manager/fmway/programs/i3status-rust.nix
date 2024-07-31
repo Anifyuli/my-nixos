@@ -3,7 +3,6 @@
   menu = "${pkgs.dmenu}/bin/dmenu";
 in 
 {
-  enable = true;
   bars = {
     top = {
       blocks = [

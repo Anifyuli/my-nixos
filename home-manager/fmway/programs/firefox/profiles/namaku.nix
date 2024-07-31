@@ -1,7 +1,5 @@
 { pkgs, ... }:
 {
-  name = "namaku";
-  id = 0;
   search = {
     default = "Google";
     engines = {
@@ -53,7 +51,9 @@
         definedAliases = [ "@nw" ];
       };
 
-      "Bing".metaData.hidden = true;
+      "Bing".metaData.alias = "b";
+      "Wikipedia".metaData.alias = "w";
+      "DuckDuckGo".metaData.alias = "d";
       "Google".metaData.alias = "g"; # builtin engines only support specifying one additional alias
     };
   };

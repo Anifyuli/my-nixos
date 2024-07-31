@@ -1,5 +1,4 @@
 {
-  enable = true;
   # enableFishIntegration = true;
   # I'm frustrated
   # settings = {

@@ -1,6 +1,6 @@
-{ pkgs, lib, getNixs, customImport, basename, genImportsWithDefault, ... } @ variables:
+{ pkgs, lib, getNixs, config, customImport, basename, genImportsWithDefault', genImportsWithDefault, ... } @ variables:
 {
-  imports = genImportsWithDefault ./. [ "customs" ];
+  imports = genImportsWithDefault' ./. [ "customs" ];
 
   nixpkgs.config = {
     # allow unfree pkgs
@@ -22,21 +22,15 @@
     cloudflare-warp
     scrcpy
     wl-clipboard
-  ]) ++ (map (x: let # install all package in ./scripts
-    name = basename x;
-    pkg = pkgs.scripts.${name};
-  in pkg) (getNixs ./scripts));
+  ]);
 
   # Exclude packages from the X server.
   services.xserver.excludePackages = [
     pkgs.xterm
   ];
 
-  programs = customImport {
-    folder = [ ./cli ./gui ];
-    excludes = [ "nixvim.nix" "nix-ld.nix" ];
-    inherit variables;
-  } {
+  programs = customImport
+  {
  
     # Some programs need SUID wrappers, can be configured further or are started in user sessions.
     mtr.enable = true;
@@ -44,8 +38,23 @@
       enable = true;
       enableSSHSupport = true;
     };
+
+    # enable cloudflared
+    cloudflared = {
+      enable = true;
+      secretFile = config.age.secrets.cloudflared.path;
+    };
+
+    # enable scripts
+    script.enable = true;
+    script.cwd = ./scripts;
     
     # enable fish
     fish.enable = true;
+  }
+  {
+    folder = [ ./cli ./gui ];
+    excludes = [ "nixvim.nix" "nix-ld.nix" ];
+    inherit variables;
   };
 }

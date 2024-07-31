@@ -4,11 +4,11 @@
   wayland.windowManager = treeImport {
     folder = ./wayland;
     inherit variables;
-  } {};
+  };
 
   # import all in folder ./x to xsession.windowManager
   xsession.windowManager = treeImport {
     folder = ./x;
     inherit variables;
-  } {};
+  };
 }
