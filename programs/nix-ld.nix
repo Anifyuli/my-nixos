@@ -20,12 +20,12 @@
     glib
     gtk3
     icu
-    jdk17
     libGL
     libappindicator-gtk3
     libdrm
     libglvnd
     libnotify
+    libpng
     libpulseaudio
     libunwind
     libusb1

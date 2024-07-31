@@ -24,6 +24,7 @@
   ];
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
+  boot.initrd.systemd.enable = true;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/2b5ceae1-144a-491a-9d75-cd25df1cf9ee";

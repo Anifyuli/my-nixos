@@ -9,8 +9,14 @@
     variant = "";
   };
 
-  # Configure console keymap.
-  console.keyMap = "uk";
+  # Configure console keymap & fonts.
+  i18n.defaultLocale = "en_US.UTF-8";
+  console = {
+    earlySetup = true;
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz";
+    keyMap = "uk";
+    packages = with pkgs; [ terminus_font ];
+  };
 
   # Enable CUPS to document printings.
   services.printing.enable = true;
