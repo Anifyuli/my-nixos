@@ -9,6 +9,7 @@
   # import all in folder ./x to xsession.windowManager
   xsession.windowManager = treeImport {
     folder = ./x;
+    depth = 0;
     inherit variables;
   };
 }
