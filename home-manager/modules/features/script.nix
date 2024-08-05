@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... } @ variables: let
+{ lib, nixosConfig, config, pkgs, ... } @ variables: let
   cfg = config.features.script;
   inherit (pkgs.functions) doImport basename getNixs;
   inherit (builtins) listToAttrs readFile pathExists isFunction isAttrs isString;
@@ -49,6 +49,6 @@ in {
     }) files;
   in {
     packages = mkAfter (map (x: x.value) result);
-    script = mkBefore (listToAttrs result);
+    script = mkBefore (recursiveUpdate nixosConfig.environment.script (listToAttrs result));
   });
 }

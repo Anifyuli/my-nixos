@@ -15,6 +15,8 @@
     "y480" = "yt-dlp -f 'bestvideo[height<=480]+bestaudio/best[height<=480]'";
     "y360" = "yt-dlp -f 'bestvideo[height<=360]+bestaudio/best[height<=360]'";
     "ytp" = "yt-dlp --yes-playlist -o \"%(playlist)s/%(playlist_index)s. %(title)s.%(ext)s\" -f 'bestvideo[height<=480]+bestaudio/best[height<=480]'";
+    "ytplaylist" = "yt-dlp --output '%(playlist_title)s/%(playlist_index)s. %(title)s.%(ext)s'";
+    "mpyt" = "mpv --no-video";
   };
   interactiveShellInit = ''
     set fish_greeting # Disable greeting

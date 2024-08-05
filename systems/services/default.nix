@@ -16,6 +16,8 @@
   # Enable fwupd for updating firmware.
   fwupd.enable = true;
 
+  openssh.enable = true;
+
   samba-wsdd = {
     enable = true;
     openFirewall = true;

@@ -29,6 +29,7 @@
     pkgs.xterm
   ];
 
+
   programs = customImport
   {
  
@@ -38,6 +39,15 @@
       enable = true;
       enableSSHSupport = true;
     };
+
+    # nh is nixos-rebuild / nix build with beautiful output
+    nh = {
+      enable = true;
+      flake = "/etc/nixos";
+    };
+
+    # allow fuse in user mode
+    fuse.userAllowOther = true;
 
     # enable cloudflared
     cloudflared = {

@@ -1,0 +1,4 @@
+{
+  cleanOnBoot = true;
+  useTmpfs = true;
+}

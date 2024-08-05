@@ -9,13 +9,23 @@
   # Enable networking
   networkmanager.enable = true;
 
+  hosts = {
+    "127.0.0.1" = [
+      "fmway"
+      "php.local.com"
+      "cgi.local.com"
+      "nyoba.com"
+      "download.mikrotik.com"
+    ];
+  };
+
   # Open ports in the firewall.
   # firewall.allowedTCPPorts = [ ... ];
   # firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # firewall.enable = false;
   firewall.allowedTCPPorts = [80 5900 9000 3000 8080 8000 8888 9876 1234 443 445 51820];
-  firewall.allowPing = true;
+  # firewall.allowPing = true;
 
   # wireguard
   wireguard.enable = true;
@@ -31,6 +41,7 @@
   #   httpsProxy = "http://192.168.43.1:8080";
   #   allProxy = "http://192.168.43.1:8080";
   # };
+  # resolvconf.enable = false;
 
   # register Wireguard to firewall
   firewall = {

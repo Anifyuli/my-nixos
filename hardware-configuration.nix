@@ -32,18 +32,6 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  fileSystems."/yeah" = {
-    device = "/dev/disk/by-label/HOME";
-    fsType = "btrfs";
-    options = [ "nofail" ];
-  };
-
-  fileSystems."/home/fmway/assets" = {
-    device = "/dev/disk/by-label/HOME";
-    fsType = "btrfs";
-    options = [ "subvol=@home/fmway" "nofail" ];
-  };
-
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

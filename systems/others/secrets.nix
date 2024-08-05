@@ -13,6 +13,8 @@ let
   allDirKeys = attrNames allDir;
   filterAgeFiles = key: allDir.${key} == "regular" && hasDotAge key;
   filteredKeys = filter filterAgeFiles allDirKeys;
+
+  # all /etc/nixos/secrets/<file>.age will be imported to age.secrets.<file>
   age.secrets = foldl' (acc: file: let
     name = getNameAge file;
   in recursiveUpdate acc {

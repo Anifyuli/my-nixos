@@ -1,13 +1,11 @@
-{ lib }:
+{ data, super, ... }:
 {
-  enable = true;
+  enable = ! super.systemd-boot.enable;
   copyKernels = true;
   # efiInstallAsRemovable = true;
   efiSupport = true;
   fsIdentifier = "label";
   device = "nodev";
   # Add chromeos
-  extraEntries = ''
-    ${lib.fileContents /chromeos.img.grub.txt}
-  '';
+  extraEntries = data.chromeos-grub;
 }

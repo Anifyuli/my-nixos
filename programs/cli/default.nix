@@ -1,8 +1,13 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    comma # nix shell alternative :VVVVVVVVV
+    # nix-index # nix-index is suck, fuck it
+    # comma # also this, very suck
     fmpkgs.scribd-downloader # scribd downloader 😱
+    # nh
+    nvd
+    nix-output-monitor
+    nix-du
     # vim
     neovim # best text editor :)
     # speechd
@@ -25,6 +30,7 @@
     extra.encore # awesome tools for developing go and typescript
     nix-init # automate builder nix derivation
     nurl # ?
+    rclone
     cachix # unofficial binary cache server (another binary cache in cache.nixos.org)
     nixfmt-rfc-style # fmt for nix
     ripgrep # alternative grep

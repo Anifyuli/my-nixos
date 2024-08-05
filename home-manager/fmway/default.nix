@@ -1,16 +1,18 @@
-{ pkgs, genTreeImports, ... }: let
+{ genTreeImports, matchers, pkgs, ... } @ variables: let
   user = "fmway";
   home = "/home/${user}";
   inherit (pkgs.functions) getEnv genPaths;
 in {
-  imports = [ ./desktop ] ++ genTreeImports ../modules;
+  imports = [ ./desktop ] ++
+    genTreeImports ../modules; # my modules
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
   home = {
     username = user;
     homeDirectory = home;
+
+    # Home Manager version
+    stateVersion = "24.11";
 
     sessionPath = genPaths home [
       ".local" # must be ${home}/.local/bin
@@ -23,29 +25,30 @@ in {
     sessionVariables = {
       ASSETS = "${home}/assets";
       GITHUB = "${home}/assets/Github";
-      PL = "${home}/assets/pl";
-      PROJECTS = "${home}/assets/Projects"; 
+      DOWNLOADS = "${home}/Downloads";
     } // (getEnv user);
+  };
 
-    # Home Manager version
-    stateVersion = "24.11"; 
-  }; 
+  # nix.extraOptions = ''
+    # extra-experimental-features = nix-command flakes
+  # '';
 
-  # $HOME/.config refers to ./configs
   features = {
+    # $HOME/.config refers to ./configs
     config = {
       enable = true;
       cwd = ./configs;
     };
 
-    # programs refers to ./programs
     programs.auto-import = {
       enable = true;
       cwd = ./programs;
-      include = {
-        suffixs = [ ".fish" ];
-        filenames = [ "extraConfig" ];
-      };
+      auto-enable = true;
+      includes = with matchers; [
+        (extension "fish")
+        (extension "css")
+        (extension "conf")
+      ];
     };
 
     # install collection of scripts in ./scripts

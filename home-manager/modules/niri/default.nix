@@ -1,5 +1,5 @@
 { lib, config, excludeItems, pkgs, ... }: let
-  inherit (lib) mapAttrs' getExe' mkIf mkEnableOption flatten mkOption reverseList strings mkAfter types lists;
+  inherit (lib) mapAttrs' getExe' getExe mkIf mkEnableOption flatten mkOption reverseList strings mkAfter types lists;
   inherit (pkgs.functions) stringMultiply;
   inherit (builtins) foldl' length isString hasAttr concatStringsSep isAttrs isBool isList listToAttrs pathExists elem head attrNames readDir;
   primitip = with types; [ int str bool ];
@@ -104,6 +104,17 @@
 in {
   options.wayland.windowManager.niri = {
     enable = mkEnableOption "enable niri";
+    xwayland = mkOption {
+      type = types.submodule {
+        options = {
+          enable = mkEnableOption "enable wayland over systemd";
+          package = mkOption {
+            type = types.package;
+            default = pkgs.xwayland-satellite;
+          };
+        };
+      };
+    };
     package = mkOption {
       type = types.package;
       default = pkgs.niri;
@@ -120,6 +131,11 @@ in {
       type = types.submodule {
         options = {
           enable = mkEnableOption "enable auto lock";
+          command = mkOption {
+            type = types.str;
+            description = "";
+            default = "${pkgs.swaylock}/bin/swaylock -f";
+          };
           timeout = mkOption {
             type = types.int;
             description = "timeout in milisecond";
@@ -195,7 +211,7 @@ in {
             default = null;
           };
           environment = mkOption {
-            type = types.nullOr (types.attrsOf primitiveType);
+            type = types.nullOr (types.attrsOf types.str);
             example = ''
             environment = {
                QT_QPA_PLATFORM = "wayland";
@@ -278,6 +294,7 @@ in {
     
   };
   config = mkIf cfg.enable {
+    wayland.windowManager.niri.config.environment = mkIf (cfg.xwayland.enable) (mkAfter { NIRI_XWAYLAND = "1"; });
     wayland.windowManager.niri.workspace = mkIf (!isNull cfg.config.workspace) (let
       result = mapAttrs' (name: value: {
         name = value.shortcut;
@@ -287,11 +304,25 @@ in {
     xdg.configFile."niri/config.kdl".text = do { inherit (cfg) config extraConfig extra; };
     home.packages = mkAfter [ cfg.package ];
     systemd.user = let
-      lock = "${pkgs.swaylock}/bin/swaylock";
       idle = "${pkgs.swayidle}/bin/swayidle";
       inherit (cfg.lock) timeout;
       systemctl = config.systemd.user.systemctlPath;
     in  {
+      services.niri-xwayland = mkIf cfg.xwayland.enable {
+        Unit = {
+          PartOf = "graphical-session.target";
+          After = "graphical-session.target";
+          Requisite = "graphical-session.target";
+        };
+        Service = {
+          # Type = "notify";
+          # NotifyAccess = "all";
+          ExecStart = "${getExe cfg.xwayland.package}";
+          Restart = "on-failure";
+          # StandardOutput = "journal";
+        };
+        Install.WantedBy = ["niri.service"];
+      };
       services.niri-lock = mkIf cfg.lock.enable {
         Unit = {
           PartOf = "graphical-session.target";
@@ -299,12 +330,10 @@ in {
           Requisite = "graphical-session.target";
         };
         Service = {
-          ExecStart = "${idle} -w timeout ${toString (timeout + 1)} 'niri msg action power-off-monitors' timeout ${toString timeout} '${lock} -f' before-sleep '${lock} -f'";
+          ExecStart = "${idle} -w timeout ${toString (timeout + 1)} 'niri msg action power-off-monitors' timeout ${toString timeout} '${cfg.lock.command} -f' before-sleep '${cfg.lock.command} -f'";
           Restart = "on-failure";
         };
-        Install = {
-          WantedBy = ["niri.service"];
-        };
+        Install.WantedBy = ["niri.service"];
       };
 
       services.niri-background = mkIf (cfg.background.enable) {
@@ -317,16 +346,12 @@ in {
           ExecStart = ''${pkgs.swaybg}/bin/swaybg -m ${cfg.background.mode} -i "${toString cfg.background.path}"'';
           Restart = "on-failure";
         };
-        Install = {
-          WantedBy = ["niri.service"];
-        };
+        Install.WantedBy = ["niri.service"];
       };
 
       # for handle if background changed
       services.niri-background-watcher = mkIf cfg.background.enable {
-        Install = {
-          WantedBy = [ "niri.service" ];
-        };
+        Install.WantedBy = [ "niri.service" ];
         Service = {
           Type = "oneshot";
           ExecStart = "${systemctl} --user restart niri-background.service";
@@ -337,9 +362,7 @@ in {
           # PathModified = "${cfg.background.path}";
           PathChanged = "${cfg.background.path}";
         };
-        Install = {
-          WantedBy = [ "niri.service" ];
-        };
+        Install.WantedBy = [ "niri.service" ];
       };
     };
   };

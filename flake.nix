@@ -11,6 +11,8 @@
       inputs.darwin.follows = "";
     };
     std.url = "github:divnix/std";
+    fmway-nix.url = "github:fmway/fmway.nix";
+    fmway-nix.inputs.nixpkgs.follows = "nixpkgs";
     fmpkgs = {
       url = "github:fmway/fmpkgs/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,20 +36,31 @@
     nur.url = "github:nix-community/nur";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, fingerprint-sensor, std, agenix, nix-colors, nixpkgs-extra, home-manager, ... } @ inputs:
-  std.growOn {
-    inputs = inputs // { outputs = self.outputs; };
-    cellsFrom = ./cells;
-    cellBlocks = with std.blockTypes; [
-      (functions "functions")
-    ];
-  }
+  outputs = { self, nixpkgs, nixos-hardware, fmway-nix, fingerprint-sensor, std, agenix, nix-colors, nixpkgs-extra, home-manager, ... } @ inputs:
+  # std.growOn {
+  #   inputs = inputs // { outputs = self.outputs; };
+  #   cellsFrom = ./cells;
+  #   cellBlocks = with std.blockTypes; [
+  #     (functions "functions")
+  #   ];
+  # }
   (let
     inherit (self) outputs;
     inherit (nixpkgs) lib;
     system = "x86_64-linux";
     # fmchad = import ./fmchad.nix { inherit lib; };
-    fmchad = (std.harvest inputs.self [ "fmchad" "functions" ]).${system};
+    # fmchad = (std.harvest inputs.self [ "fmchad" "functions" ]).${system};
+    fmchad = fmway-nix.fmway // {
+      # parse env in folder ./secrets
+      getEnv = entity: let
+        path = ./secrets + "/${entity}.env";
+        exists = builtins.pathExists path;
+      in lib.throwIfNot exists "tidak dapat mencari env dengan nama ${entity}" fmchad.readEnv path;
+      
+      # generate path to array
+      genPaths = home: paths: 
+        builtins.foldl' (acc: curr: [ "${home}/${curr}/bin" ] ++ acc) [] (lib.reverseList paths);
+    };
 
     # Will be imported to configuration and home-manager
     specialArgs = fmchad // {
@@ -67,7 +80,6 @@
       #   environment.etc."nix/inputs/nixpkgs".source = nixpkgs.outPath;
       #   nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
       # }
-      # Home manager
       home-manager.nixosModules.home-manager
       {
         nix.registry.nixos.flake = inputs.self;
@@ -76,10 +88,9 @@
           useUserPackages = true;
           verbose = true;
           extraSpecialArgs = specialArgs;
+          users = fmchad.customDefaultImport ./home-manager;
+          backupFileExtension = "kontol~";
         };
-        imports = [
-          ./home-manager
-        ];
       } 
   ]; 
 

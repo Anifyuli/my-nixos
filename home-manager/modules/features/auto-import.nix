@@ -14,6 +14,7 @@
 in {
   options.features.programs.auto-import = {
     enable = mkEnableOption "enable auto import";
+    auto-enable = mkEnableOption "auto enable programs";
     cwd = mkOption {
       type = types.nullOr types.path;
       default = null;
@@ -23,33 +24,20 @@ in {
       default = [];
     };
 
-    include = mkOption {
-      type = types.submodule {
-        options = {
-          prefixs = mkOption {
-            type = types.listOf types.str;
-            default = [];
-          };
-          suffixs = mkOption {
-            type = types.listOf types.str;
-            default = [];
-          };
-          filenames = mkOption {
-            type = types.listOf types.str;
-            default = [];
-          };
-        };
-      };
-      default = {};
+    includes = mkOption {
+      type = types.listOf types.attrs;
+      default = [];
     };
   };
 
   config = mkIf (! isNull cfg.enable) {
-    programs = recursiveUpdate (enableFeatures cfg.cwd) (treeImport {
-      folder = cfg.cwd;
-      depth = 0; # include top-level default.nix
-      inherit variables;
-      inherit (cfg) excludes include;
-    });
+    programs = let
+      result = treeImport {
+        folder = cfg.cwd;
+        depth = 0; # include top-level default.nix
+        inherit variables;
+        inherit (cfg) excludes includes;
+      };
+    in if cfg.auto-enable then recursiveUpdate (enableFeatures cfg.cwd) result else result;
   };
 }
