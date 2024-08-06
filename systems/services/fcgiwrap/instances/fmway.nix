@@ -2,7 +2,7 @@
 {
   socket = {
     group = config.services.caddy.group;
-    owner = config.users.users.fmway.name;
+    user = config.users.users.fmway.name;
     mode = "0666";
   };
   process = {
