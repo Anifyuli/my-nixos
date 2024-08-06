@@ -55,6 +55,7 @@
     xorg.libxcb
     xorg.libxkbfile
     xorg.libxshmfence
+    xwayland
     zlib
   ];
 }

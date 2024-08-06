@@ -5,7 +5,15 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Firewall 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall = {
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPortRanges = [
+      {
+        from = 40000;
+        to = 50000;
+      }
+    ];
+  };
 
   # Change hostname 
   networking.hostName = "ThinkPad-X280";

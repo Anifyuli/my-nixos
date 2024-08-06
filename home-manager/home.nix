@@ -11,21 +11,14 @@
 
   # Packages that should be installed to the user profile.
     home.packages = with pkgs; [
-      alacritty-theme
-        dbeaver-bin
-        exercism
-        gnomeExtensions.x11-gestures
-        mongodb-compass
-        php82Packages.composer
-        pnpm
-        postman
+      dbeaver-bin
+      exercism
+      gnomeExtensions.x11-gestures
+      mongodb-compass
+      php82Packages.composer
+      pnpm
+      postman
     ];
-
-  # Alacritty
-    programs.alacritty= { 
-      enable = true;
-      settings = {};
-    };
 
   # Bash configurations.
     programs.bash = {
