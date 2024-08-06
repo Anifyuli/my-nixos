@@ -23,7 +23,6 @@
     cloudflare-warp
     cmake
     desktop-file-utils
-    dive
     docker-compose
     distrobox
     ffmpeg-full
@@ -40,7 +39,6 @@
     pciutils
     php
     pkg-config-unwrapped
-    podman-tui
     qemu_kvm
     rar
     tree
@@ -51,6 +49,7 @@
 
   # Add environment variables.
   environment.variables = {
+    LIBVA_DRIVER_NAME = "iHD";
     CHROME_EXECUTABLE = "google-chrome-stable";
   };
 

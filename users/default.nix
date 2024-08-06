@@ -29,9 +29,8 @@
       libreoffice-fresh
       lollypop
       lunacy
-      neovim
       obs-studio
-      ptyxis
+      smile
       thunderbird
       vscode-fhs
       youtube-music

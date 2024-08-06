@@ -31,8 +31,6 @@
   programs.winbox = {
     enable = true;
     openFirewall = true;
-    package = pkgs.winbox.override {
-      wine = pkgs.wineWowPackages.stagingFull;
-    };
+    package = pkgs.winbox;
   };
 }
