@@ -10,7 +10,7 @@
     gzip off;
 
     include fastcgi_params;
-    fastcgi_pass = unix:${config.services.fcgiwrap.fmway.socket.address};
+    fastcgi_pass = unix:${config.services.fcgiwrap.instances.fmway.socket.address};
     fastcgi_param SCRIPT_FILENAME /srv/cgi$fastcgi_script_name;
   '';
   }
