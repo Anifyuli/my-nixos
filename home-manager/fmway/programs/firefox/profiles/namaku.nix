@@ -1,8 +1,39 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: let
+in {
   search = {
     default = "Google";
     engines = {
+      "Github" = {
+        urls = [{
+          template = "https://github.com/{searchTerms}";
+        }];
+
+        icon = ./github.svg;
+        definedAliases = [ "@gh" ];
+      };
+      # https://github.com/search?q=asu&type=repositories
+      "Github Search" = {
+        urls = [{
+          template = "https://github.com/search";
+          params = [
+            { name = "q"; value = "{searchTerms}"; }
+            { name = "type"; value = "repositories"; }
+          ];
+        }];
+        icon = ./github.svg;
+        definedAliases = [ "@gs" ];
+      };
+      "Github Topics" = {
+        urls = [{
+          template = "https://github.com/search";
+          params = [
+            { name = "q"; value = "{searchTerms}"; }
+            { name = "type"; value = "topics"; }
+          ];
+        }];
+        icon = ./github.svg;
+        definedAliases = [ "@gt" ];
+      };
       "Nix Packages" = {
         urls = [{
           template = "https://search.nixos.org/packages";
@@ -58,11 +89,5 @@
     };
   };
 
-  userChrome = ''
-    @import "${pkgs.fmpkgs.firefox-gnome-theme}/share/firefox-gnome-theme/userChrome.css";
-  '';
-
-  userContent = ''
-    @import "${pkgs.fmpkgs.firefox-gnome-theme}/share/firefox-gnome-theme/userContent.css";
-  '';
+  gnome-theme = true; # firefox-gnome-theme
 }
