@@ -1,10 +1,22 @@
 { lib, config, pkgs, ... }: let
-  inherit (lib) mkBefore mkOption types;
-  inherit (builtins) foldl';
-  inherit (pkgs.functions) firstChar;
+  inherit (lib)
+    mkBefore
+    mkOption
+    types
+    ;
+
+  inherit (builtins)
+    foldl'
+    ;
+
+  inherit (pkgs.functions)
+    firstChar
+    ;
+
   template = callback: acc: elem: { "${elem}" = callback elem; } // acc;
   generator = callback: features: foldl' (template callback) {} features;
   # cfg = config.wayland.windowManager.sway.my.command;
+
 in {
   options.wayland.windowManager.sway.my.command = mkOption {
     type = types.attrs;

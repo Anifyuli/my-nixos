@@ -1,8 +1,26 @@
 { config, pkgs, lib, ... } @ variables: let
   cfg = config.features.programs.auto-import;
-  inherit (builtins) readDir attrNames;
-  inherit (pkgs.functions) removeSuffix' excludeItems treeImport;
-  inherit (lib) recursiveUpdate listToAttrs mkIf mkOption mkEnableOption types;
+
+  inherit (builtins)
+    readDir
+    attrNames
+    ;
+
+  inherit (pkgs.functions)
+    removeSuffix'
+    excludeItems
+    treeImport
+    ;
+
+  inherit (lib)
+    recursiveUpdate
+    listToAttrs
+    mkIf
+    mkOption
+    mkEnableOption
+    types
+    ;
+
   enableFeatures = cwd: let
     dirs = attrNames (excludeItems [ "default.nix" ] (readDir cwd)); 
   in listToAttrs (map (x: {
@@ -11,6 +29,7 @@
       enable = true;
     };
   }) dirs);
+
 in {
   options.features.programs.auto-import = {
     enable = mkEnableOption "enable auto import";

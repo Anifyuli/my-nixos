@@ -98,7 +98,7 @@
     nixosConfigurations = {
       Namaku1801 = lib.makeOverridable lib.nixosSystem {
         inherit system specialArgs;
-        modules = genericModules ++ (fmchad.genDefaultImports ./.) ++ (fmchad.genTreeImports ./modules) ++ [
+        modules = genericModules ++ (fmchad.genDefaultImports ./.) ++ (fmchad.genImportsWithDefault ./modules) ++ [
           ./hardware-configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
         ];

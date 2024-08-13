@@ -1,6 +1,14 @@
 { config, lib, pkgs, ... }: let
   cfg = config.programs.cloudflared;
-  inherit (lib) mkIf mkEnableOption getExe mkOption types;
+
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    getExe
+    mkOption
+    types
+    ;
+
 in {
   options.programs.cloudflared = {
     enable = mkEnableOption "enable cloudflared";

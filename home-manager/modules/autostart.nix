@@ -1,7 +1,22 @@
 { lib, config, pkgs, ... }: let
-  inherit (lib) mkIf mkEnableOption mkOption types;
-  inherit (builtins) listToAttrs pathExists elem head attrNames readDir;
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    mkOption
+    types
+    ;
+
+  inherit (builtins)
+    listToAttrs
+    pathExists
+    elem
+    head
+    attrNames
+    readDir
+    ;
+
   cfg = config.programs.autostart;
+
 in {
   options.programs.autostart = {
     enable = mkEnableOption "Enable autostart";

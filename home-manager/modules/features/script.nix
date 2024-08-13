@@ -1,8 +1,31 @@
 { lib, nixosConfig, config, pkgs, ... } @ variables: let
   cfg = config.features.script;
-  inherit (pkgs.functions) doImport basename getNixs;
-  inherit (builtins) listToAttrs readFile pathExists isFunction isAttrs isString;
-  inherit (lib) mkIf mkEnableOption mkAfter mkBefore mkOption types recursiveUpdate;
+
+  inherit (pkgs.functions)
+    doImport
+    basename
+    getNixs
+    ;
+
+  inherit (builtins)
+    listToAttrs
+    readFile
+    pathExists
+    isFunction
+    isAttrs
+    isString
+    ;
+
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    mkAfter
+    mkBefore
+    mkOption
+    types
+    recursiveUpdate
+    ;
+   
 in {
   options.home.script = mkOption {
     type = types.attrs;

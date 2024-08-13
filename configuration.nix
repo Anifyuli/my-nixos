@@ -15,9 +15,15 @@
     };
 
     registry = let
-      inherit (builtins) foldl';
+      inherit (builtins)
+        foldl'
+        hasAttr
+      ;
       toRegistry = arr: foldl' (final: registry: {
-        "${registry}".flake = inputs.${registry};
+        "${registry}".flake =
+          if ! (hasAttr registry inputs) then
+            throw "registry ${registry} not found"
+          else inputs.${registry};
       } // final) {} arr;
     in toRegistry [
       "nixpkgs"

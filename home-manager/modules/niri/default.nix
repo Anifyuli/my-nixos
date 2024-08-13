@@ -1,7 +1,28 @@
 { lib, config, excludeItems, pkgs, ... }: let
-  inherit (lib) mapAttrs' getExe' getExe mkIf mkEnableOption flatten mkOption reverseList strings mkAfter types lists;
-  inherit (pkgs.functions) stringMultiply;
-  inherit (builtins) foldl' length isString hasAttr concatStringsSep isAttrs isBool isList listToAttrs pathExists elem head attrNames readDir;
+  inherit (lib)
+    mapAttrs'
+    getExe
+    mkIf
+    mkEnableOption
+    mkOption
+    strings
+    mkAfter
+    types
+    lists
+    ;
+  inherit (pkgs.functions)
+    stringMultiply
+    ;
+  inherit (builtins)
+    foldl'
+    length
+    concatStringsSep
+    isAttrs
+    isBool
+    isList
+    attrNames
+    ;
+
   primitip = with types; [ int str bool ];
   primitiveType = types.oneOf primitip;
   kdlType = types.oneOf [

@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }: let
   cfg = config.services.certs;
+
   tls-cert = {  alt ? [], cname ? "localhost" }:
   pkgs.runCommand "selfSignedCert" { buildInputs = [ pkgs.openssl ]; } ''
     mkdir -p $out
@@ -7,8 +8,19 @@
       -keyout $out/cert.key -out $out/cert.crt \
       -subj "/CN=${cname}" -addext "subjectAltName=DNS:localhost,${builtins.concatStringsSep "," (["IP:127.0.0.1"] ++ alt)}"
   '';
-  inherit (builtins) length attrNames;
-  inherit (lib) mkIf mkOption mkBefore types;
+
+  inherit (builtins)
+    length
+    attrNames
+    ;
+
+  inherit (lib)
+    mkIf
+    mkOption
+    mkBefore
+    types
+    ;
+
 in {
   options.certs = mkOption {
     type = types.attrs;

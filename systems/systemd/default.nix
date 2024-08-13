@@ -1,12 +1,12 @@
-{ pkgs, customImport, config, lib, ... } @ variables:
+{ pkgs, ... } @ variables:
 {
   # Handling for packages that have init systemd
   packages = with pkgs; [
-    cloudflare-warp
+    # cloudflare-warp
   ]; 
 
   targets.multi-user.wants = [
-    "warp-svc.service"
+    # "warp-svc.service"
   ];
 
 }

@@ -1,14 +1,12 @@
-{ lib, nixosConfig, ... }: let
+{ config, lib, ... }: let
   inherit (lib)
     mkOption
-    mkBefore
     types
     ;
-
 in {
   options.data = mkOption {
     type = types.attrs;
     default = {};
   };
-  config.data = mkBefore nixosConfig.data;
+  config = {};
 }

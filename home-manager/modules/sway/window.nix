@@ -1,7 +1,22 @@
 { lib, config, pkgs, ... }: let
-  inherit (lib) mkAfter mkIf mkOption types flatten recursiveUpdate;
-  inherit (builtins) any foldl' attrNames length concatStringsSep;
+  inherit (lib)
+    mkAfter
+    mkIf
+    mkOption
+    types
+    flatten
+    recursiveUpdate
+    ;
+
+  inherit (builtins)
+    any
+    foldl'
+    attrNames
+    length
+    ;
+
   cfg = config.wayland.windowManager.sway.my.window;
+
 in {
   options.wayland.windowManager.sway.my.window = foldl' (acc: feature: recursiveUpdate acc {
     simple-window.${feature} = foldl' (acc2: selection: recursiveUpdate acc2 {

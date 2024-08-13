@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  cloudflare-warp.enable = true;
+  cloudflare-warp.package = pkgs.custom.cloudflare-warp;
   # Enable GNOME keyring.
   gnome.gnome-keyring.enable = true;
 
@@ -17,6 +19,9 @@
   fwupd.enable = true;
 
   openssh.enable = true;
+
+  # gesture moments 😱
+  # touchegg.enable = true; # nope, i use wayland
 
   samba-wsdd = {
     enable = true;

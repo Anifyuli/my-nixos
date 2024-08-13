@@ -1,12 +1,25 @@
-{ treeImport, matchers, pkgs, lib, config, genImportsWithDefault, ... } @ variables:
-treeImport
-{
-  imports = genImportsWithDefault ./others;
+{ treeImport
+, matchers
+, pkgs
+, lib
+, config
+, genTreeImports
+, ... } @ variables:
+
+treeImport {
+  imports = genTreeImports ./extra;
+
+  data = {
+    list-users = let
+      inherit (config.home-manager) users;
+      inherit (builtins) attrNames;
+    in map (x: users.${x}.home.username) (attrNames users); # i use home-manager.users instead of users.users, because i don't want ribet pake filter segala
+  };
 }
 {
   excludes = [
-    "others"
     "boot/binfmt"
+    "extra"
     # "boot/loader/grub"
     # "services/nginx"
     "services/phpfpm"

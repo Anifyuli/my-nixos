@@ -2,6 +2,7 @@
   inherit (pkgs.functions) printPath;
   inherit (config.services) fcgiwrap certs;
 in {
+  type = "https";
   extraConfig = ''
     tls ${certs.cgi.cert} ${certs.cgi.key}
     log {

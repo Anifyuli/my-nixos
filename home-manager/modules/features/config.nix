@@ -1,8 +1,25 @@
 { config, pkgs, lib, ... } @ variables: let
   cfg = config.features.config;
-  inherit (pkgs.functions) tree-path doImport;
-  inherit (builtins) foldl' isFunction;
-  inherit (lib) mkIf mkEnableOption mkOption types recursiveUpdate hasSuffix removeSuffix;
+
+  inherit (pkgs.functions)
+    tree-path
+    doImport
+    ;
+
+  inherit (builtins)
+    foldl'
+    ;
+
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    mkOption
+    types
+    recursiveUpdate
+    hasSuffix
+    removeSuffix
+    ;
+
 in {
   options.features.config = {
     enable = mkEnableOption "enable config";

@@ -1,4 +1,9 @@
-{ customDefaultImport, matchers, config, treeImport, pkgs, lib, ... } @ variables:
+{ matchers
+, config
+, treeImport
+, pkgs
+, lib
+, ... } @ variables:
 {
   # import all in folder ./wayland to wayland.windowManager
   wayland.windowManager = treeImport {

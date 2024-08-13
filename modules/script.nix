@@ -1,4 +1,11 @@
-{ lib, config, pkgs, doImport, basename, getNixs, ... } @ variables: let
+{ lib
+, config
+, pkgs
+, doImport
+, basename
+, getNixs
+, ...
+} @ variables: let
   cfg = config.programs.script;
   inherit (builtins) listToAttrs readFile pathExists isFunction isAttrs isString;
   inherit (lib) mkIf mkEnableOption mkBefore mkAfter mkOption types recursiveUpdate;

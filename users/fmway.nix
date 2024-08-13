@@ -12,6 +12,8 @@
     "dialout"
     "kvm"
     "adbusers"
+    "vboxusers"
+    "fwupd-refresh"
   ];
   packages = with pkgs; [
     fmpkgs.bootstrap-studio
@@ -21,11 +23,8 @@
     gnome-tweaks
     foliate
     # youtube-music
-    google-chrome
     dbeaver-bin
     zoom-us
-    discord
-    telegram-desktop
     libreoffice-fresh
     zotero-beta
     anytype
@@ -42,7 +41,7 @@
     yarn
     clipman
     nodejs
-    wasmer
+    # wasmer
     filebrowser
     nodejs
     # nixpacks
@@ -54,7 +53,7 @@
     clipboard-indicator
     thinkpad-battery-threshold
     blur-my-shell
-    net-speed
+    # net-speed
     totp
     cloudflare-warp-toggle
     system-monitor

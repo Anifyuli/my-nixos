@@ -1,4 +1,8 @@
-{ genTreeImports, matchers, pkgs, ... } @ variables: let
+{ genTreeImports
+, matchers
+, lib
+, pkgs
+, ... } @ variables: let
   user = "fmway";
   home = "/home/${user}";
   inherit (pkgs.functions) getEnv genPaths;
@@ -44,8 +48,14 @@ in {
       enable = true;
       cwd = ./programs;
       auto-enable = true;
-      includes = with matchers; [
-        (extension "fish")
+      includes = let
+        inherit (matchers) extension;
+        inherit (pkgs.functions) parseFish;
+        inherit (lib) fileContents;
+      in [
+        (extension "fish" {
+          read = path: variables: parseFish (fileContents path);
+        })
         (extension "css")
         (extension "conf")
       ];

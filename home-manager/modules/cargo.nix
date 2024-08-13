@@ -1,7 +1,15 @@
 { lib, config, pkgs, ... }: let
-  inherit (lib) mkIf mkEnableOption mkOption types;
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    mkOption
+    types
+    ;
+
   cfg = config.programs.cargo;
+
   iniFormat = pkgs.formats.ini { };
+
 in {
   options = {
     programs.cargo = {
