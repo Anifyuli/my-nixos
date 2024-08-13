@@ -1,4 +1,4 @@
-#@description to print digit of string
+# @description to print digit of string
 for arg in $argv
   dig=0 i=$argv while true
     set dig (math $dig + 1)

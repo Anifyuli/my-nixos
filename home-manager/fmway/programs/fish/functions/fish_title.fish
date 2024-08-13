@@ -1,10 +1,10 @@
 set terk $status
 if [ $_ = fish ]
   if test $terk != 0
-    echo '(☞ ̿▀̿ ͜ʖ▀̿)☞' '╭∩╮(▀̿益▀̿ ̿)ᕗ'
+    echo 'ᕙ( ̿▀̿益▀̿)╭∩╮' (basename (prompt_pwd))
   else
-    echo '(✧Д✧)→' (basename (prompt_pwd))
+    echo \[ (basename (prompt_pwd)) \] 'ʚ•͜͡ )͜͡ )❨'
   end
 else
-  echo '(☞ ̿▀̿ ͜ʖ▀̿)☞' '☜( <'$_'> ☜)'
+  echo \{ (basename (prompt_pwd)) \}' : ' $_
 end

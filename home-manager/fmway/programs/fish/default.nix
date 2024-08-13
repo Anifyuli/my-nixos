@@ -1,5 +1,6 @@
 {
   shellAliases = {
+    "lg" = "lazygit";
     ":id" = "trans :id";
     "id:en" = "trans id:en";
     ":en" = "trans :en";
