@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   # NixVim
-  enable = true;
+  enable = false;
   colorschemes.gruvbox.enable = true;
   plugins.lightline.enable = true;
   extraPlugins = with pkgs.vimPlugins; [

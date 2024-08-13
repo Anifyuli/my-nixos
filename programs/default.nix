@@ -1,6 +1,13 @@
-{ pkgs, lib, getNixs, config, customImport, basename, genImportsWithDefault', genImportsWithDefault, ... } @ variables:
+{ pkgs
+, lib
+, config
+, customImport
+, genImportsWithDefault'
+, ...
+} @ variables:
+
 {
-  imports = genImportsWithDefault' ./. [ "customs" ];
+  imports = genImportsWithDefault' ./. [ "extra" ];
 
   nixpkgs.config = {
     # allow unfree pkgs
@@ -19,7 +26,7 @@
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = (with pkgs; [
-    cloudflare-warp
+    # cloudflare-warp
     scrcpy
     wl-clipboard
   ]);
@@ -31,8 +38,7 @@
 
 
   programs = customImport
-  {
- 
+  { 
     # Some programs need SUID wrappers, can be configured further or are started in user sessions.
     mtr.enable = true;
     gnupg.agent = {

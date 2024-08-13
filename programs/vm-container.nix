@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }:
+{
   environment.systemPackages = with pkgs; [
     # qemu with efi 
     (writeShellScriptBin "qemu-system-x86_64-uefi" ''
@@ -6,10 +7,14 @@
         -bios ${OVMF.fd}/FV/OVMF.fd \
         "$@"
     '')
-    quickemu
+    # quickemu
     docker-compose
     distrobox
   ];
+  
+  # register all user to VirtualBox group 
+  users.extraGroups.vboxusers.members = config.data.list-users;
+
   # Podman configurations
   # Enable common container config files in /etc/containers
   virtualisation.containers.enable = true;
@@ -28,6 +33,14 @@
     docker.rootless = {
       enable = true;
       setSocketVariable = true;
+    };
+
+    virtualbox = {
+      host = {
+        enable = true;
+        package = pkgs.virtualbox;
+      };
+      guest.enable = true;
     };
 
     # waydroid.enable = true;

@@ -1,35 +1,49 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    # isync
+    # himalaya
     # nix-index # nix-index is suck, fuck it
     # comma # also this, very suck
-    fmpkgs.scribd-downloader # scribd downloader 😱
-    # nh
-    nvd
-    nix-output-monitor
-    nix-du
+    # fmpkgs.scribd-downloader # scribd downloader 😱, tai
+    # nh # wrapper nixos-rebuild & home-manager with nvd + nix-output-monitor
+    nvd # nix diff
+    nix-output-monitor # nix beautiful output
+    # nix-du
+    # ctop # top for container
+    # kdash # dashboard kubernetes
+    # lazydocker # management docker for lazier man
     # vim
+    # jqp # tui for jq
+    lazysql # tui for sql
+    # prs # tui for view PR (Pull Request)
     neovim # best text editor :)
     # speechd
     # neovim-maximal
     wget # who knows?
-    fd # alternative find
+    fd # alternative find, more wuss wuss
     agenix # secret.age
     doas # alternative sudo
     gh # github-cli
     mint # mint-lang?
     pup # for scraping html
     lazygit # awesome git tools
+    # gitui # alternative lazygit
     argc # for generate completion
     jq # json parser
-    nix-search-cli 
+    # calcurse # tui calendar viewer
+    # ranger # tui file manager
+    # joshuto # ranger alternative
     nixd # nixlang lsp
+    # neomutt # tui mail client
+    # aerc # neomutt alternative
+    # frogmouth # tui markdown viewer. awesome but, very lag
     manix # nix options search
     translate-shell # google or bing translate in terminal
     yt-dlp # all in one video downloader
     extra.encore # awesome tools for developing go and typescript
     nix-init # automate builder nix derivation
-    nurl # ?
+    # nurl # ?
     rclone
     cachix # unofficial binary cache server (another binary cache in cache.nixos.org)
     nixfmt-rfc-style # fmt for nix

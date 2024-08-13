@@ -1,6 +1,4 @@
-{ pkgs, config , programs, services, ... }: {
-
-  system.fsPackages = [ pkgs.bindfs ];
+{ pkgs, ... }: {
 
   # Override default Dconf settings.
   services.xserver.desktopManager.gnome = {

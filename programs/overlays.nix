@@ -1,4 +1,12 @@
-{ pkgs, config, inputs, outputs, treeImport, system, lib, ... }: let
+{ pkgs
+, config
+, inputs
+, outputs
+, treeImport
+, system
+, lib
+, ...
+}: let
   inherit (lib) warn;
   inherit (builtins) attrNames foldl' getAttr;
   nixpkgs-overlay = self: super: let
@@ -30,7 +38,7 @@
     "${key}" = warn "${key} is moved to functions.${key}" functions.${key};
   } // acc) { inherit functions; } names)
   {
-    folder = ./customs;
+    folder = ./extra;
     variables = { inherit self super pkgs inputs lib config; };
     depth = 0;
     excludes = [

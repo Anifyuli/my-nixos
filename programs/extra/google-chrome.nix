@@ -1,5 +1,4 @@
-{ self, super }:
-# Google chrome with wayland support
+{ super, self }:
 super.google-chrome.override {
   commandLineArgs = [
     "--enable-features=VaapiVideoDecodeLinuxGL,TouchpadOverscrollHistoryNavigation"
