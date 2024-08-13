@@ -10,7 +10,28 @@
     noto-fonts-cjk-sans
     noto-fonts-emoji
     roboto
-    nerdfonts
+    liberation_ttf
+    (nerdfonts.override {
+      fonts = [
+        # "Agave"
+        # "AnonymousPro"
+        # "CascadiaCode"
+        # "CascadiaMono"
+        # "DroidSansMono"
+        "DejaVuSansMono"
+        "FiraCode"
+        # "FiraMono"
+        # "Hack"
+        # "Inconsolata"
+        # "Iosevka"
+        "JetBrainsMono"
+        # "Meslo"
+        # "Noto"
+        # "RobotoMono"
+        # "Terminus"
+        "Ubuntu"
+      ];
+    })
     dejavu_fonts
     roboto-serif
   ];
