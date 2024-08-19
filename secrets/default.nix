@@ -1,14 +1,29 @@
 # Hidden secrets using agenix
 { lib, ... }:
 let
-  inherit (builtins) isList foldl' baseNameOf elemAt isNull attrNames filter readDir match toString;
-  inherit (lib) recursiveUpdate;
+  inherit (builtins)
+    isList
+    foldl'
+    baseNameOf
+    elemAt
+    isNull
+    attrNames
+    filter
+    readDir
+    match
+    toString
+    ;
+
+  inherit (lib)
+    recursiveUpdate
+    ;
+
   getNameAge = value: let
     matched = match "^(.*)\\.age$" (toString value);
   in if isList matched then baseNameOf (elemAt matched 0) else matched;
   hasDotAge = value: if isNull (getNameAge value) then false else true;
 
-  folder = ../../secrets;
+  folder = ./.;
   allDir = readDir folder;
   allDirKeys = attrNames allDir;
   filterAgeFiles = key: allDir.${key} == "regular" && hasDotAge key;
