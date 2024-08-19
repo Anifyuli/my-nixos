@@ -13,6 +13,7 @@
     "127.0.0.1" = [
       "fmway"
       "php.local.com"
+      "gitea.local"
       "cgi.local.com"
       "nyoba.com"
       "download.mikrotik.com"
@@ -24,7 +25,25 @@
   # firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # firewall.enable = false;
-  firewall.allowedTCPPorts = [80 5900 9000 3000 8080 8000 8888 9876 1234 443 445 51820];
+  firewall.allowedTCPPorts = [
+    80
+    5900
+    9000
+    3000
+    3001
+    8080
+    8000
+    8888
+    9876
+    1234
+    443
+    445
+    51820
+  ];
+
+  # firewall.allowedTCPPortsRanges = [
+  #   { from = 8000; to = 9999; }
+  # ];
   # firewall.allowPing = true;
 
   # wireguard
