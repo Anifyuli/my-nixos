@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, self, ... }:
 {
   cloudflare-warp.enable = true;
   cloudflare-warp.package = pkgs.custom.cloudflare-warp;
@@ -24,7 +24,7 @@
   # touchegg.enable = true; # nope, i use wayland
 
   samba-wsdd = {
-    enable = true;
+    enable = self.samba.enable;
     openFirewall = true;
   };
 

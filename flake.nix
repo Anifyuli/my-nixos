@@ -16,10 +16,7 @@
       url = "github:fmway/fmway.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    fmpkgs = {
-      url = "github:fmway/fmpkgs/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    fmpkgs.url = "github:fmway/fmpkgs/master";
     # inputs.nixos-shell = {
     #   url = "github:Mic92/nixos-shell";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -88,7 +85,7 @@
     nixosConfigurations = {
       Namaku1801 = lib.makeOverridable lib.nixosSystem {
         inherit system specialArgs;
-        modules = [
+        modules = fmway-nix.nixosModules.modules ++ [
           ./configuration.nix
           ./cachix.nix
           ./hardware-configuration.nix
@@ -98,7 +95,7 @@
           # fingerprint-sensor.nixosModules.python-validity
           agenix.nixosModules.default
           # inputs.nixos-shell.nixosModules.nixos-shell
-        ] ++ (fmchad.genImportsWithDefault ./modules) ++ (fmchad.genDefaultImports ./.);
+        ] ++ (fmchad.genDefaultImports ./.);
       };
     };
     inherit fmchad;

@@ -22,7 +22,7 @@
 in {
 
   home-manager = {
-    sharedModules = genTreeImports ./modules;
+    sharedModules = inputs.fmway-nix.homeManager.modules;
     useGlobalPkgs = true;
     useUserPackages = true;
     verbose = true;

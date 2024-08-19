@@ -43,7 +43,7 @@
     translate-shell # google or bing translate in terminal
     yt-dlp # all in one video downloader
     extra.encore # awesome tools for developing go and typescript
-    nix-init # automate builder nix derivation
+    # nix-init # automate builder nix derivation
     # nurl # ?
     rclone
     cachix # unofficial binary cache server (another binary cache in cache.nixos.org)
