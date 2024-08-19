@@ -1,6 +1,5 @@
-{ pkgs, ... } @ variables:
-{
-  users.users = variables.customImport {
+{ pkgs, lib, customImport, ... } @ variables: {
+  users.users = customImport {
     folder = ./.;
     inherit variables;
   };

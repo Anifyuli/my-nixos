@@ -16,48 +16,39 @@
     "fwupd-refresh"
   ];
   packages = with pkgs; [
-    fmpkgs.bootstrap-studio
-    fmpkgs.popsql
-    gnome-extension-manager
-    dconf-editor
-    gnome-tweaks
-    foliate
+    # cli
+    element # periodic table
+    clipman # clipboard manager
+    matui
+    # ytui-music
+    
+    # bui (browser user interface)
+    filebrowser
+
+    # gui
+    fmpkgs.bootstrap-studio # figma alternative 
+    foliate # reader for desktop
     # youtube-music
-    dbeaver-bin
+    dbeaver-bin # sql client
+    element-desktop # matrix client
+    fluffychat # also this
+    # cinny-desktop # also this
+    weechat
     zoom-us
     libreoffice-fresh
     zotero-beta
     anytype
     kdenlive
-    rustup
+    custom.obs-studio
+
+    # development
+    # wasmer
+    rust-analyzer
+    clang-tools
     zls
-    zig
     deno
     bun
-    custom.obs-studio
-    fmpkgs.cargo-tauri
-    fmpkgs.cargo-create-tauri-app
-    trunk
     yarn
-    clipman
-    nodejs
-    # wasmer
-    filebrowser
-    nodejs
-    # nixpacks
-    ytui-music
-    dejavu_fonts
-  ] ++ (with gnomeExtensions; [
-    paperwm
-    appindicator
-    clipboard-indicator
-    thinkpad-battery-threshold
-    blur-my-shell
-    # net-speed
-    totp
-    cloudflare-warp-toggle
-    system-monitor
-    weather-oclock
-  ]);
+  ];
   shell = pkgs.fish;
 }

@@ -3,5 +3,5 @@
   set argv $argv $line
 end
 for string in $argv
-  string replace -r '^[\'"]([\s\S]+)[\'"]$' '$1' -- $string
+  string replace -r '[\'"]([\s\S]+)[\'"]$' '$1' -- $string
 end

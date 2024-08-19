@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 {
-  # bindfs for Flatpak fonts & icons integration.
+  # bindfs to integrate fonts & icons.
   system.fsPackages = [ pkgs.bindfs ];
   fileSystems = let
     mkRoSymBind = path: {

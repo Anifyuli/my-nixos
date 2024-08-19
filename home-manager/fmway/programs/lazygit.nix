@@ -1,0 +1,4 @@
+{
+  # settings = {};
+  theme = "macchiato-teal";
+}

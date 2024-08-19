@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... } @ variables: let
+{ config, pkgs, lib, matchers, ... } @ variables: let
   cfg = config.features.programs.auto-import;
 
   inherit (builtins)
@@ -7,7 +7,7 @@
     ;
 
   inherit (pkgs.functions)
-    removeSuffix'
+    removeExtension
     excludeItems
     treeImport
     ;
@@ -22,9 +22,11 @@
     ;
 
   enableFeatures = cwd: let
-    dirs = attrNames (excludeItems [ "default.nix" ] (readDir cwd)); 
-  in listToAttrs (map (x: {
-    name = removeSuffix' ".nix" x;
+    dirs = attrNames (excludeItems [ ".alias.nix" ".var.nix" "default.nix" ] (readDir cwd)); 
+  in listToAttrs (map (x: let
+    exts = matchers.getExt (cfg.includes ++ [ matchers.nix ]); 
+  in {
+    name = removeExtension exts x;
     value = {
       enable = true;
     };
@@ -49,7 +51,7 @@ in {
     };
   };
 
-  config = mkIf (! isNull cfg.enable) {
+  config = mkIf cfg.enable {
     programs = let
       result = treeImport {
         folder = cfg.cwd;
@@ -57,6 +59,9 @@ in {
         inherit variables;
         inherit (cfg) excludes includes;
       };
-    in if cfg.auto-enable then recursiveUpdate (enableFeatures cfg.cwd) result else result;
+    in
+      if cfg.auto-enable then
+        recursiveUpdate (enableFeatures cfg.cwd) result
+      else result;
   };
 }

@@ -15,7 +15,7 @@
 in 
 [
   {
-    match = matchers.prefix "extraConfig";
+    match = matchers.regex "(.*)";
     alias = value: replaceStrings' var {} value;
   }
 ]

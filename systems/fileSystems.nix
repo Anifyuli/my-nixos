@@ -1,13 +1,16 @@
-{
-  "/yeah" = {
+let
+  yeah = let
     device = "/dev/disk/by-label/HOME";
     fsType = "btrfs";
-    options = [ "nofail" ];
-  };
+  in {
+    "/yeah" = {
+      inherit device fsType;
+      options = [ "nofail" "compress=zstd" ];
+    };
 
-  "/home/fmway/assets" = {
-    device = "/dev/disk/by-label/HOME";
-    fsType = "btrfs";
-    options = [ "subvol=@home/fmway" "nofail" ];
+    "/home/fmway/assets" = {
+      inherit device fsType;
+      options = [ "subvol=@home/fmway" "nofail" "compress=zstd" ];
+    };
   };
-}
+in yeah

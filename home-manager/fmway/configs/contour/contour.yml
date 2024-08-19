@@ -943,7 +943,7 @@ input_mapping:
     - { mods: [],               mouse: Middle,      action: PasteSelection }
     - { mods: [],               mouse: WheelDown,   action: ScrollDown }
     - { mods: [],               mouse: WheelUp,     action: ScrollUp }
-    - { mods: [Alt],            key: Enter,         action: ToggleFullscreen }
+    # - { mods: [Alt],            key: Enter,         action: ToggleFullscreen }
     - { mods: [Alt],            mouse: WheelDown,   action: DecreaseOpacity }
     - { mods: [Alt],            mouse: WheelUp,     action: IncreaseOpacity }
     - { mods: [Control, Alt],   key: S,             action: ScreenshotVT }

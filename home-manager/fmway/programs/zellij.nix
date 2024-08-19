@@ -517,7 +517,7 @@
   #   auto_layout = true;
   #   session_serialization = false;
   #   theme = "catppuccin-macchiato";
-  #   default_layout = "kontol";
+  #   default_layout = "fmlayout";
   #   mouse_mode = true;
   #   copy_command = "wl-copy";
   #   copy_on_select = true;
