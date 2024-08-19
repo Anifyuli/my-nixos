@@ -1,44 +1,9 @@
-{ pkgs, inputs, ... }:
-{
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix = {
-    package = pkgs.nixFlakes;
-
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = ["root" "fmway"];
-      # auto optimise the store
-      auto-optimise-store = true;
-    };
-
-    registry = let
-      inherit (builtins)
-        foldl'
-        hasAttr
-      ;
-      toRegistry = arr: foldl' (final: registry: {
-        "${registry}".flake =
-          if ! (hasAttr registry inputs) then
-            throw "registry ${registry} not found"
-          else inputs.${registry};
-      } // final) {} arr;
-    in toRegistry [
-      "nixpkgs"
-      "nixpkgs-24_05"
-      "nixpkgs-23_11"
-      "fmpkgs"
-      "nixpkgs-extra"
-    ];
-
-    gc = {
-      automatic = true;
-      dates = "Mon,Fri *-*-* 00:00:00";
-      options = "--delete-older-than 5d";
-    };
-  };
+# { pkgs, inputs, ... }:
+{ 
+  # Fix for nixpkgs without flakes
+  # nix.registry.nixos.flake = inputs.self;
+  # environment.etc."nix/inputs/nixpkgs".source = inputs.nixpkgs.outPath;
+  # nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
