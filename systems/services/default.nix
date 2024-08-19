@@ -28,13 +28,6 @@
     openFirewall = true;
   };
 
-  samba = {
-    enable = true;
-    package = pkgs.sambaFull;
-    securityType = "user";
-    openFirewall = true;
-  };
-
   # Enale throttled.service for fix Intel CPU throttling
   # throttled.enable = false;
 
