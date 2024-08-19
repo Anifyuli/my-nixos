@@ -10,12 +10,15 @@
   imports = genImportsWithDefault' ./. [ "extra" ];
 
   nixpkgs.config = {
-    # allow unfree pkgs
-    allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "genymotion"
-        "spotify"
-      ];
+
+    # Allow unfree packages
+    allowUnfree = true;
+    # or
+    # allowUnfreePredicate = pkg:
+    #   builtins.elem (lib.getName pkg) [
+    #     "genymotion"
+    #     "spotify"
+    #   ];
 
     # allow insecure packages
     permittedInsecurePackages = [

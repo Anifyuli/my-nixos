@@ -1,6 +1,11 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    dconf-editor
+    gnome-tweaks
+    beeper
+    # session-desktop
+    gnome-extension-manager
     # protonmail-desktop
     appimagekit # ..
     # popsicle # bootable creator
@@ -24,5 +29,16 @@
     # terminal
     contour
     # wezterm
-  ];
+  ] ++ (with gnomeExtensions; [
+    paperwm
+    appindicator
+    clipboard-indicator
+    thinkpad-battery-threshold
+    blur-my-shell
+    # net-speed
+    totp
+    cloudflare-warp-toggle
+    system-monitor
+    weather-oclock
+  ]);
 }

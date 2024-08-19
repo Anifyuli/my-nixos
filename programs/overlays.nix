@@ -6,7 +6,7 @@
 , system
 , lib
 , ...
-}: let
+} @ variables: let
   inherit (lib) warn;
   inherit (builtins) attrNames foldl' getAttr;
   nixpkgs-overlay = self: super: let
@@ -23,9 +23,9 @@
     fmpkgs = import inputs.fmpkgs {
       inherit system pkgs lib;
     };
-    nur = import inputs.nur {
-      nurpkgs = self;
-    };
+    # nur = import inputs.nur {
+    #   nurpkgs = self;
+    # };
     extra = inputs.nixpkgs-extra.packages.${system};
   };
 
@@ -39,7 +39,7 @@
   } // acc) { inherit functions; } names)
   {
     folder = ./extra;
-    variables = { inherit self super pkgs inputs lib config; };
+    variables = variables // { inherit self super; };
     depth = 0;
     excludes = [
       "qutebrowser"

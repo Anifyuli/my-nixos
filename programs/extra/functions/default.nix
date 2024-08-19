@@ -1,5 +1,5 @@
 { self, super, config }:
-{
+rec {
   printPath = x: let
     user = config.users.users.${x};
     home-manager = config.home-manager.users.${x};
