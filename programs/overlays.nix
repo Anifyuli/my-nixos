@@ -1,14 +1,20 @@
 { pkgs
 , config
+, root-path
 , inputs
 , outputs
-, treeImport
 , system
 , lib
 , ...
-} @ variables: let
-  inherit (lib) warn;
-  inherit (builtins) attrNames foldl' getAttr;
+} @ variables
+: let
+  inherit (lib.fmway)
+    treeImport
+  ;
+  inherit (builtins) 
+    foldl'
+    getAttr
+    ;
   nixpkgs-overlay = self: super: let
     overlayNixpkgs = arr: obj: foldl' (acc: curr: let
       name = "_${curr}";
@@ -29,15 +35,7 @@
     extra = inputs.nixpkgs-extra.packages.${system};
   };
 
-  package-overlay = self: super: treeImport
-  (let
-    functions = outputs.fmchad;
-    names = attrNames functions;
-  in foldl' (acc: key:
-  {
-    "${key}" = warn "${key} is moved to functions.${key}" functions.${key};
-  } // acc) { inherit functions; } names)
-  {
+  package-overlay = self: super: treeImport {
     folder = ./extra;
     variables = variables // { inherit self super; };
     depth = 0;
@@ -50,6 +48,7 @@ in {
     inputs.agenix.overlays.default
     nixpkgs-overlay
     package-overlay
+    inputs.nur.overlay
     inputs.nixgl.overlay
   ];
 }

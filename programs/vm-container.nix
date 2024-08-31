@@ -1,12 +1,13 @@
 { pkgs, config, ... }:
 {
   environment.systemPackages = with pkgs; [
+    # qemu_full
     # qemu with efi 
-    (writeShellScriptBin "qemu-system-x86_64-uefi" ''
-      qemu-system-x86_64 \
-        -bios ${OVMF.fd}/FV/OVMF.fd \
-        "$@"
-    '')
+    # (writeShellScriptBin "qemu-system-x86_64-uefi" ''
+    #   qemu-system-x86_64 \
+    #     -bios ${OVMF.fd}/FV/OVMF.fd \
+    #     "$@"
+    # '')
     # quickemu
     docker-compose
     distrobox

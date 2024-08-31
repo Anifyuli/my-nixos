@@ -1,12 +1,14 @@
 { pkgs
 , lib
 , config
-, customImport
-, genImportsWithDefault'
 , ...
-} @ variables:
-
-{
+} @ variables
+: let
+  inherit (lib.fmway)
+    customImport
+    genImportsWithDefault'
+  ;
+in {
   imports = genImportsWithDefault' ./. [ "extra" ];
 
   nixpkgs.config = {
@@ -35,8 +37,14 @@
   ]);
 
   # Exclude packages from the X server.
-  services.xserver.excludePackages = [
-    pkgs.xterm
+  services.xserver.excludePackages = with pkgs; [
+    xterm
+  ];
+
+  # Exclude packages from the gnome.
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany
+    gnome-tour
   ];
 
 
@@ -70,6 +78,7 @@
     
     # enable fish
     fish.enable = true;
+    fish.useBabelfish = true;
   }
   {
     folder = [ ./cli ./gui ];
