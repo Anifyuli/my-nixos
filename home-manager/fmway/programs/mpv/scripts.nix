@@ -20,6 +20,6 @@
   inhibit-gnome
   evafast
   uosc
-]) ++ [
-  pkgs.fmpkgs.mpv-multiloop
-]
+]) ++ (with pkgs.fmpkgs.mpv-scripts; [
+  multiloop
+])
