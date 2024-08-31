@@ -2,6 +2,9 @@
 {
   userName = "fmway";
   userEmail = "fm18lv@gmail.com";
+  # delta.enable = true; # enable git diff with delta
+  # difftastic.enable = true; # git diff with difftastic
+  # diff-so-fancy.enable = true; # git diff with diff-so-fancy
   aliases = {
     a = "add";
     cm = "commit";

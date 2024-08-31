@@ -1,4 +1,8 @@
-{ pkgs, matchers, replaceStrings', ... }: let
+{ pkgs, lib, ... }: let
+  inherit (lib.fmway)
+    matchers
+    replaceStrings'
+  ;
   var = with pkgs.tmuxPlugins; {
     SENSIBLE = "${sensible}/share/tmux-plugins/sensible/sensible.tmux";
     BATTERY = "${battery}/share/tmux-plugins/battery/battery.tmux";

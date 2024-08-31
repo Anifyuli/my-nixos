@@ -1,3 +1,4 @@
+# dmenu alternative for wayland
 {
   settings = {
     main = {

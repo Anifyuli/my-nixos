@@ -1,3 +1,4 @@
+# bar for wayland (wlroots family)
 {
   settings = {
     mainBar = {

@@ -1,3 +1,4 @@
+# i3status with toml configuration
 { pkgs, ... }:let
   terminal = "${pkgs.foot}/bin/footclient";
   menu = "${pkgs.dmenu}/bin/dmenu";

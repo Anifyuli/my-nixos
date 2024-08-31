@@ -1,3 +1,4 @@
+# a modal text editor
 { pkgs, ... }: {
   packageConfigurable = pkgs.vim;
   defaultEditor = true;

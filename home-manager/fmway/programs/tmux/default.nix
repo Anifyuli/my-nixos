@@ -1,3 +1,4 @@
+# terminal multiplexer
 { pkgs, extra, ... }:
 {
   baseIndex = 1;

@@ -1,3 +1,4 @@
+# tui file manager
 { pkgs, ... }: let
   inherit (pkgs)
     fetchFromGitHub
