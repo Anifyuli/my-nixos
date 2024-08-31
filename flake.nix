@@ -66,12 +66,14 @@
     inherit (fmway-nix) fmway;
 
     # Will be imported to configuration and home-manager
-    specialArgs = {
-      inherit inputs outputs system specialArgs;
-      inherit (fmway-nix) lib;
-      root-path = ./.;
-      extraSpecialArgs = fmway.excludeItems [ "lib" ] specialArgs;
-    };
+    genSpecialArgs = { inputs ? {}, outputs ? {}, system ? "x86_64-linux", ... }: let
+      specialArgs = {
+        inherit inputs outputs system specialArgs;
+        inherit (fmway-nix) lib;
+        root-path = ./.;
+        extraSpecialArgs = fmway.excludeItems [ "lib" ] specialArgs;
+      };
+    in specialArgs;
 
     nixosModules = let
       self = {
@@ -105,7 +107,10 @@
     inherit nixosModules fmway;
     nixosConfigurations = {
       Namaku1801 = lib.makeOverridable lib.nixosSystem {
-        inherit system specialArgs;
+        inherit system;
+        specialArgs = genSpecialArgs {
+          inherit inputs outputs system;
+        };
         modules = nixosModules.defaultModules ++ [
           ./configuration.nix
           ./hardware-configuration.nix
