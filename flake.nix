@@ -1,5 +1,5 @@
 {
-  description = "Mweheheheheheehehehehehe";
+  description = "My NixOS configuration";
 
   # Inputs
   inputs = {
@@ -7,6 +7,12 @@
     nixpkgs-24_05.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-23_11.url = "github:NixOS/nixpkgs/nixos-23.11";
     matui.url = "github:pkulak/matui";
+    microvm.url = "github:astro/microvm.nix";
+    catppuccin.url = "github:catppuccin/nix";
+    # TODO implement impermanence
+    # impermanence.url = "github:nix-community/impermanence";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
     agenix = {
       url = "github:ryantm/agenix";
       inputs.darwin.follows = "";
@@ -30,76 +36,84 @@
     home-manager.url = "github:nix-community/home-manager/master";
     # fingerprint-sensor = {
     #   url = "github:ahbnr/nixos-06cb-009a-fingerprint-sensor";
-    #   inputs.nixpkgs.follows = "nixpkgs-23_11";
+    #   inputs.nixpkgs.follows = "nixpkgs";
     # };
     nixgl.url = "github:nix-community/NixGL";
-    # nur.url = "github:nix-community/nur";
+    nur.url = "github:nix-community/nur";
   };
 
   outputs = 
     { self
     , nixpkgs
     , nixos-hardware
+    , disko
     , fmway-nix
+    , catppuccin
     # , fingerprint-sensor
     , agenix
     , home-manager
-    , ... }
-    @ inputs:
-  # std.growOn {
-  #   inputs = inputs // { outputs = self.outputs; };
-  #   cellsFrom = ./cells;
-  #   cellBlocks = with std.blockTypes; [
-  #     (functions "functions")
-  #   ];
-  # }
-  (let
+    , ...
+    }
+    @ inputs
+    :
+  let
     inherit (self) outputs;
     inherit (self.nixosConfigurations.Namaku1801) pkgs;
     inherit (nixpkgs) lib;
     system = "x86_64-linux";
     # fmchad = import ./fmchad.nix { inherit lib; };
     # fmchad = (std.harvest inputs.self [ "fmchad" "functions" ]).${system};
-    fmchad = (import fmway-nix {
-      inherit pkgs lib;
-    }) // {
-      # parse env in folder ./secrets
-      getEnv = entity: let
-        path = ./secrets + "/${entity}.env";
-        exists = builtins.pathExists path;
-      in lib.throwIfNot exists "tidak dapat mencari env dengan nama ${entity}" fmchad.readEnv path;
-      
-      # generate path to array
-      genPaths = home: paths: 
-        builtins.foldl' (acc: curr: [ "${home}/${curr}/bin" ] ++ acc) [] (lib.reverseList paths);
-    };
+    inherit (fmway-nix) fmway;
 
     # Will be imported to configuration and home-manager
-    specialArgs = fmchad // {
+    specialArgs = {
       inherit inputs outputs system specialArgs;
+      inherit (fmway-nix) lib;
       root-path = ./.;
-      extraSpecialArgs = specialArgs;
+      extraSpecialArgs = fmway.excludeItems [ "lib" ] specialArgs;
     };
 
+    nixosModules = let
+      self = {
+        cachix = ./cachix.nix;
+        programs = ./programs;
+        modules = lib.optionals (builtins.pathExists ./modules) (fmway.genImportsWithDefault ./modules);
+        systems = ./systems;
+        users = ./users;
+        home-manager = ./home-manager;
+      };
+      selfNames = builtins.attrNames self;
+    in builtins.foldl' (acc: name: acc // {
+      "${name}".imports = lib.flatten [ self.${name} ];
+    }) rec { 
+      default.imports = lib.flatten (map (x: self.${x}) selfNames);
+      defaultModules = [
+        default
+        fmway-nix.nixosModules.default
+        disko.nixosModules.default
+        catppuccin.nixosModules.catppuccin
+        home-manager.nixosModules.home-manager
+        # fingerprint-sensor.nixosModules.open-fprintd
+        # fingerprint-sensor.nixosModules.python-validity
+        agenix.nixosModules.default
+        # inputs.nixos-shell.nixosModules.nixos-shell
+      ];
+    } selfNames;
+
   in {
+    inherit nixosModules fmway;
     nixosConfigurations = {
       Namaku1801 = lib.makeOverridable lib.nixosSystem {
         inherit system specialArgs;
-        modules = fmway-nix.nixosModules.modules ++ [
+        modules = nixosModules.defaultModules ++ [
           ./configuration.nix
-          ./cachix.nix
           ./hardware-configuration.nix
-          home-manager.nixosModules.home-manager
+          ./disk.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
-          # fingerprint-sensor.nixosModules.open-fprintd
-          # fingerprint-sensor.nixosModules.python-validity
-          agenix.nixosModules.default
-          # inputs.nixos-shell.nixosModules.nixos-shell
-        ] ++ (fmchad.genDefaultImports ./.);
+        ];
       };
     };
-    inherit fmchad;
     # inherit (self.nixosConfigurations.Namaku1801) config lib;
     packages.${system} = pkgs;
-  });
+  };
 }
