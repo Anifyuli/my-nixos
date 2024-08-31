@@ -1,7 +1,12 @@
-{ pkgs, self, ... }:
+{ pkgs
+, pam-fingerprint
+, lib
+, config
+, ...
+}
+:
 {
   cloudflare-warp.enable = true;
-  cloudflare-warp.package = pkgs.custom.cloudflare-warp;
   # Enable GNOME keyring.
   gnome.gnome-keyring.enable = true;
 
@@ -24,14 +29,14 @@
   # touchegg.enable = true; # nope, i use wayland
 
   samba-wsdd = {
-    enable = self.samba.enable;
+    enable = config.services.samba.enable;
     openFirewall = true;
   };
+
+  zfs.autoScrub.enable = true;
+  # zfs.trim.enable = false;
 
   # Enale throttled.service for fix Intel CPU throttling
   # throttled.enable = false;
 
-  # add fingerprint to sudo
-  # pam.services.sudo.fprintAuth = true;
-  # pam.services.login.fprintAuth = true;
 }

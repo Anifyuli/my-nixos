@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   hostName = "Namaku1801"; # Define your hostname.
+  hostId = "4970ef8d"; # required for zfs
   # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -9,6 +10,7 @@
   # Enable networking
   networkmanager.enable = true;
 
+  # /etc/hosts
   hosts = {
     "127.0.0.1" = [
       "fmway"
@@ -16,7 +18,7 @@
       "gitea.local"
       "cgi.local.com"
       "nyoba.com"
-      "download.mikrotik.com"
+      # "download.mikrotik.com"
     ];
   };
 
@@ -41,6 +43,14 @@
     51820
   ];
 
+  firewall.allowedUDPPortRanges = [
+    # winbox problem
+    {
+      from = 40000;
+      to = 50000;
+    }
+  ];
+
   # firewall.allowedTCPPortsRanges = [
   #   { from = 8000; to = 9999; }
   # ];
@@ -62,20 +72,21 @@
   # };
   # resolvconf.enable = false;
 
-  # register Wireguard to firewall
-  firewall = {
-    checkReversePath = "loose";
-    logReversePathDrops = true;
-    # up
-    extraCommands = ''
-      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN
-      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN
-    '';
-
-    # down
-    extraStopCommands = ''
-      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN || true
-      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN || true
-    '';
-  };
+  # handling Wireguard to firewall
+  # firewall = {
+  #   checkReversePath = "loose";
+  #   # if packets are still dropped, they will show up in dmesg
+  #   logReversePathDrops = true;
+  #   # up
+  #   extraCommands = ''
+  #     ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN
+  #     ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN
+  #   '';
+  #
+  #   # down
+  #   extraStopCommands = ''
+  #     ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN || true
+  #     ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN || true
+  #   '';
+  # };
 }

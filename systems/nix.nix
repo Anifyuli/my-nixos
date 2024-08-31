@@ -41,6 +41,8 @@
     "nixpkgs-23_11"
     "fmpkgs"
     "nixpkgs-extra"
+    "disko"
+    "microvm"
   ]);
 
   gc = {

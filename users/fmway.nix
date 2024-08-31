@@ -18,36 +18,36 @@
   packages = with pkgs; [
     # cli
     element # periodic table
-    clipman # clipboard manager
-    matui
+    # matui
+    # mastodon
     # ytui-music
     
     # bui (browser user interface)
     filebrowser
 
     # gui
-    fmpkgs.bootstrap-studio # figma alternative 
+    telegram-desktop
+    discord
+    upscayl # image upscaler
+    gthumb
+    element-desktop-wayland # matrix client
     foliate # reader for desktop
     # youtube-music
-    dbeaver-bin # sql client
-    element-desktop # matrix client
-    fluffychat # also this
-    # cinny-desktop # also this
-    weechat
+    # dbeaver-bin # sql client
+    # weechat
     zoom-us
     libreoffice-fresh
     zotero-beta
     anytype
-    kdenlive
-    custom.obs-studio
+    # kdenlive
+    # custom.obs-studio
 
     # development
-    # wasmer
-    rust-analyzer
-    clang-tools
-    zls
+    wasmer
+    # rust-analyzer
+    # clang-tools
+    # zls
     deno
-    bun
     yarn
   ];
   shell = pkgs.fish;

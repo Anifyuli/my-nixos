@@ -1,21 +1,26 @@
-{ treeImport
-, matchers
-, pkgs
+{ pkgs
 , lib
 , config
-, genTreeImports
-, ... } @ variables:
-
-treeImport {
+, ...
+}
+@ variables
+:
+let
+  inherit (lib.fmway)
+    treeImport
+    matchers
+    genTreeImports
+  ;
+in treeImport {
   imports = genTreeImports ./extra;
 }
 {
   excludes = [
-    "boot/binfmt"
     "extra"
     # "boot/loader/grub"
     # "services/nginx"
     "services/phpfpm"
+    "networking/wg-quick"
     # "services/stubby"
   ];
 

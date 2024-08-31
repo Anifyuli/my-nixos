@@ -1,6 +1,9 @@
-{ pkgs, lib, customImport, ... } @ variables: {
-  users.users = customImport {
+{ pkgs, lib, ... }:
+{
+  users.users = lib.fmway.customImportWithDefault {
     folder = ./.;
-    inherit variables;
+    variables = {
+      inherit pkgs lib;
+    };
   };
 }

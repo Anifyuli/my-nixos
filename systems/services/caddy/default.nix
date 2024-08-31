@@ -1,6 +1,9 @@
-{ domains, excludeItems, lib, ... }: let
+{ domains, lib, ... }: let
   inherit (builtins) attrNames map;
   inherit (lib) listToAttrs;
+  inherit (lib.fmway)
+    excludeItems
+  ;
 in {
   enable = true;
   virtualHosts = listToAttrs (map (x: let

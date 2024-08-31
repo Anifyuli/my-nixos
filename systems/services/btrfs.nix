@@ -1,10 +1,10 @@
 {
-  autoScrub = {
-    enable = true;
-    interval = "weekly";
-    fileSystems = [
-      "/"
-      "/home/fmway"
-    ];
-  };
+  # autoScrub = {
+  #   enable = true;
+  #   interval = "weekly";
+  #   fileSystems = [
+  #     "/"
+  #     "/home/fmway"
+  #   ];
+  # };
 }
