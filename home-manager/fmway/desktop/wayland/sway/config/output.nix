@@ -1,5 +1,6 @@
 {
   "*" = {
+    # Default wallpaper (more resolutions are available in */share/backgrounds/sway/)
     bg = "~/.wallpaper fill";
     adaptive_sync = "on";
   };

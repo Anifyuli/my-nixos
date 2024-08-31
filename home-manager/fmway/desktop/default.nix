@@ -1,15 +1,20 @@
-{ matchers
-, config
-, treeImport
-, pkgs
+{ pkgs
 , lib
-, ... } @ variables:
-{
+, ... }
+@ variables
+:
+let
+  inherit (lib.fmway)
+    matchers
+    treeImport
+  ;
+in {
   # import all in folder ./wayland to wayland.windowManager
   wayland.windowManager = treeImport {
     folder = ./wayland;
     includes = with matchers; [
       (extension "conf")
+      (filename "config")
     ];
     inherit variables;
   };

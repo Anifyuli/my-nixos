@@ -6,4 +6,6 @@
   package = pkgs.swayfx-unwrapped.override {
     trayEnabled = false;
   };
+  catppuccin.enable = true;
+  catppuccin.flavor = "macchiato";
 }

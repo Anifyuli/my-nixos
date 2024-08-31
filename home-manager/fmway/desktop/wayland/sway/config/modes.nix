@@ -2,6 +2,7 @@
   inherit (extra) mod mode left up right down;
   inherit (command) resize mode-default ex-default swaymsg to-workspace;
 in {
+  # Resizing containers:
   resize = {
     "${left}" = resize.left 10;
     "${down}" = resize.down 10;

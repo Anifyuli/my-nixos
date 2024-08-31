@@ -1,20 +1,24 @@
-{ customDefaultImport
-, extraSpecialArgs
-, genTreeImports
-# , lib
+{ lib
 # , pkgs
 , inputs
-, ... }: let
-  
+, extraSpecialArgs
+, ...
+}
+: let
+  inherit (lib.fmway)
+    customDefaultImport
+    # genTreeImports
+  ;
   # date = let
   #   out = pkgs.runCommand "hm-date" {} "date +%d%m%Y%H%M%S > $out";
   # in lib.fileContents out;
 
-  hash = builtins.hashString "sha256" inputs.self.narHash;
+  # hash = builtins.hashString "sha256" inputs.self.narHash;
 
   backupFileExtension =
     "hm-backup~"
-  + ".${hash}"
+  # + ".${hash}" # hash is very long
+  + ".${toString inputs.self.lastModified}"
   # + ".${date}"
   # + ".${date}-${hash}"
   ;
@@ -22,7 +26,10 @@
 in {
 
   home-manager = {
-    sharedModules = inputs.fmway-nix.homeManager.modules;
+    sharedModules = [
+      inputs.catppuccin.homeManagerModules.catppuccin
+      inputs.fmway-nix.homeManagerModules.default
+    ];
     useGlobalPkgs = true;
     useUserPackages = true;
     verbose = true;

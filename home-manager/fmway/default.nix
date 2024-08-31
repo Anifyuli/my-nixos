@@ -1,11 +1,20 @@
 { pkgs
-, matchers
 , lib
-# , genTreeImports
-, parseFish
-, ... } @ variables: let
-  inherit (pkgs.functions) getEnv genPaths;
-in {
+, ...
+} @ variables
+: let
+  inherit (pkgs.functions)
+    getEnv
+    genPaths
+  ;
+
+  inherit (lib.fmway)
+    matchers
+    customImport
+    # genTreeImports
+  ;
+in customImport
+{
   imports = [ ./desktop ];
 
   programs.home-manager.enable = true;
@@ -24,9 +33,10 @@ in {
       ".foundry"
     ];
 
-    sessionVariables = {
+    sessionVariables = rec {
       ASSETS = "${homeDirectory}/assets";
-      GITHUB = "${homeDirectory}/assets/Github";
+      ASET = "${homeDirectory}/aset";
+      GITHUB = "${ASET}/Github";
       DOWNLOADS = "${homeDirectory}/Downloads";
     } // (getEnv username);
   };
@@ -34,6 +44,11 @@ in {
   # nix.extraOptions = ''
     # extra-experimental-features = nix-command flakes
   # '';
+
+  services = {
+    clipman.enable = true; # clipboard manager
+    clipman.systemdTarget = "sway-session.target";
+  };
 
   features = {
     # $HOME/.config refers to ./configs
@@ -47,12 +62,11 @@ in {
       includes = let
         inherit (matchers) extension jsonc;
       in [
-        (extension "fish" {
-          read = path: _: parseFish (lib.fileContents path);
-        })
+        (extension "fish")
         (extension "css")
         (extension "conf")
         (extension "tmux")
+        (extension "sh")
         jsonc
       ];
     };
@@ -61,4 +75,8 @@ in {
     script.enable = true;
     script.cwd = ./scripts;
   };
+}
+{
+  folder = ./.;
+  inherit variables;
 }
