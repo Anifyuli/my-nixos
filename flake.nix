@@ -104,7 +104,7 @@
     } selfNames;
 
   in {
-    inherit nixosModules fmway;
+    inherit nixosModules fmway genSpecialArgs;
     nixosConfigurations = {
       Namaku1801 = lib.makeOverridable lib.nixosSystem {
         inherit system;
