@@ -2,7 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     nixd # nix lsp
-    waydroid_script
+    waydroid-script
     # rnix-lsp # this too 
     # nil # this too
     oha # http load generator
