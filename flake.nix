@@ -80,6 +80,7 @@
         modules = lib.optionals (builtins.pathExists ./modules) (fmway.genImportsWithDefault ./modules);
         systems = ./systems;
         users = ./users;
+        secrets = ./secrets;
         home-manager = ./home-manager;
       };
       selfNames = builtins.attrNames self;
