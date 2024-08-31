@@ -44,6 +44,6 @@
       guest.enable = true;
     };
 
-    # waydroid.enable = true;
+    waydroid.enable = true;
   };
 }
