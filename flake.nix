@@ -73,9 +73,9 @@
         outputs = lib.recursiveUpdate outputs (if var ? outputs && builtins.isAttrs var.outputs then var.outputs else {});
         system = if var ? system && builtins.isString var.system then var.system else system;
         inherit (fmway-nix) lib;
-        root-path = ./.;
+        root-path = if var ? root-path then var.root-path else ./.;
         extraSpecialArgs = fmway.excludeItems [ "lib" ] specialArgs;
-      };
+      } // (fmway.excludeItems [ "inputs" "outputs" "system" "root-path" ] var);
     in specialArgs;
 
     nixosModules = let
