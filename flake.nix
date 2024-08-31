@@ -66,9 +66,12 @@
     inherit (fmway-nix) fmway;
 
     # Will be imported to configuration and home-manager
-    genSpecialArgs = { inputs ? {}, outputs ? {}, system ? "x86_64-linux", ... }: let
+    genSpecialArgs = { ... } @ var: let
       specialArgs = {
-        inherit inputs outputs system specialArgs;
+        inherit specialArgs;
+        inputs = lib.recursiveUpdate inputs (if var ? inputs && builtins.isAttrs var.inputs then var.inputs else {});
+        outputs = lib.recursiveUpdate outputs (if var ? outputs && builtins.isAttrs var.outputs then var.outputs else {});
+        system = if var ? system && builtins.isString var.system then var.system else system;
         inherit (fmway-nix) lib;
         root-path = ./.;
         extraSpecialArgs = fmway.excludeItems [ "lib" ] specialArgs;
