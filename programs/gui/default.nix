@@ -3,7 +3,7 @@
   environment.systemPackages = with pkgs; [
     dconf-editor
     gnome-tweaks
-    beeper
+    # gdm-settings
     # session-desktop
     gnome-extension-manager
     # protonmail-desktop
@@ -12,18 +12,14 @@
     vscode # 🤫
     fmpkgs.xdman # xdm download manager
     mpv # video player
-    zed-editor # another text editor
+    # zed-editor # another text editor
     adwaita-icon-theme # ...
-    google-chrome
-    telegram-desktop
-    discord
-    # fmpkgs.stayfree-desktop
+    # google-chrome
     # youtube-music # ...
     gst_all_1.gstreamer # ...
     keepassxc # password manager
     # qutebrowser
     # fmpkgs.keypunch # monkeytype for gnome
-    # mako
     firefoxpwa # pwa for firefox
 
     # terminal
@@ -41,4 +37,9 @@
     system-monitor
     weather-oclock
   ]);
+
+  programs.winbox = {
+    enable = true;
+    openFirewall = true;
+  };
 }
