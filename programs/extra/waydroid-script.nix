@@ -21,6 +21,6 @@ self.stdenv.mkDerivation {
     mkdir -p $out/libexec
     cp -r . $out/libexec/waydroid_script
     mkdir -p $out/bin
-    ln -s $out/libexec/waydroid_script/main.py $out/bin/waydroid_script
+    ln -s $out/libexec/waydroid_script/main.py $out/bin/waydroid-script
   '';
 }
