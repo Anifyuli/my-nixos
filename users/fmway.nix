@@ -43,7 +43,7 @@
     # custom.obs-studio
 
     # development
-    wasmer
+    # wasmer
     # rust-analyzer
     # clang-tools
     # zls
