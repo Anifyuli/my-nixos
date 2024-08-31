@@ -1,0 +1,10 @@
+--- a/data/theme/gnome-shell-sass/widgets/_login-lock.scss
++++ b/data/theme/gnome-shell-sass/widgets/_login-lock.scss
+@@ -21,6 +21,7 @@
+ // GDM Login Dialog
+ // uses dark grey system styles
+ .login-dialog {
++  background-image: url('file:///etc/current-background');
+   .login-dialog-prompt-entry {
+     @extend %system_entry;
+   }
