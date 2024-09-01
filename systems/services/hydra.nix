@@ -1,5 +1,5 @@
 {
-  enable = true;
+  enable = false;
   port = 9898;
   hydraURL = "https://hydra.local"; # externally visible URL
   notificationSender = "admin@hydra.local"; # e-mail of Hydra service
