@@ -9,6 +9,7 @@
 
   # Enable networking
   networkmanager.enable = true;
+  networkmanager.wifi.powersave = true;
 
   # /etc/hosts
   hosts = {
