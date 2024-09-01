@@ -9,6 +9,6 @@ in {
       format console
       output stdout
     }
-    reverse_proxy localhost:${hydra.port}
+    reverse_proxy localhost:${toString hydra.port}
   '';
 }
