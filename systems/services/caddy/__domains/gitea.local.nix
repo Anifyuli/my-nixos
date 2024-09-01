@@ -1,5 +1,5 @@
 { config, ... }: let
-  inherit (config.services) certs;
+  inherit (config.services) certs gitea;
 in {
   type = "https";
   extraConfig = ''
@@ -8,6 +8,6 @@ in {
       format console
       output stdout
     }
-    reverse_proxy localhost:3000
+    reverse_proxy localhost:${toString gitea.settings.server.HTTP_PORT}
   '';
 }
