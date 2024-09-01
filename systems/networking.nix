@@ -19,6 +19,7 @@
       "gitea.local"
       "cgi.local.com"
       "nyoba.com"
+      "hydra.local"
       # "download.mikrotik.com"
     ];
   };

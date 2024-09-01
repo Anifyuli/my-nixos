@@ -11,4 +11,8 @@
     cname = "cgi.local.com";
     alt = [ "DNS:cgi.local.com" ];
   };
+  hydra = {
+    cname = "hydra.local";
+    alt = [ "DNS:hydra.local" ];
+  };
 }

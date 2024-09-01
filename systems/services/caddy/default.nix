@@ -8,6 +8,10 @@ in {
   enable = true;
   virtualHosts = listToAttrs (map (x: let
     v = domains.${x};
+    enable =
+      if v ? enable && ! v.enable then
+        false
+      else true;
   in {
     name =
       if v ? type && v.type == "https" then
@@ -15,6 +19,6 @@ in {
       else if v ? type && v.type == "http" then
         "http://${x}"
       else x;
-    value = excludeItems [ "type" ] v;
+    value = lib.mkIf enable (excludeItems [ "type" "enable" ] v);
   }) (attrNames domains));
 }
