@@ -22,28 +22,15 @@
     auto-optimise-store = true;
   };
 
-  registry = let
-    inherit (builtins)
-      foldl'
-      hasAttr
-    ;
-    toRegistry = arr: foldl' (final: registry: {
-      "${registry}".flake =
-        if ! (hasAttr registry inputs) then
-          throw "registry ${registry} not found"
-        else inputs.${registry};
-    } // final) {} arr;
-  in {
-    nixos.flake = inputs.self;
-  } // (toRegistry [
-    "nixpkgs"
-    "nixpkgs-24_05"
-    "nixpkgs-23_11"
-    "fmpkgs"
-    "nixpkgs-extra"
-    "disko"
-    "microvm"
-  ]);
+  registry =
+    builtins.listToAttrs (map (x: {
+      name =
+        if x == "self" then
+          "nixos"
+        else
+          x;
+      value.flake = inputs.${x};
+    }) (builtins.attrNames inputs));
 
   gc = {
     automatic = true;
