@@ -1,3 +1,4 @@
+# required for swayfx
 { self, super, ... }: let
   pkgs = self;
 in super.scenefx.overrideAttrs (old: {
