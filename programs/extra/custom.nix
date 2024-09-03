@@ -8,10 +8,7 @@
       obs-pipewire-audio-capture
     ];
   };
-  swayfx = self.swayfx-unwrapped.override (old: {
+  swayfx = (self.swayfx-unwrapped.override {
     trayEnabled = false;
-    buildInputs = (lib.optionals (old?buildInputs) old.buildInputs) ++ [
-      self.cmake
-    ];
   });
 }
