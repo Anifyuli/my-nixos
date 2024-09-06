@@ -9,7 +9,7 @@
     ";
     extraGSettingsOverridePackages = with pkgs;[
       gsettings-desktop-schemas # for org.gnome.desktop
-      gnome.gnome-shell # for org.gnome.shell
+      gnome-shell # for org.gnome.shell
     ];
   };
 
