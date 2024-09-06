@@ -6,11 +6,4 @@ in super.gnome.overrideScope (gself: gsuper: {
       gst-plugins-bad
     ]);
   });
-  # gdm with background
-  # place your background to /etc/current-background
-  gnome-shell = gsuper.gnome-shell.overrideAttrs (old: {
-    patches = (old.patches or []) ++ [
-      ./bg.patch
-    ];
-  });
 })
