@@ -34,7 +34,7 @@
   };
 
   zfs.autoScrub.enable = true;
-  # zfs.trim.enable = false;
+  zfs.trim.enable = true;
 
   # Enale throttled.service for fix Intel CPU throttling
   # throttled.enable = false;
