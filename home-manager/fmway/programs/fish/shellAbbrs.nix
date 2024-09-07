@@ -1,7 +1,7 @@
 let
   with-cursor = str: {
     setCursor = "!";
-    expansion = "${str}!";
+    expansion = "${str}";
   };
 in {
   "lg" = "lazygit";
