@@ -1,10 +1,33 @@
 { config, ... }:
 with config.boot; {
-  loader.efi.canTouchEfiVariables = loader.systemd-boot.enable;
+  loader = with loader; {
+    efi.canTouchEfiVariables = systemd-boot.enable;
+
+    systemd-boot = {
+      enable = true;
+      memtest86.enable = true;
+    };
+
+    grub = {
+      enable = ! systemd-boot.enable;
+      copyKernels = true;
+      efiInstallAsRemovable = ! efi.canTouchEfiVariables;
+      efiSupport = true;
+      fsIdentifier = "label";
+      zfsSupport = true;
+      # device = "/dev/disk/by-id/nvme-KINGSTON_OM8PDP3256B-AB1_50026B768583ADF8-part1";
+      mirroredBoots = [
+        { devices = [ "nodev" ]; path = "/boot"; }
+      ];
+      device = "nodev";
+    };
+  };
+
   plymouth = {
     enable = true;
     theme = "bgrt";
   };
+
   tmp = {
     cleanOnBoot = true;
     useTmpfs = true;
