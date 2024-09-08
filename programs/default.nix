@@ -24,13 +24,11 @@
     cmake
     desktop-file-utils
     docker-compose
-    distrobox
     ffmpeg-full
     flutter
     fwupd
     git
     gst_all_1.gstreamer
-    gtop
     inxi
     ninja
     nodePackages_latest.nodejs

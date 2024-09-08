@@ -11,12 +11,33 @@
   };
  
   # Add GSConnect connection configuration.
-  programs.kdeconnect.enable = true;
-  programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
+  programs.kdeconnect = {
+    enable = true;
+    package = pkgs.gnomeExtensions.gsconnect;
+  };
+
+  # Appimage support & enable binfmt.
+  programs.appimage = {
+    binfmt = true;
+    enable = true;
+  };
+
+  # GNOME Evolution
+  programs.evolution = {
+    enable = true;
+    plugins = with pkgs; [
+      evolution-ews
+    ];
+  };
   
   # Captive browser support.
-  programs.captive-browser.enable = true;
-  programs.captive-browser.interface = "wlp59s0";
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlp59s0";
+  };
+
+  # Enable ls colors in Bash
+  programs.bash.enableLsColors = true;
 
   # Java configs.
   programs.java = {
@@ -31,6 +52,6 @@
   programs.winbox = {
     enable = true;
     openFirewall = true;
-    package = pkgs.winbox;
   };
+
 }

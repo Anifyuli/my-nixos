@@ -4,7 +4,7 @@
 {
   # Apache2 server.
   services.httpd = {
-    enable = true;
+    enable = false;
     adminAddr = "localhost";
     enablePHP = true;
     group = "users";
@@ -24,7 +24,7 @@
 
   # MariaDB server.
   services.mysql = {
-    enable = true;
+    enable = false;
     package = pkgs.mariadb;
   };
 
@@ -44,6 +44,9 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # GNOME Evolution additional services
+  services.gnome.evolution-data-server.enable = true;
 
   # Enable Flatpak support
   services.flatpak.enable =  true;
@@ -65,6 +68,8 @@
   services.earlyoom = {
     enable = true;
     enableNotifications = true;
+    freeMemThreshold = 3;
+    freeSwapThreshold = 6;
   };
 
   # Enable systemd services which is not configured from services options

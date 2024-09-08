@@ -13,8 +13,13 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Exclude packages from the X server.
-  services.xserver.excludePackages = [
-    pkgs.xterm
+  services.xserver.excludePackages = with pkgs; [
+    xterm
+  ];
+
+  # Exclude packages from GNOME
+  environment.gnome.excludePackages = with pkgs; [
+    geary
   ];
  
   # bindfs for Flatpak fonts & icons integration.
@@ -72,13 +77,10 @@
       [org.gnome.desktop.peripherals.touchpad]
       tap-to-click=true
     '';
-    extraGSettingsOverridePackages = [
-      pkgs.gsettings-desktop-schemas # for org.gnome.desktop
-      pkgs.gnome.gnome-shell # for org.gnome.shell
+    extraGSettingsOverridePackages = with pkgs; [
+      gsettings-desktop-schemas # for org.gnome.desktop
+      gnome-shell # for org.gnome.shell
     ];
   };
   
-  # Enable ls colors in Bash
-  programs.bash.enableLsColors = true;
-
 }

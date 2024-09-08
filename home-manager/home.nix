@@ -11,13 +11,9 @@
 
   # Packages that should be installed to the user profile.
     home.packages = with pkgs; [
-      dbeaver-bin
       exercism
-      gnomeExtensions.x11-gestures
-      mongodb-compass
       php82Packages.composer
       pnpm
-      postman
     ];
 
   # Bash configurations.
@@ -26,27 +22,27 @@
       enableVteIntegration = true;
       historyControl = [
         "ignoreboth"
-          "erasedups"
+        "erasedups"
       ];
       historyIgnore = [
         "?"
-          "??"
+        "??"
       ];
       historyFile = "$HOME/.bash_history";
       historyFileSize = 1000000;
       historySize = 1000;
       shellOptions = [
         "autocd"
-          "cdspell"
-          "checkjobs"
-          "direxpand"
-          "dirspell" 
-          "extglob"
-          "globstar" 
-          "histappend" 
-          "histverify"
-          "nocaseglob" 
-          "no_empty_cmd_completion"
+        "cdspell"
+        "checkjobs"
+        "direxpand"
+        "dirspell" 
+        "extglob"
+        "globstar" 
+        "histappend" 
+        "histverify"
+        "nocaseglob" 
+        "no_empty_cmd_completion"
       ];
       bashrcExtra = "";
     };
