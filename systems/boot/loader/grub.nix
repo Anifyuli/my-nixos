@@ -1,6 +1,6 @@
-{ data, super, ... }:
+{ config, ... }:
 {
-  enable = ! super.systemd-boot.enable;
+  enable = ! config.boot.loader.systemd-boot.enable;
   copyKernels = true;
   efiInstallAsRemovable = true;
   efiSupport = true;
@@ -11,6 +11,4 @@
     { devices = [ "nodev" ]; path = "/boot"; }
   ];
   # device = "nodev";
-  # Add chromeos
-  extraEntries = data.chromeos-grub;
 }
