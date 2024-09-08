@@ -2,7 +2,7 @@
 {
   enable = ! config.boot.loader.systemd-boot.enable;
   copyKernels = true;
-  efiInstallAsRemovable = true;
+  # efiInstallAsRemovable = true;
   efiSupport = true;
   fsIdentifier = "label";
   zfsSupport = true;
@@ -10,5 +10,5 @@
   mirroredBoots = [
     { devices = [ "nodev" ]; path = "/boot"; }
   ];
-  # device = "nodev";
+  device = "nodev";
 }
