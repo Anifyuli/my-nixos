@@ -1,8 +1,8 @@
 { config, ... }:
-{
-  enable = ! config.boot.loader.systemd-boot.enable;
+with config.boot.loader; {
+  enable = ! systemd-boot.enable;
   copyKernels = true;
-  # efiInstallAsRemovable = true;
+  efiInstallAsRemovable = ! efi.canTouchEfiVariables;
   efiSupport = true;
   fsIdentifier = "label";
   zfsSupport = true;
