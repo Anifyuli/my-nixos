@@ -39,6 +39,12 @@ in customImport
       GITHUB = "${ASET}/Github";
       DOWNLOADS = "${homeDirectory}/Downloads";
     } // (getEnv username);
+
+    # xkb options
+    keyboard.options = [
+      "grp:shifts_toggle"
+      "caps:none" # disable capslock
+    ];
   };
 
   # nix.extraOptions = ''
