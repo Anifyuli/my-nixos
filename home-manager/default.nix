@@ -26,9 +26,10 @@
 in {
 
   home-manager = {
-    sharedModules = [
-      inputs.catppuccin.homeManagerModules.catppuccin
-      inputs.fmway-nix.homeManagerModules.default
+    sharedModules = with inputs; [
+      catppuccin.homeManagerModules.catppuccin
+      fmway-nix.homeManagerModules.default
+      nix-flatpak.homeManagerModules.nix-flatpak
     ];
     useGlobalPkgs = true;
     useUserPackages = true;

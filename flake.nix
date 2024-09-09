@@ -22,6 +22,7 @@
       url = "github:fmway/fmway.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
     fmpkgs.url = "github:fmway/fmpkgs/master";
     # inputs.nixos-shell = {
     #   url = "github:Mic92/nixos-shell";
@@ -42,28 +43,14 @@
     nur.url = "github:nix-community/nur";
   };
 
-  outputs = 
-    { self
-    , nixpkgs
-    , nixos-hardware
-    , disko
-    , fmway-nix
-    , catppuccin
-    # , fingerprint-sensor
-    , agenix
-    , home-manager
-    , ...
-    }
-    @ inputs
-    :
+  outputs = { self, ... } @ inputs:
   let
     inherit (self) outputs;
     inherit (self.nixosConfigurations.Namaku1801) pkgs;
-    inherit (nixpkgs) lib;
+    inherit (inputs.nixpkgs) lib;
     system = "x86_64-linux";
-    # fmchad = import ./fmchad.nix { inherit lib; };
-    # fmchad = (std.harvest inputs.self [ "fmchad" "functions" ]).${system};
-    inherit (fmway-nix) fmway;
+
+    inherit (inputs.fmway-nix) fmway;
 
     # Will be imported to configuration and home-manager
     genSpecialArgs = { ... } @ var: let
@@ -72,7 +59,7 @@
         inputs = lib.recursiveUpdate inputs (if var ? inputs && builtins.isAttrs var.inputs then var.inputs else {});
         outputs = lib.recursiveUpdate outputs (if var ? outputs && builtins.isAttrs var.outputs then var.outputs else {});
         system = if var ? system && builtins.isString var.system then var.system else system;
-        inherit (fmway-nix) lib;
+        inherit (inputs.fmway-nix) lib;
         root-path = if var ? root-path then var.root-path else ./.;
         extraSpecialArgs = fmway.excludeItems [ "lib" ] specialArgs;
       } // (fmway.excludeItems [ "inputs" "outputs" "system" "root-path" ] var);
@@ -93,12 +80,13 @@
       "${name}".imports = lib.flatten [ self.${name} ];
     }) rec { 
       default.imports = lib.flatten (map (x: self.${x}) selfNames);
-      defaultModules = [
+      defaultModules = with inputs; [
         default
         fmway-nix.nixosModules.default
         disko.nixosModules.default
         catppuccin.nixosModules.catppuccin
         home-manager.nixosModules.home-manager
+        nix-flatpak.nixosModules.nix-flatpak
         # fingerprint-sensor.nixosModules.open-fprintd
         # fingerprint-sensor.nixosModules.python-validity
         agenix.nixosModules.default
@@ -108,18 +96,22 @@
 
   in {
     inherit nixosModules fmway genSpecialArgs;
+    templates.default = {
+      path = ./.;
+      description = "My Nixos Configuration";
+    };
     nixosConfigurations = {
       Namaku1801 = lib.makeOverridable lib.nixosSystem {
         inherit system;
         specialArgs = genSpecialArgs {
           inherit inputs outputs system;
         };
-        modules = nixosModules.defaultModules ++ [
+        modules = nixosModules.defaultModules ++ (with inputs; [
           ./configuration.nix
           ./hardware-configuration.nix
           ./disk.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
-        ];
+        ]);
       };
     };
     # inherit (self.nixosConfigurations.Namaku1801) config lib;

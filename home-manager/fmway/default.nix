@@ -7,17 +7,16 @@
     getEnv
     genPaths
   ;
-
-  inherit (lib.fmway)
-    matchers
-    customImport
-    # genTreeImports
-  ;
-in customImport
-{
-  imports = [ ./desktop ];
+in {
+  imports = [
+    ./desktop
+  ];
 
   programs.home-manager.enable = true;
+
+  dconf = import ./dconf.nix variables;
+  services.flatpak = import ./flatpak.nix;
+
   home = rec {
     username = "fmway";
     homeDirectory = "/home/${username}";
@@ -66,7 +65,7 @@ in customImport
       cwd = ./programs;
       auto-enable = true;
       includes = let
-        inherit (matchers) extension jsonc;
+        inherit (lib.fmway.matchers) extension jsonc;
       in [
         (extension "fish")
         (extension "css")
@@ -81,8 +80,4 @@ in customImport
     script.enable = true;
     script.cwd = ./scripts;
   };
-}
-{
-  folder = ./.;
-  inherit variables;
 }
