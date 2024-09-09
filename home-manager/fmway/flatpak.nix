@@ -9,10 +9,10 @@
     onCalendar = "weekly"; # Default value
   };
 
-  overrides = {
-    global = {
+  # overrides = {
+    # global = {
       # Force Wayland by default
-      Context.sockets = ["wayland" "!x11" "!fallback-x11"];
+      # Context.sockets = ["wayland" "!x11" "!fallback-x11"];
 
       # Environment = {
         # Fix un-themed cursor in some Wayland apps
@@ -21,7 +21,7 @@
         # Force correct theme for some GTK apps
         # GTK_THEME = "Adwaita:dark";
       # };
-    };
+    # };
 
     # "com.visualstudio.code".Context = {
     #   filesystems = [
@@ -35,5 +35,5 @@
     # };
 
     # "org.onlyoffice.desktopeditors".Context.sockets = ["x11"]; # No Wayland support
-  };
+  # };
 }
