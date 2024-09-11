@@ -9,6 +9,7 @@ in { packages = {
       hash = "sha256-MIPKfwIZQah6K+WOQZsTpVcOrws+f4oVa7BoW29K5BA=";
     };
     isElectron = true;
+    extraPkgs = pkgs: [ pkgs.libsecret ];
     # x11Only = true;
   };
   # bootstrap-studio = rec {
