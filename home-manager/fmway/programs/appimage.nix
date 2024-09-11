@@ -1,7 +1,16 @@
-# { pkgs, ... }:
+{ pkgs, ... }:
 let
-  # inherit (pkgs) fetchurl;
+  inherit (pkgs) fetchurl;
 in {
+  anytype = rec {
+    version = "0.42.8";
+    src = fetchurl {
+      url = "https://github.com/anyproto/anytype-ts/releases/download/v${version}/Anytype-${version}.AppImage";
+      hash = "sha256-MIPKfwIZQah6K+WOQZsTpVcOrws+f4oVa7BoW29K5BA=";
+    };
+    isElectron = true;
+    # x11Only = true;
+  };
   # bootstrap-studio = rec {
   #   version = "6.7.2";
   #   src = fetchurl {

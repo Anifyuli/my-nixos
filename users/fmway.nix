@@ -38,7 +38,7 @@
     zoom-us
     libreoffice-fresh
     zotero-beta
-    anytype
+    # anytype
     # kdenlive
     # custom.obs-studio
 
