@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   inherit (pkgs) fetchurl;
-in {
+in { packages = {
   anytype = rec {
     version = "0.42.8";
     src = fetchurl {
@@ -32,4 +32,4 @@ in {
   #     hash = "sha256-Gwd4tZ0q1fYxumElqbzScrt+NWJDjc0xZtMx6JMLUVo=";
   #   };
   # };
-}
+}; }
