@@ -167,11 +167,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1725341510,
-        "narHash": "sha256-bEgzXFjojzABf2YLZIer1rcSMQ7/uB2SMr1w+hIa3c4=",
+        "lastModified": 1726231778,
+        "narHash": "sha256-NaOpvq9m9fT32TEmPSCXV6658FM0hk1CeCYFLviZtxw=",
         "owner": "fmway",
         "repo": "fmpkgs",
-        "rev": "f3137d2e6f654195327b86dbfefa0cf7d5336720",
+        "rev": "022c8a8b4d95b4d257349fcf5e59a134395ce68b",
         "type": "github"
       },
       "original": {
@@ -402,11 +402,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1725103162,
-        "narHash": "sha256-Ym04C5+qovuQDYL/rKWSR+WESseQBbNAe5DsXNx5trY=",
+        "lastModified": 1725983898,
+        "narHash": "sha256-4b3A9zPpxAxLnkF9MawJNHDtOOl6ruL0r6Og1TEDGCE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "12228ff1752d7b7624a54e9c1af4b222b3c1073b",
+        "rev": "1355a0cbfeac61d785b7183c0caaec1f97361b43",
         "type": "github"
       },
       "original": {
