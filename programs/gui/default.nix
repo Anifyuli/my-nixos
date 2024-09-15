@@ -33,6 +33,7 @@
     blur-my-shell
     # net-speed
     totp
+    bing-wallpaper-changer
     cloudflare-warp-toggle
     system-monitor
     weather-oclock

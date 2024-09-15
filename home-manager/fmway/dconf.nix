@@ -31,6 +31,9 @@ in {
         cloudflare-warp-toggle
         system-monitor
         weather-oclock
+        bing-wallpaper-changer
+        "emoji-copy@felipeftn"
+        "lilypad@shendrew.github.io"
       ]);
 
       # extensions settings
