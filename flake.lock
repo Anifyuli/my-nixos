@@ -167,11 +167,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1726378556,
-        "narHash": "sha256-FZS3mk53aqMZzuqyjcndN9oYbR9Fc4BT+oYFDCo/f88=",
+        "lastModified": 1726395277,
+        "narHash": "sha256-25JXVC8Ojw7t+xWDzRYSDaNKtryQzGpvEsCNIpcz5Hs=",
         "owner": "fmway",
         "repo": "fmpkgs",
-        "rev": "5dd820c6bfa7769de3007dd3a86f9027d1523ada",
+        "rev": "9614b04e397137833ad44e910ef7dde68cdf6cb1",
         "type": "github"
       },
       "original": {
