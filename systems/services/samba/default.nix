@@ -15,6 +15,6 @@
     "guest account" = "nobody";
     "map to guest" = "bad user";
   };
-  securityType = "user";
+  security = "user";
   openFirewall = true;
 }
