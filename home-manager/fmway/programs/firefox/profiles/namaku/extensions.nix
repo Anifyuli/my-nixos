@@ -7,7 +7,7 @@
   search-by-image
   firefox-color
   vue-js-devtools
-]) ++ (with pkgs.fmpkgs.firefoxAddons; [
+]) ++ (with pkgs.fmpkgs.firefox-addons; [
   what-font
   wakatime
   stayfree
