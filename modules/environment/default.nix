@@ -1,17 +1,6 @@
-# programs.nix for managing system programs.
-{config, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
-  # Import configurations for Apache2, MariaDB, PHP stack.
-  imports = [
-    ./desktop.nix           # Desktop configurations
-    ./nix-ld.nix            # nix-ld configurations
-    ./overrides.nix         # Override packages
-    ./programs.nix          # Spesific programs
-    ./services.nix          # Service configurations
-    ./virtualisation.nix    # Virtualisation configurations
-  ];
-
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [ 
@@ -24,11 +13,13 @@
     cmake
     desktop-file-utils
     docker-compose
+    distrobox
     ffmpeg-full
     flutter
     fwupd
     git
     gst_all_1.gstreamer
+    gtop
     inxi
     ninja
     nodePackages_latest.nodejs

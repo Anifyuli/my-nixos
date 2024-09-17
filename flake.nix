@@ -3,23 +3,16 @@
   description = "My NixOS configuration with Flakes";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # follow unstable channel
-    nixpkgs-23-11.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # NixOS unstable channel
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
     home-manager.url = "github:nix-community/home-manager/master"; # Home Manager channel
-    # Android tools Flakes
     android-nixpkgs = {
-      url = "github:tadfisher/android-nixpkgs";
+      url = "github:tadfisher/android-nixpkgs"; # Android tools Flakes
       inputs.nixpkgs.follows = "nixpkgs";
     }; 
-    # 06cb:009a fingerprint support Flakes
-    nixos-06cb-009a-fingerprint-sensor = {
-      url = "github:ahbnr/nixos-06cb-009a-fingerprint-sensor";
-      inputs.nixpkgs.follows = "nixpkgs-23-11";
-    };
   };	
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, android-nixpkgs, nixos-06cb-009a-fingerprint-sensor, ... } @ inputs : let
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, android-nixpkgs, ... } @ inputs : let
     inherit (self) outputs; # to export the output variable
     system = "x86_64-linux"; # your system
     genericModules = [
@@ -38,11 +31,11 @@
     home-manager.useGlobalPkgs = true;
     home-manager.useUserPackages = true;
     imports = [
-      ./home-manager/home.nix # your home-manager config
+      ./modules/home # home-manager configs
     ];
   }
 
-  # closure for adding overlays
+  # Closure for adding overlays
   (_: {
    nixpkgs.overlays = [
       overlay-androidsdk
@@ -50,7 +43,7 @@
    })
   ];
 
-  # list overlays 
+  # Overlays lists
     overlay-androidsdk = _final: _prev: {
       android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
           cmdline-tools-latest
@@ -64,16 +57,14 @@
     in
     {
       nixosConfigurations = {
-        # Your Computer name (hostname)
+        # Computer name (hostname)
         ThinkPad-X280 = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs; # so you can access inputs outputs in your configuration.nix, etc
+          inherit inputs outputs; # Flakes can access inputs outputs in your configuration.nix, etc
         };
         modules = genericModules ++ [
           nixos-hardware.nixosModules.lenovo-thinkpad-x280
-          nixos-06cb-009a-fingerprint-sensor.nixosModules.open-fprintd
-          nixos-06cb-009a-fingerprint-sensor.nixosModules.python-validity
         ];
       };
     };

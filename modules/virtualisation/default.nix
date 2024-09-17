@@ -1,9 +1,7 @@
-# virtualization.nix for virtualisation & container configurations
 {config, pkgs,  ...}:
 
 {
   # VirtualBox virtualisation support
-  users.extraGroups.vboxusers.members = [ "anifyuli" ];
   virtualisation.virtualbox = {
     host = {
       enable = true;

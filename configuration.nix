@@ -4,21 +4,9 @@
 {
   imports =
     [       
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-       
-      # Programs configurations.
-      ./programs
-      
-      # System configurations.
-      ./systems
-      
-      # Users configurations & user-installed packages.
-      ./users
+      ./hardware-configuration.nix # Include the results of the hardware scan
+      ./modules # NixOS system configurations 
     ];
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # Change nix.conf value
   nix.extraOptions = ''

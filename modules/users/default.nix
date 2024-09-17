@@ -2,8 +2,7 @@
 {config, pkgs, ...}:
 
 {
-
-# Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with ‘passwd’
   users.users.anifyuli = {
     isNormalUser = true;
     shell = pkgs.bash;
@@ -40,4 +39,7 @@
       zotero-beta
     ];
   };
+ 
+  # Register our user to VirtualBox extra groups
+  users.extraGroups.vboxusers.members = [ "anifyuli" ];
 }

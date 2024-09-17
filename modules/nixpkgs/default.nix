@@ -1,6 +1,9 @@
-# overrides.nix for declare overrided packages
-{config, pkgs, ...}:
+{ config, pkgs, ... }:
+
 {
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Nautilus overlay for show better audio & video metadata
   nixpkgs.overlays = [(self: super: {
     gnome = super.gnome.overrideScope' (gself: gsuper: {
@@ -17,5 +20,4 @@
   nixpkgs.config.permittedInsecurePackages = [
     "python3.12-youtube-dl-2021.12.17"
   ];
-
 }
