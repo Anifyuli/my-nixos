@@ -1,9 +1,6 @@
-# network.nix for network system stuff
-{config, pkgs, ...}:
+{ config, pkgs, ... }:
 
 {
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Firewall 
   networking.firewall = {
     allowedTCPPorts = [ 80 443 ];
@@ -24,5 +21,5 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 }
