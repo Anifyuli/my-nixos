@@ -19,6 +19,14 @@
   programs.captive-browser.enable = true;
   programs.captive-browser.interface = "wlp59s0";
 
+  # Evolution email client
+  programs.evolution = {
+    enable = true;
+    plugins = with pkgs; [
+      evolution-ews
+    ];
+  };
+  
   # Java configs
   programs.java = {
     enable = true;
@@ -91,7 +99,6 @@
   programs.winbox = {
     enable = true;
     openFirewall = true;
-    package = pkgs.winbox;
   };
   
   # Add XWayland 
