@@ -83,24 +83,25 @@
   services.xserver.enable = true;
   services.xserver.desktopManager.xterm.enable = false;
 
-  # Enable the GNOME Desktop Environment
+  # Enable the GNOME Desktop Environment & Dconf configurations
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager)
-  services.libinput.enable = true;
-
-  # Override default Dconf settings
-  services.xserver.desktopManager.gnome = { 
+  services.xserver.desktopManager.gnome = {
+    enable = true;
     extraGSettingsOverrides = ''
       [org.gnome.desktop.peripherals.touchpad]
       tap-to-click=true
-    '';
+    ''; # Enable tap-to-click on GDM
     extraGSettingsOverridePackages = with pkgs; [
       gsettings-desktop-schemas # for org.gnome.desktop
       gnome-shell # for org.gnome.shell
     ];
   };
+
+  # Evolution data server
+  services.gnome.evolution-data-server.enable = true;
+
+  # Enable touchpad support (enabled default in most desktopManager)
+  services.libinput.enable = true;
 
   # Exclude packages from the X server
   services.xserver.excludePackages = with pkgs; [

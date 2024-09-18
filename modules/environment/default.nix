@@ -13,7 +13,6 @@
     cmake
     desktop-file-utils
     docker-compose
-    distrobox
     ffmpeg-full
     flutter
     fwupd
@@ -34,6 +33,11 @@
     usbutils
     vim
     wget
+  ];
+
+  # Exclude GNOME default apps
+  environment.gnome.excludePackages = with pkgs; [
+    geary
   ];
 
   # Add environment variables.
