@@ -8,6 +8,7 @@
       libnotify
       gnugrep
       gnused
+      sysvtools
     ])}
 
     SHUTDOWN_WITH=${toString (lib.attrByPath [ "data" "battery_limit" ] 5 config)}

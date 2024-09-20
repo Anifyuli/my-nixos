@@ -1,8 +1,8 @@
 {
   wantedBy = [ "timers.target" ];
   timerConfig = {
-    OnBootSec = "3m";
-    OnUnitActiveSec = "3m";
+    OnBootSec = "2m";
+    OnUnitActiveSec = "2m";
     Unit = "auto-shutdown.service";
   };
 }
