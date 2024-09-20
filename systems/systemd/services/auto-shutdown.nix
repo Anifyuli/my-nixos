@@ -12,7 +12,7 @@
       sysvtools
     ])}
 
-    SHUTDOWN_WITH=${toString (lib.attrByPath [ "data" "battery_limit" ] 5 config)}
+    export SHUTDOWN_WITH=${toString (lib.attrByPath [ "data" "battery_limit" ] 5 config)}
 
     ${lib.fileContents ./auto-shutdown.sh}
   '';

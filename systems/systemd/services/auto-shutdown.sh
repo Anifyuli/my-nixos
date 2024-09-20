@@ -9,6 +9,8 @@ NOTIFY_TITLE="Baterai sekarat"
 NOTIFY_ICON=battery_empty
 NOTIFY_MESSAGE="Mati sia anjing!!!"
 
+SHUTDOWN_WITH=${SHUTDOWN_WITH:-5}
+
 WM=gnome-shell
 WMPID=$(pidof ${WM})
 WMUSER=$(ps -e -o user,comm | grep ${WM} | cut -f1 -d " ")
