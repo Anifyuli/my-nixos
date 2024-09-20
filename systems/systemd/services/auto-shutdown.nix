@@ -1,6 +1,6 @@
 { pkgs, lib, config, ... }:
 {
-  script  = pkgs.writeScriptBin "auto-shutdown.sh" ''
+  script  = ''
     #!${lib.getExe pkgs.bash}
 
     export PATH=$PATH:${lib.makeBinPath (with pkgs;[
