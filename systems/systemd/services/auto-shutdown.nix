@@ -8,6 +8,7 @@
       libnotify
       gnugrep
       gnused
+      gawk
       ps
       sysvtools
     ])}
