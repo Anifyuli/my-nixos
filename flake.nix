@@ -17,12 +17,12 @@
     system = "x86_64-linux"; # your system
     genericModules = [
       ./configuration.nix
-    {
+      {
     # Fix for nixpkgs without flakes
-      nix.registry.nixos.flake = inputs.self;
-      environment.etc."nix/inputs/nixpkgs".source = nixpkgs.outPath;
-      nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
-    }
+    nix.registry.nixos.flake = inputs.self;
+    environment.etc."nix/inputs/nixpkgs".source = nixpkgs.outPath;
+    nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
+  }
 
   # Home manager
   home-manager.nixosModules.home-manager
@@ -37,36 +37,36 @@
 
   # Closure for adding overlays
   (_: {
-   nixpkgs.overlays = [
+    nixpkgs.overlays = [
       overlay-androidsdk
     ];
-   })
-  ];
+  })
+];
 
   # Overlays lists
-    overlay-androidsdk = _final: _prev: {
-      android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
-          cmdline-tools-latest
-          build-tools-34-0-0
-          platform-tools
-          platforms-android-34
-          emulator
-      ]);
-    };
+  overlay-androidsdk = _final: _prev: {
+    android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
+      cmdline-tools-latest
+      build-tools-34-0-0
+      platform-tools
+      platforms-android-34
+      emulator
+    ]);
+  };
 
-    in
-    {
-      nixosConfigurations = {
+  in
+  {
+    nixosConfigurations = {
         # Computer name (hostname)
         ThinkPad-X280 = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs outputs; # Flakes can access inputs outputs in your configuration.nix, etc
+          inherit system;
+          specialArgs = {
+            inherit inputs outputs; # Flakes can access inputs outputs in your configuration.nix, etc
+          };
+          modules = genericModules ++ [
+            nixos-hardware.nixosModules.lenovo-thinkpad-x280
+          ];
         };
-        modules = genericModules ++ [
-          nixos-hardware.nixosModules.lenovo-thinkpad-x280
-        ];
       };
     };
-  };
-}
+  }
