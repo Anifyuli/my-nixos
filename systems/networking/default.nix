@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, config, lib, ... }: {
   hostName = "Namaku1801"; # Define your hostname.
   hostId = "4970ef8d"; # required for zfs
   # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -23,6 +23,14 @@
       # "download.mikrotik.com"
     ];
   };
+
+  # enable NAT for wireguard
+  nat.enable = lib.mkIf config.networking.wireguard.enable true;
+  nat.externalInterface =
+    if config.data ? nat-outInterface then
+      config.data.nat-outInterface
+    else "wlp3s0";
+  nat.internalInterfaces = builtins.attrNames config.networking.wireguard.interfaces;
 
   # Open ports in the firewall.
   # firewall.allowedTCPPorts = [ ... ];

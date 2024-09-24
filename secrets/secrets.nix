@@ -22,5 +22,6 @@ let
 
 in mySecret [ 
   "cloudflared"
+  "wg0-private"
   # "fmway"
 ] 
