@@ -71,5 +71,40 @@ in {
       #   picture-uri-dark = "file:///<path>";
       # };
     };
-  };
+  } // 
+  # custom shortuct
+  (let
+    keybindings = l: # list of { name :: string, binding :: string, command :: string }
+      builtins.listToAttrs (lib.lists.imap0 (i: v: let
+        key = "custom${toString i}";
+      in {
+        name = "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/${key}";
+        value = with lib.gvariant; {
+          name = mkString (if v ? name then v.name else key);
+          binding = mkString v.binding;
+          command = mkString v.command;
+        };
+      }) l);
+  in keybindings [
+    {
+      name = "increment cursor size";
+      binding = "<Alt><Super>equal";
+      command = pkgs.writeScript "increment-cursor" ''
+        #!${lib.getExe pkgs.bash}
+        CURRENT=$(gsettings get org.gnome.desktop.interface cursor-size)
+        gsettings set org.gnome.desktop.interface cursor-size $(( CURRENT + 1 ))
+      '';
+    }
+    {
+      name = "decrement cursor size";
+      binding = "<Alt><Super>minus";
+      command = pkgs.writeScript "decrement-cursor" ''
+        #!${lib.getExe pkgs.bash}
+        CURRENT=$(gsettings get org.gnome.desktop.interface cursor-size)
+        [ ! -z $CURRENT ] &&
+          [ $CURRENT -ge 1 ] &&
+          gsettings set org.gnome.desktop.interface cursor-size $(( CURRENT - 1 ))
+      '';
+    }
+  ]);
 }
