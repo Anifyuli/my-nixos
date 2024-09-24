@@ -19,9 +19,24 @@ in {
   "ytplaylist" = "yt-dlp --output '%(playlist_title)s/%(playlist_index)s. %(title)s.%(ext)s'";
   "m3v"  = "mpv --no-video";
 
-  "nob"  = "nh os build /etc/nixos --verbose";
-  "nobo" = "nh os boot /etc/nixos --verbose";
-  "nos"  = "nh os switch /etc/nixos --verbose";
+  "nob"   = "nh os build /etc/nixos --verbose";
+  "nobo"  = "nh os boot /etc/nixos --verbose";
+  "nos"   = "nh os switch /etc/nixos --verbose";
+  "nofu"  = ''
+    cd /etc/nixos
+    doas nix flake update
+    cd -
+  '';
+  "nofl"  = ''
+    cd /etc/nixos
+    doas nix flake lock
+    cd -
+  '';
+  "noflu" = with-cursor ''
+    cd /etc/nixos
+    doas nix flake lock --update-input !
+    cd -
+  '';
 
   "gclg"   = with-cursor "git clone https://github.com/!";
   "gclgl"  = with-cursor "git clone https://gitlab.com/!";
