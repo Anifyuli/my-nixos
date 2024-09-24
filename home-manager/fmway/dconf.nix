@@ -82,7 +82,7 @@ in {
         value = with lib.gvariant; {
           name = mkString (if v ? name then v.name else key);
           binding = mkString v.binding;
-          command = mkString v.command;
+          command = mkString "${v.command}";
         };
       }) l);
   in keybindings [
