@@ -12,11 +12,10 @@
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
-  
+
   # Home Manager configurations.
   home-manager.backupFileExtension = "backup";
 
   # NixOS version, change it if latest update released
   system.stateVersion = "unstable";
-
 }

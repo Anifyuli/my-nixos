@@ -34,7 +34,7 @@
       obs-studio
       postman
       smile
-      vscode-fhs
+      vscode
       youtube-music
       zotero-beta
     ];
