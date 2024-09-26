@@ -16,7 +16,7 @@ WMUSER=$(ps -e -o pid,user,comm | grep ${WMPID} | awk '{print $2}')
 DBUS=$(cat /proc/${WMPID}/environ | tr \0 \n | grep 'NOTIFY_SOCKET')
 
 if [[ $BATTERY_CAPACITY -le $SHUTDOWN_WITH && $BATTERY_STATUS = "Discharging" ]]; then
-	/bin/su ${WMUSER} -c "${DBUS} ${NOTIFY_SEND} --urgency=critical --hint=int:transient:1 --icon $NOTIFY_ICON '$NOTIFY_TITLE' '$NOTIFY_MESSAGE'"
+	su ${WMUSER} -c "${DBUS} ${NOTIFY_SEND} --urgency=critical --hint=int:transient:1 --icon $NOTIFY_ICON '$NOTIFY_TITLE' '$NOTIFY_MESSAGE'"
 	sleep 60s
 	BATTERY_STATUS=$(cat /sys/class/power_supply/BAT0/status)
 	if [[ $BATTERY_STATUS = "Discharging" ]]; then
