@@ -7,6 +7,7 @@
       systemd
       libnotify
       gnugrep
+      su
       gnused
       gawk
       ps
