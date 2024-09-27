@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 {
   # bindfs to integrate fonts & icons.
-  system.fsPackages = [ pkgs.bindfs ];
+  environment.systemPackages = [ pkgs.bindfs ];
   fileSystems = let
     mkRoSymBind = path: {
       device = path;
