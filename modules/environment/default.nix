@@ -7,6 +7,7 @@
     adwaita-icon-theme
     android-studio
     android-tools
+    bindfs
     btop
     clang
     cloudflare-warp

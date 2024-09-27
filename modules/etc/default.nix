@@ -27,12 +27,11 @@
   security.polkit.enable = true; 
 
   # bindfs for Flatpak fonts & icons integration.
-  system.fsPackages = [ pkgs.bindfs ];
   fileSystems = let
     mkRoSymBind = path: {
       device = path;
       fsType = "fuse.bindfs";
-      options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
+      options = [ "bind" "ro" "resolve-symlinks" "x-gvfs-hide" ];
     };
     aggregatedIcons = pkgs.buildEnv {
       name = "system-icons";

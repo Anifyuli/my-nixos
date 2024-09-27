@@ -1,6 +1,4 @@
 ## Home Manager as NixOS module
-{ config, pkgs, modulesPath, ... }:
-
 {
   home-manager.users.anifyuli = { pkgs, ... }: {
   # Home Manager needs a bit of information about you and the
@@ -11,6 +9,7 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     exercism
+    nixd
     php82Packages.composer
     pnpm
   ];
@@ -92,18 +91,31 @@
       tabstop = 2;
     };
     extraConfig = ''
-        colorscheme gruvbox
-        set softtabstop=2
-        set smartindent
+      " Enable softtabstop & smartindent
+      set softtabstop=2
+      set smartindent
+
+      " Enable colorscheme
+      colorscheme gruvbox
+
+      " Airline & theming it
+      let g:airline#extensions#tabline#left_sep = ' '
+      let g:airline#extensions#tabline#left_alt_sep = '|'
+      let g:airline#extensions#tabline#formatter = 'unique_tail'
+      let g:airline_theme='gruvbox'
     '';
     plugins = with pkgs.vimPlugins; [
       gruvbox-community
+      vim-airline
+      vim-airline-themes
       vim-lastplace
+      vim-lsp
+      vim-lsp-settings
       vim-nix
     ];
   };
 
   # Home Manager version
   home.stateVersion = "24.11";  
-};
+  };
 }
