@@ -23,7 +23,7 @@
     firefoxpwa # pwa for firefox
 
     # terminal
-    contour
+    # contour
     # wezterm
   ] ++ (with gnomeExtensions; [
     paperwm
