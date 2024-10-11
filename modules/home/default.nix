@@ -8,8 +8,11 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    devenv
     exercism
+    gradle
     nixd
+    nodePackages_latest.expo-cli
     php82Packages.composer
     pnpm
   ];
@@ -58,7 +61,9 @@
 
   # Environment variables for $HOME
   home.sessionVariables = {
-    ANDROID_SDK_ROOT = "$HOME/.android/sdk";
+    ANDROID_HOME = "$HOME/.android/sdk";
+    ANDROID_AVD_HOME = "$HOME/.android/avd";
+    ANDROID_SDK_ROOT = "$ANDROID_HOME";
   };
 
   # dircolors configurations
@@ -73,7 +78,6 @@
     goBin = ".go/bin";
     goPath = ".go";
   };
-
 
   # Fastfetch configurations
   programs.fastfetch = import ./config/fastfetch.nix;
@@ -99,9 +103,10 @@
       colorscheme gruvbox
 
       " Airline & theming it
+      let g:airline#extensions#tabline#enabled = 1
       let g:airline#extensions#tabline#left_sep = ' '
       let g:airline#extensions#tabline#left_alt_sep = '|'
-      let g:airline#extensions#tabline#formatter = 'unique_tail'
+      let g:airline#extensions#tabline#formatter = 'default'
       let g:airline_theme='gruvbox'
     '';
     plugins = with pkgs.vimPlugins; [

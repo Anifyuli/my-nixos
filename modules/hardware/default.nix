@@ -1,5 +1,3 @@
-{ config, pkgs, ... }:
-
 {
   # Bluetooth configurations
   hardware.bluetooth.enable = true;

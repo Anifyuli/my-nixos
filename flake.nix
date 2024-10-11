@@ -6,13 +6,9 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # NixOS unstable channel
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
     home-manager.url = "github:nix-community/home-manager/master"; # Home Manager channel
-    android-nixpkgs = {
-      url = "github:tadfisher/android-nixpkgs"; # Android tools Flakes
-      inputs.nixpkgs.follows = "nixpkgs";
-    }; 
   };	
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, android-nixpkgs, ... } @ inputs : let
+  outputs = { self, nixpkgs, nixos-hardware, home-manager,  ... } @ inputs : let
     inherit (self) outputs; # to export the output variable
     system = "x86_64-linux"; # your system
     genericModules = [
@@ -37,22 +33,9 @@
 
   # Closure for adding overlays
   (_: {
-    nixpkgs.overlays = [
-      overlay-androidsdk
-    ];
+    nixpkgs.overlays = [];
   })
 ];
-
-  # Overlays lists
-  overlay-androidsdk = _final: _prev: {
-    android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
-      cmdline-tools-latest
-      build-tools-34-0-0
-      platform-tools
-      platforms-android-34
-      emulator
-    ]);
-  };
 
   in
   {

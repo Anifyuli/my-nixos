@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{ pkgs, ...}:
 
 {
   # Apache2 server
@@ -44,6 +44,9 @@
   # Enable the OpenSSH daemon
   services.openssh.enable = true;
 
+  # direnv setup
+  programs.direnv.enable = true;
+
   # Enable Flatpak support
   services.flatpak.enable =  true;
   xdg.portal.enable = true;
@@ -64,6 +67,8 @@
   services.earlyoom = {
     enable = true;
     enableNotifications = true;
+    freeMemThreshold = 2;
+    freeSwapThreshold = 3;
   };
 
   # Enable CUPS to document printings

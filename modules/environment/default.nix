@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # List packages installed in the system profile. To search, run:
@@ -43,8 +43,8 @@
 
   # Add environment variables.
   environment.variables = {
-    LIBVA_DRIVER_NAME = "iHD";
     CHROME_EXECUTABLE = "google-chrome-stable";
+    LIBVA_DRIVER_NAME = "iHD";
   };
 
 }

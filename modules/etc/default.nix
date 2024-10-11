@@ -23,6 +23,16 @@
   # Enable rtkit for addition audio configurations
   security.rtkit.enable = true; 
 
+  # Enable GTK icon cache
+  gtk.iconCache.enable = true;
+
+  # Qt configurations
+  qt = {
+    enable = true;
+    platformTheme = "gtk2";
+    style = "gtk2";
+  };
+
   # Enable polkit for security reason
   security.polkit.enable = true; 
 
