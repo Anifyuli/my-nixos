@@ -11,8 +11,6 @@
   
   protontricks.enable = true;
   extraPackages = with pkgs; [
-    glxinfo
-    bumblebee
   ];
   extraCompatPackages = with pkgs; [
     proton-ge-bin
