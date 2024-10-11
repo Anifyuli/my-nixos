@@ -1,3 +1,6 @@
+set softtabstop=2
+set smartindent
+
 " Enable colorscheme
 colorscheme gruvbox
 
