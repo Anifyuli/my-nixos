@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   # nix-ld for handling dynamic lib
-  enable = true;
+  enable = false;
   libraries = with pkgs; [
     glibc
     openssl
