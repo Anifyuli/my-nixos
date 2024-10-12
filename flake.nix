@@ -22,7 +22,7 @@
       url = "github:fmway/fmway.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
+    # nix-flatpak.url = "github:gmodena/nix-flatpak";
     fmpkgs.url = "github:fmway/fmpkgs/master";
     # inputs.nixos-shell = {
     #   url = "github:Mic92/nixos-shell";
@@ -86,7 +86,7 @@
         disko.nixosModules.default
         catppuccin.nixosModules.catppuccin
         home-manager.nixosModules.home-manager
-        nix-flatpak.nixosModules.nix-flatpak
+        # nix-flatpak.nixosModules.nix-flatpak
         # fingerprint-sensor.nixosModules.open-fprintd
         # fingerprint-sensor.nixosModules.python-validity
         agenix.nixosModules.default

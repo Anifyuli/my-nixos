@@ -15,7 +15,7 @@ in {
   programs.home-manager.enable = true;
 
   dconf = import ./dconf.nix variables;
-  services.flatpak = import ./flatpak.nix;
+  # services.flatpak = import ./flatpak.nix;
 
   home = rec {
     username = "fmway";
