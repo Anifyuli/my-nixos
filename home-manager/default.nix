@@ -29,7 +29,7 @@ in {
     sharedModules = with inputs; [
       catppuccin.homeManagerModules.catppuccin
       fmway-nix.homeManagerModules.default
-      nix-flatpak.homeManagerModules.nix-flatpak
+      # nix-flatpak.homeManagerModules.nix-flatpak
     ];
     useGlobalPkgs = true;
     useUserPackages = true;
