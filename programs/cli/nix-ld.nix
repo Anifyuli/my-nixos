@@ -1,10 +1,11 @@
 { pkgs, ... }:
 {
   # nix-ld for handling dynamic lib
-  enable = false;
+  enable = true;
   libraries = with pkgs; [
     glibc
     openssl
-    gcc.cc.lib
+    # gcc.cc.lib
+    clang.cc.lib
   ];
 }
