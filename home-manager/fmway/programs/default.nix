@@ -9,7 +9,7 @@
   # ls alternative
   eza = {
     enable = true;
-    icons = true; # display icons
+    icons = "auto"; # display icons
     git = true; # List each file's Git status if tracked or ignored
   };
 
