@@ -1,4 +1,4 @@
-{config, pkgs,  ...}:
+{pkgs,  ...}:
 
 {
   # VirtualBox virtualisation support

@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{pkgs, ...}:
 
 {
   # Some programs need SUID wrappers, can be configured further or are started in user sessions
@@ -33,6 +33,9 @@
     package = pkgs.jdk17;
   };
 
+  # npm installation
+  programs.npm.enable = true;
+
   # Enable nix-ld
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
@@ -55,6 +58,7 @@
     icu
     libGL
     libappindicator-gtk3
+    libbsd
     libdrm
     libglvnd
     libnotify
@@ -74,6 +78,7 @@
     stdenv.cc.cc
     systemd
     vulkan-loader
+    xcb-util-cursor
     xorg.libX11
     xorg.libXScrnSaver
     xorg.libXcomposite

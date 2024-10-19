@@ -1,5 +1,5 @@
 # users.nix for users and user-installed packages.
-{config, pkgs, ...}:
+{pkgs, ...}:
 
 {
   # Define a user account. Don't forget to set a password with ‘passwd’
@@ -33,6 +33,7 @@
       mongodb-compass
       obs-studio
       postman
+      scrcpy
       smile
       vscode
       youtube-music

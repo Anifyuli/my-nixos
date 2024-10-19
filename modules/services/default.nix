@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{ pkgs, ...}:
 
 {
   # Apache2 server
@@ -46,7 +46,6 @@
 
   # Enable Flatpak support
   services.flatpak.enable =  true;
-  xdg.portal.enable = true;
 
   # Enable touchegg for X11 gesture support
   services.touchegg.enable = true;
@@ -64,6 +63,8 @@
   services.earlyoom = {
     enable = true;
     enableNotifications = true;
+    freeMemThreshold = 2;
+    freeSwapThreshold = 3;
   };
 
   # Enable CUPS to document printings

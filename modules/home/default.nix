@@ -1,6 +1,4 @@
 ## Home Manager as NixOS module
-{ config, pkgs, modulesPath, ... }:
-
 {
   home-manager.users.anifyuli = { pkgs, ... }: {
   # Home Manager needs a bit of information about you and the
@@ -10,7 +8,14 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    cachix
+    devenv
     exercism
+    gradle
+    nixd
+    nixfmt-rfc-style
+    nixpkgs-fmt
+    # nodePackages_latest.expo-cli
     php82Packages.composer
     pnpm
   ];
@@ -51,6 +56,14 @@
     "warpstat" = "curl https://www.cloudflare.com/cdn-cgi/trace/";
   };
 
+  # direnv setup
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  # Session path
   home.sessionPath = [ 
     "$HOME/.android/sdk/cmdline-tools/latest/bin/"
     "$HOME/.android/sdk/emulator"
@@ -59,7 +72,9 @@
 
   # Environment variables for $HOME
   home.sessionVariables = {
-    ANDROID_SDK_ROOT = "$HOME/.android/sdk";
+    ANDROID_HOME = "$HOME/.android/sdk";
+    ANDROID_AVD_HOME = "$HOME/.android/avd";
+    ANDROID_SDK_ROOT = "$ANDROID_HOME";
   };
 
   # dircolors configurations
@@ -68,13 +83,12 @@
     enableBashIntegration = true;
   };
 
-  # Golang configurations.
+  # Golang configurations
   programs.go = {
     enable = true;
     goBin = ".go/bin";
     goPath = ".go";
   };
-
 
   # Fastfetch configurations
   programs.fastfetch = import ./config/fastfetch.nix;
@@ -92,18 +106,32 @@
       tabstop = 2;
     };
     extraConfig = ''
-        colorscheme gruvbox
-        set softtabstop=2
-        set smartindent
+      " Enable softtabstop & smartindent
+      set softtabstop=2
+      set smartindent
+
+      " Enable colorscheme
+      colorscheme gruvbox
+
+      " Airline & theming it
+      let g:airline#extensions#tabline#enabled = 1
+      let g:airline#extensions#tabline#left_sep = ' '
+      let g:airline#extensions#tabline#left_alt_sep = '|'
+      let g:airline#extensions#tabline#formatter = 'default'
+      let g:airline_theme='gruvbox'
     '';
     plugins = with pkgs.vimPlugins; [
       gruvbox-community
+      vim-airline
+      vim-airline-themes
       vim-lastplace
+      vim-lsp
+      vim-lsp-settings
       vim-nix
     ];
   };
 
   # Home Manager version
   home.stateVersion = "24.11";  
-};
+  };
 }

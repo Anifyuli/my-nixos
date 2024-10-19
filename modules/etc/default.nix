@@ -4,7 +4,7 @@
   # Set your timezone
   time.timeZone = "Asia/Jakarta";
 
-  # Select internationalisation properties.
+  # Select internationalisation properties
   i18n = {
      defaultLocale = "en_US.UTF-8";
      extraLocaleSettings = {
@@ -23,16 +23,33 @@
   # Enable rtkit for addition audio configurations
   security.rtkit.enable = true; 
 
+  # Enable GTK icon cache
+  gtk.iconCache.enable = true;
+
+  # XDG portals
+  xdg.portal = {
+    enable = true;
+    configPackages = with pkgs; [
+      gnome-session
+    ];
+  };
+
+  # Qt configurations
+  qt = {
+    enable = true;
+    platformTheme = "gtk2";
+    style = "gtk2";
+  };
+
   # Enable polkit for security reason
   security.polkit.enable = true; 
 
   # bindfs for Flatpak fonts & icons integration.
-  system.fsPackages = [ pkgs.bindfs ];
   fileSystems = let
     mkRoSymBind = path: {
       device = path;
       fsType = "fuse.bindfs";
-      options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
+      options = [ "bind" "ro" "resolve-symlinks" "x-gvfs-hide" ];
     };
     aggregatedIcons = pkgs.buildEnv {
       name = "system-icons";

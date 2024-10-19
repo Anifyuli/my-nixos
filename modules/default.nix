@@ -1,5 +1,3 @@
-{config, pkgs, ...}:
-
 {
   # Import configurations
   imports = [

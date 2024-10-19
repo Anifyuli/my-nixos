@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # List packages installed in the system profile. To search, run:
@@ -7,19 +7,20 @@
     adwaita-icon-theme
     android-studio
     android-tools
+    bindfs
     btop
     clang
     cloudflare-warp
     cmake
-    desktop-file-utils
     docker-compose
     ffmpeg-full
     flutter
     fwupd
     git
     gst_all_1.gstreamer
-    gtop
     inxi
+    lm_sensors
+    ncdu
     ninja
     nodePackages_latest.nodejs
     ntfs3g
@@ -29,6 +30,7 @@
     pkg-config-unwrapped
     qemu_kvm
     rar
+    smartmontools
     tree
     usbutils
     vim
@@ -42,8 +44,8 @@
 
   # Add environment variables.
   environment.variables = {
-    LIBVA_DRIVER_NAME = "iHD";
     CHROME_EXECUTABLE = "google-chrome-stable";
+    LIBVA_DRIVER_NAME = "iHD";
   };
 
 }
