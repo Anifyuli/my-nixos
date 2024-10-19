@@ -38,6 +38,7 @@
         };
       });
     })
+
   ];
 
   # Change yt-dlp to youtube-dl

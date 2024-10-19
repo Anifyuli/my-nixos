@@ -9,10 +9,11 @@
   };	
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager,  ... } @ inputs : let
-    inherit (self) outputs; # to export the output variable
-    system = "x86_64-linux"; # your system
+    inherit (self) outputs;   # to export the output variable
+    system = "x86_64-linux";  # your system
     genericModules = [
-      ./configuration.nix
+      ./cachix.nix         # cachix instance for devenv
+      ./configuration.nix  # NixOS system configurations
       {
     # Fix for nixpkgs without flakes
     nix.registry.nixos.flake = inputs.self;

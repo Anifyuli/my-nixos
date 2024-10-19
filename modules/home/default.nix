@@ -8,11 +8,14 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    cachix
     devenv
     exercism
     gradle
     nixd
-    nodePackages_latest.expo-cli
+    nixfmt-rfc-style
+    nixpkgs-fmt
+    # nodePackages_latest.expo-cli
     php82Packages.composer
     pnpm
   ];
@@ -53,6 +56,14 @@
     "warpstat" = "curl https://www.cloudflare.com/cdn-cgi/trace/";
   };
 
+  # direnv setup
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  # Session path
   home.sessionPath = [ 
     "$HOME/.android/sdk/cmdline-tools/latest/bin/"
     "$HOME/.android/sdk/emulator"
@@ -72,7 +83,7 @@
     enableBashIntegration = true;
   };
 
-  # Golang configurations.
+  # Golang configurations
   programs.go = {
     enable = true;
     goBin = ".go/bin";

@@ -44,12 +44,8 @@
   # Enable the OpenSSH daemon
   services.openssh.enable = true;
 
-  # direnv setup
-  programs.direnv.enable = true;
-
   # Enable Flatpak support
   services.flatpak.enable =  true;
-  xdg.portal.enable = true;
 
   # Enable touchegg for X11 gesture support
   services.touchegg.enable = true;

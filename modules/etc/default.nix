@@ -4,7 +4,7 @@
   # Set your timezone
   time.timeZone = "Asia/Jakarta";
 
-  # Select internationalisation properties.
+  # Select internationalisation properties
   i18n = {
      defaultLocale = "en_US.UTF-8";
      extraLocaleSettings = {
@@ -25,6 +25,14 @@
 
   # Enable GTK icon cache
   gtk.iconCache.enable = true;
+
+  # XDG portals
+  xdg.portal = {
+    enable = true;
+    configPackages = with pkgs; [
+      gnome-session
+    ];
+  };
 
   # Qt configurations
   qt = {

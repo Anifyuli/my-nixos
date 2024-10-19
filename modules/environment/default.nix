@@ -12,15 +12,15 @@
     clang
     cloudflare-warp
     cmake
-    desktop-file-utils
     docker-compose
     ffmpeg-full
     flutter
     fwupd
     git
     gst_all_1.gstreamer
-    gtop
     inxi
+    lm_sensors
+    ncdu
     ninja
     nodePackages_latest.nodejs
     ntfs3g
@@ -30,6 +30,7 @@
     pkg-config-unwrapped
     qemu_kvm
     rar
+    smartmontools
     tree
     usbutils
     vim

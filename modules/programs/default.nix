@@ -33,6 +33,9 @@
     package = pkgs.jdk17;
   };
 
+  # npm installation
+  programs.npm.enable = true;
+
   # Enable nix-ld
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
