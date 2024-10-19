@@ -38,7 +38,14 @@ in {
       keepEnv = true;
       persist = true;
       setEnv = [
-        "PATH"
+      ];
+    }
+    {
+      users = [ "fmway" ];
+      keepEnv = true;
+      persist = true;
+      setEnv = [ 
+        "PATH=/run/current-system/sw/bin:/etc/profiles/per-user/fmway"
       ];
     }
     ];
