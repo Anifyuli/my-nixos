@@ -22,21 +22,11 @@ in {
   "nob"   = "nh os build /etc/nixos --verbose";
   "nobo"  = "nh os boot /etc/nixos --verbose";
   "nos"   = "nh os switch /etc/nixos --verbose";
-  "nofu"  = ''
-    cd /etc/nixos
-    doas nix flake update
-    cd -
-  '';
-  "nofl"  = ''
-    cd /etc/nixos
-    doas nix flake lock
-    cd -
-  '';
-  "noflu" = with-cursor ''
-    cd /etc/nixos
-    doas nix flake lock --update-input !
-    cd -
-  '';
+  "nofu"  = "doas nix flake update --flake /etc/nixos";
+  "nfu"   = "nix flake update";
+  "nofl"  = "doas nix flake lock --flake /etc/nixos";
+  "nfl"   = "nix flake lock";
+  "nfit"  = "nix flake init --template";
 
   "gclg"   = with-cursor "git clone https://github.com/!";
   "gclgl"  = with-cursor "git clone https://gitlab.com/!";

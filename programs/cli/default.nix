@@ -69,4 +69,6 @@
     git-abbr # abbreviation / autocomplete git
     pisces # autoclose brackets parenthesis and quote
   ]);
+  programs.fish.enable = true;
+  programs.fish.useBabelfish = true;
 }
