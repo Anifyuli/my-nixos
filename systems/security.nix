@@ -33,19 +33,12 @@ in {
   doas = {
     enable = true;
     extraRules = [
-    # {
-    #   groups = [ "users" ];
-    #   keepEnv = true;
-    #   persist = true;
-    #   setEnv = [
-    #   ];
-    # }
     {
-      users = [ "fmway" ];
-      # keepEnv = true;
+      groups = [ "users" ];
+      keepEnv = true;
       persist = true;
-      setEnv = [ 
-        "PATH=/run/current-system/sw/bin:/etc/profiles/per-user/fmway"
+      setEnv = [
+        "PATH"
       ];
     }
     ];
