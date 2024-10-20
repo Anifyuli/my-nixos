@@ -24,9 +24,10 @@ in {
   "nos"   = "nh os switch /etc/nixos --verbose";
   "nofu"  = "doas nix flake update --flake /etc/nixos";
   "nfu"   = "nix flake update";
-  "nofl"  = "doas nix flake lock --flake /etc/nixos";
+  "nofl"  = "doas nix flake lock /etc/nixos";
   "nfl"   = "nix flake lock";
   "nfit"  = "nix flake init --template";
+  "nfi"   = "nix flake init";
 
   "gclg"   = with-cursor "git clone https://github.com/!";
   "gclgl"  = with-cursor "git clone https://gitlab.com/!";
