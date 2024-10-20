@@ -13,6 +13,10 @@
   };
   extraConfig = {
     hub.protocol = "ssh";
+    url."https://github.com/".insteadOf = "gh:";
+    url."https://gitlab.com/".insteadOf = "gl:";
+    url."https://codeberg.org/".insteadOf = "cb:";
+    url."https://github.com/fmway/".insteadOf = "fm:";
     credential.helper = "${
       pkgs.custom.git
     }/bin/git-credential-libsecret";
