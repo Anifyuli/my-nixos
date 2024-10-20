@@ -71,4 +71,5 @@
   ]);
   programs.fish.enable = true;
   programs.fish.useBabelfish = true;
+  programs.git.enable = true;
 }
