@@ -1,6 +1,6 @@
-{ config, super, pkgs }:
+{ config, pkgs, ... }:
 {
-  enable = ! super.caddy.enable;
+  enable = ! config.services.caddy.enable;
   recommendedProxySettings = true;
   recommendedTlsSettings = true;
   package = pkgs.nginxStable.override {
