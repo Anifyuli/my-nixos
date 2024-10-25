@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  default = "Bing"; # default search engine
+  default = "Google"; # default search engine
   privateDefault = "DuckDuckGo"; # default search engine in private mode
   force = true; # Force replace the existing search configuration
 
