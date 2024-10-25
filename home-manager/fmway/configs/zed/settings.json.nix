@@ -1,4 +1,5 @@
 { pkgs, ... }:
+# json
 ''
 {
   "ui_font_size": 16,

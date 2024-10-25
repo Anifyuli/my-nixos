@@ -1,6 +1,7 @@
 { pkgs, ...}:
 {
-  terminal = "${pkgs.foot}/bin/footclient";
+  terminal = # sh
+    "${pkgs.foot}/bin/footclient";
   left = "h";
   down = "j";
   up = "k";
