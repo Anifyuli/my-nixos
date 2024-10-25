@@ -1,7 +1,5 @@
 { pkgs, inputs, outputs, ... }:
 {
-  package = pkgs.nixFlakes;
-
   settings = {
     # Enable the Flakes feature and the accompanying new nix command-line tool
     experimental-features = [
