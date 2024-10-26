@@ -7,7 +7,7 @@
     isNormalUser = true;
     shell = pkgs.bash;
     description = "Moh Anif Yuliansyah";
-    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "docker" "fwupd-refresh" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "docker" "fwupd-refresh" "podman" ];
     packages = with pkgs; [
       adw-gtk3
       anydesk
@@ -33,6 +33,7 @@
       mongodb-compass
       obs-studio
       postman
+      python311Packages.orange3
       scrcpy
       smile
       vscode

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   # Bootloader settings.
@@ -10,6 +10,12 @@
   boot.plymouth.enable = true;
   boot.plymouth.theme = "bgrt";
 
+  # Disable boot.enableContainers avoid evaluation warning: Enabling both boot.enableContainers & virtualisation.containers on system.stateVersion < 22.05 is unsupported
+  boot.enableContainers = false;
+
+  # Kernel
+  boot.kernelPackages = pkgs.linuxPackages_cachyos;
+
   # sysctl value
   boot.kernel.sysctl = {
     "kernel.printk" = "3 3 3 3";
@@ -20,7 +26,7 @@
     "vm.page-cluster" = 0;
   };
 
-  # Enable v4l2loopback kernel module for using Virtual Camera.
+  # Enable v4l2loopback kernel module for using Virtual Camera
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback
   ];

@@ -12,6 +12,7 @@
     clang
     cloudflare-warp
     cmake
+    distrobox
     docker-compose
     ffmpeg-full
     flutter
