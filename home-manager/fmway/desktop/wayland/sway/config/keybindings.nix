@@ -132,4 +132,5 @@ in {
   "${mod}+r" = to-mode "resize";
 
   "${mod}+Shift+p" = to-mode mode.workspace;
+  "${mod}+p" = to-mode mode.any;
 }

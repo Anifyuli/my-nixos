@@ -15,6 +15,12 @@ in {
     "Escape" = mode-default;
     "Return" = mode-default;
   };
+  "${mode.any}" = {
+    "p" = ex-default (swaymsg "bar mode toggle");
+    "Shift+p" = ex-default (swaymsg "bar mode toggle");
+    "${mod}+p" = ex-default (swaymsg "bar mode toggle");
+    "${mod}+Shift+p" = ex-default (swaymsg "bar mode toggle");
+  };
   "${mode.workspace}" = {
     "1" = ex-default (swaymsg (to-workspace 1));
     "${mod}+1" = ex-default (swaymsg (to-workspace 1));

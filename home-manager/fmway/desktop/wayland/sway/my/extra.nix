@@ -9,5 +9,6 @@ rec {
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   mode = {
     workspace = "Workspace: 0-9 (eDP-1), Shift + 0-9 (HDMI1)";
+    any = "p: toggle bar";
   };
 }
