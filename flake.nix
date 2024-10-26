@@ -6,9 +6,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # NixOS unstable channel
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
     home-manager.url = "github:nix-community/home-manager/master"; # Home Manager channel
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # Nyx
   };	
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager,  ... } @ inputs : let
+  outputs = { self, nixpkgs, nixos-hardware, home-manager,  chaotic, ... } @ inputs : let
     inherit (self) outputs;   # to export the output variable
     system = "x86_64-linux";  # your system
     genericModules = [
@@ -28,7 +29,7 @@
     home-manager.useGlobalPkgs = true;
     home-manager.useUserPackages = true;
     imports = [
-      ./modules/home # home-manager configs
+      ./home # home-manager configs
     ];
   }
 
@@ -49,6 +50,7 @@
           };
           modules = genericModules ++ [
             nixos-hardware.nixosModules.lenovo-thinkpad-x280
+            chaotic.nixosModules.default
           ];
         };
       };

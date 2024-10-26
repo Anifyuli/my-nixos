@@ -4,9 +4,9 @@
     ./boot              # Boot
     ./console           # Console
     ./environment       # Environment
-    ./etc               # Others options
     ./fonts             # Fonts
     ./hardware          # Hardware
+    ./misc              # Miscellaneous options
     ./networking        # Networking
     ./nixpkgs           # Nixpkgs & overriding packages
     ./programs          # Spesific programs

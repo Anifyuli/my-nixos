@@ -18,4 +18,9 @@
       setSocketVariable = true;
     };
   };
+
+  # Enable Podman
+  virtualisation.podman = {
+    enable = true;
+  };
 }
