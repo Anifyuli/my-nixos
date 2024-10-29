@@ -10,17 +10,10 @@
     guest.enable = true;
   };
 
-  # Enable Docker virtualisation support
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
-
   # Enable Podman
   virtualisation.podman = {
+    dockerCompat = true;
+    dockerSocket.enable = true;
     enable = true;
   };
 }
