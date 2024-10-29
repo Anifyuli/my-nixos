@@ -6,7 +6,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # NixOS unstable channel
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
     home-manager.url = "github:nix-community/home-manager/master"; # Home Manager channel
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # Nyx
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # Chaotic Nyx
   };	
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager,  chaotic, ... } @ inputs : let

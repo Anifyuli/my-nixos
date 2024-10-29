@@ -26,6 +26,14 @@
   # Enable GTK icon cache
   gtk.iconCache.enable = true;
 
+  # Configure scx_ext for scheduler daemon from Chaotic Nyx
+  chaotic = {
+    scx = {
+      enable = true;
+      scheduler = "scx_lavd";
+    };
+  };
+
   # XDG portals
   xdg.portal = {
     enable = true;

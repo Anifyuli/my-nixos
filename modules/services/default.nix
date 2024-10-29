@@ -3,7 +3,7 @@
 {
   # Apache2 server
   services.httpd = {
-    enable = true;
+    enable = false;
     adminAddr = "localhost";
     enablePHP = true;
     group = "users";
@@ -23,7 +23,7 @@
 
   # MariaDB server
   services.mysql = {
-    enable = true;
+    enable = false;
     package = pkgs.mariadb;
   };
 
