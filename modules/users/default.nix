@@ -7,7 +7,7 @@
     isNormalUser = true;
     shell = pkgs.bash;
     description = "Moh Anif Yuliansyah";
-    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "docker" "fwupd-refresh" "podman" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "fwupd-refresh" "podman" ];
     packages = with pkgs; [
       adw-gtk3
       anydesk
@@ -17,7 +17,6 @@
       dbeaver-bin
       dconf-editor
       endeavour
-      firefox
       foliate
       genymotion
       gnome-extension-manager

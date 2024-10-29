@@ -26,6 +26,16 @@
       evolution-ews
     ];
   };
+
+  # Firefox
+  programs.firefox = {
+    enable = true;
+    languagePacks = [
+      "ar"
+      "en-US"
+      "id"
+    ];
+  };
   
   # Java configs
   programs.java = {
