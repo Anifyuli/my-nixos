@@ -1,17 +1,11 @@
-{
-  # Import configurations
-  imports = [
-    ./boot              # Boot
-    ./console           # Console
-    ./environment       # Environment
-    ./fonts             # Fonts
-    ./hardware          # Hardware
-    ./misc              # Miscellaneous options
-    ./networking        # Networking
-    ./nixpkgs           # Nixpkgs & overriding packages
-    ./programs          # Spesific programs
-    ./services          # Systemd services
-    ./users             # Users
-    ./virtualisation    # Virtualisation
-  ];
+{ lib, ... }:
+# Import all default.nix from directories
+let
+  folder = ./.;
+  toImport = name: value: folder + "/${name}";
+  filterIsThatADirectoryAndHaveDefaultNix = key: value:
+  value == "directory" &&
+  lib.pathExists (folder + "/${key}/default.nix");
+in {
+  imports = lib.mapAttrsToList toImport (lib.filterAttrs filterIsThatADirectoryAndHaveDefaultNix (builtins.readDir folder));
 }
