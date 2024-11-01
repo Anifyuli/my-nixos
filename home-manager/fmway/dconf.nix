@@ -74,7 +74,7 @@ in {
   } // 
   # custom shortuct
   (let
-    keybindings = l: # list of { name :: string, binding :: string, command :: string }
+    keybindings = l: # list of { name ::: string, binding ::: string, command ::: string }
       builtins.listToAttrs (lib.lists.imap0 (i: v: let
         key = "custom${toString i}";
       in {
@@ -85,12 +85,18 @@ in {
           command = mkString "${v.command}";
         };
       }) l);
+      bash = name: script:
+        pkgs.writeScript name ''
+          #!${lib.getExe pkgs.bash}
+
+          ${script}
+        '';
   in keybindings [
     {
       name = "increment cursor size";
       binding = "<Alt><Super>equal";
-      command = pkgs.writeScript "increment-cursor" ''
-        #!${lib.getExe pkgs.bash}
+      command = bash "increment-cursor" # sh
+      ''
         CURRENT=$(gsettings get org.gnome.desktop.interface cursor-size)
         gsettings set org.gnome.desktop.interface cursor-size $(( CURRENT + 1 ))
       '';
@@ -98,8 +104,8 @@ in {
     {
       name = "decrement cursor size";
       binding = "<Alt><Super>minus";
-      command = pkgs.writeScript "decrement-cursor" ''
-        #!${lib.getExe pkgs.bash}
+      command = bash "decrement-cursor" # sh
+      ''
         CURRENT=$(gsettings get org.gnome.desktop.interface cursor-size)
         [ ! -z $CURRENT ] &&
           [ $CURRENT -ge 1 ] &&
