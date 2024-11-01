@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, ... }: # sh
 ''
 #!${lib.getExe pkgs.bash}
 

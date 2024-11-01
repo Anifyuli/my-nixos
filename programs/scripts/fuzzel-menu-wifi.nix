@@ -7,7 +7,7 @@
     networkmanager
   ];
 
-  text = ''
+  text = /* sh */ ''
     # taken from https://github.com/ericmurphyxyz/rofi-wifi-menu/blob/070ef6cb1939d8928a7dcfb42fcf223d545d3e7d/rofi-wifi-menu.sh
     notify-send "Getting list of available Wi-Fi networks..."
     # Get a list of available wifi connections and morph it into a nice-looking list

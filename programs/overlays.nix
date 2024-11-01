@@ -29,9 +29,6 @@
     fmpkgs = import inputs.fmpkgs {
       inherit system pkgs lib;
     };
-    # nur = import inputs.nur {
-    #   nurpkgs = self;
-    # };
     extra = inputs.nixpkgs-extra.packages.${system};
   };
 

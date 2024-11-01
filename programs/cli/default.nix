@@ -28,7 +28,7 @@
     wget # who knows?
     agenix # secret.age
     doas # alternative sudo
-    mint # mint-lang?
+    # mint # mint-lang?
     pup # for scraping html
     # gitui # alternative lazygit
     argc # for generate completion
@@ -38,7 +38,7 @@
     # neomutt # tui mail client
     # aerc # neomutt alternative
     # frogmouth # tui markdown viewer. awesome but, very lag
-    manix # nix options search
+    # manix # nix options search
     extra.encore # awesome tools for developing go and typescript
     nix-init # automate builder nix derivation
     # nurl # ?
@@ -47,15 +47,15 @@
     nixfmt-rfc-style # fmt for nix
     nmap # hem...
     ttyper # monkeytype in terminal
-    wayvnc # vnc for wayland 
+    wayvnc # vnc for wayland / especially wlroots
     flyctl # fly.io management in terminal
     wrangler # cloudflare worker management in terminal
     devbox # alternative docker for development
     devenv # also this
     # nixpacks # this is simplify docker with toml configuration
-    du-dust # alternative du
+    du-dust # du alternative
     fzf # fuzzy search
-    appimage-run # to run AppImage
+    # appimage-run # to run AppImage
     yq # yaml and toml parser
     zip #....
     unzip #....

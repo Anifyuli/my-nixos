@@ -81,7 +81,6 @@ in {
   }
   {
     folder = [ ./cli ./gui ./games ];
-    excludes = [ "nixvim.nix" ];
     inherit variables;
   };
 }
