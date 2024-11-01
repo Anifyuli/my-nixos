@@ -7,7 +7,7 @@
     nixpkgs-24_05.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-23_11.url = "github:NixOS/nixpkgs/nixos-23.11";
     master.url = "github:NixOS/nixpkgs";
-    matui.url = "github:pkulak/matui";
+    # matui.url = "github:pkulak/matui";
     microvm.url = "github:astro/microvm.nix";
     catppuccin.url = "github:catppuccin/nix";
     # TODO implement impermanence
