@@ -3,6 +3,8 @@
   metamask
   multi-account-containers
   greasemonkey
+  gesturify
+  tree-style-tab
   react-devtools
   search-by-image
   firefox-color
