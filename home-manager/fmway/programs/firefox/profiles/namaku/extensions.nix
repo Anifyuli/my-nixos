@@ -3,7 +3,7 @@
   metamask
   multi-account-containers
   greasemonkey
-  gesturify
+  gesturefy
   tree-style-tab
   react-devtools
   search-by-image
