@@ -32,6 +32,9 @@
     thinkpad-battery-threshold
     blur-my-shell
     # net-speed
+    lilypad
+    emoji-copy
+    day-progress
     totp
     bing-wallpaper-changer
     cloudflare-warp-toggle

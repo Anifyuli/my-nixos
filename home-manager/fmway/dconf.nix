@@ -38,9 +38,9 @@ in {
         bing-wallpaper-changer
         places-status-indicator
         applications-menu
-        "emoji-copy@felipeftn"
-        "day-progress@arcaege.github.io"
-        "lilypad@shendrew.github.io"
+        emoji-copy
+        day-progress
+        lilypad
       ]);
 
       # extensions settings
