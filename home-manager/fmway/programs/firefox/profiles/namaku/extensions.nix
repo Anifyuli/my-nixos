@@ -10,6 +10,7 @@
   firefox-color
   vue-js-devtools
 ]) ++ (with pkgs.fmpkgs.firefox-addons; [
+  xdm_v8
   what-font
   wakatime
   stayfree
