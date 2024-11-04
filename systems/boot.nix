@@ -1,5 +1,7 @@
-{ config, ... }:
+{ config, pkgs, lib, ... }:
 with config.boot; {
+  kernelPackages = lib.mkDefault pkgs.linuxPackages_cachyos;
+  zfs.package = lib.mkDefault pkgs.zfs_cachyos;
   loader = with loader; {
     efi.canTouchEfiVariables = systemd-boot.enable;
 

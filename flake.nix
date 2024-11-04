@@ -110,6 +110,7 @@
       (with inputs; [
         fmway-nix.nixosModules.default
         disko.nixosModules.default
+        chaotic.nixosModules.default
         catppuccin.nixosModules.catppuccin
         home-manager.nixosModules.home-manager
         # nix-flatpak.nixosModules.nix-flatpak
