@@ -77,10 +77,10 @@
     };
 
     genUsers = users: options: # users :: lists, options :: ( attrs | function -> attrs )
-      if ! builtins.isList users || ! builtins.all (x: builtins.isString x) users then
+      if ! (builtins.isList users && (builtins.length users == 0 && true || builtins.all (x: builtins.isString x) users)) then
         abort "first params of genMultipleUser must be a list of string"
-      else if builtins.isAttrs options ||
-        (builtins.isFunction options && builtins.isAttrs (options "test")) then
+      else if ! (builtins.isAttrs options ||
+        (builtins.isFunction options && builtins.isAttrs (options "test"))) then
         abort "second params of genMultipleUser must be an attrs or function that return attrs"
       else
       builtins.listToAttrs (map (name: {
@@ -138,7 +138,7 @@
           ./hardware-configuration.nix
           ./disk.nix
           ({ pkgs, ... }: {
-            home.users = genUsers [ "fmway" ] (user: {
+            users.users = genUsers [ "fmway" ] (user: {
               home = "/home/${user}";
               shell = pkgs.fish;
             });
