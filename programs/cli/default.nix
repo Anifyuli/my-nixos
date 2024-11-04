@@ -49,7 +49,7 @@
     nixfmt-rfc-style # fmt for nix
     nmap # hem...
     ttyper # monkeytype in terminal
-    wayvnc # vnc for wayland / especially wlroots
+    # wayvnc # vnc for wayland / especially wlroots
     flyctl # fly.io management in terminal
     wrangler # cloudflare worker management in terminal
     devbox # alternative docker for development
