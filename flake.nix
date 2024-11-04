@@ -7,7 +7,6 @@
     nixpkgs-24_05.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-23_11.url = "github:NixOS/nixpkgs/nixos-23.11";
     master.url = "github:NixOS/nixpkgs";
-    # matui.url = "github:pkulak/matui";
     microvm.url = "github:astro/microvm.nix";
     catppuccin.url = "github:catppuccin/nix";
     # TODO implement impermanence
@@ -18,30 +17,22 @@
       url = "github:ryantm/agenix";
       inputs.darwin.follows = "";
     };
-    # std.url = "github:divnix/std";
     fmway-nix = {
       url = "github:fmway/fmway.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nix-flatpak.url = "github:gmodena/nix-flatpak";
     fmpkgs.url = "github:fmway/fmpkgs/master";
-    # inputs.nixos-shell = {
-    #   url = "github:Mic92/nixos-shell";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     nixpkgs-extra = {
       url = "github:luisnquin/nixpkgs-extra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # TODO
     # nix-colors.url = "github:misterio77/nix-colors";
     home-manager.url = "github:nix-community/home-manager/master";
-    # fingerprint-sensor = {
-    #   url = "github:ahbnr/nixos-06cb-009a-fingerprint-sensor";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     nixgl.url = "github:nix-community/NixGL";
     nur.url = "github:nix-community/nur";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   };
 
   outputs = { self, ... } @ inputs:
