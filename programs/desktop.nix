@@ -16,6 +16,7 @@
   # packages
   environment.systemPackages = with pkgs; [
     nixgl.nixGLIntel
+    adw-gtk3
   ];
 
   # Add list DE

@@ -6,6 +6,7 @@
     # rnix-lsp # this too 
     # nil # this too
     oha # http load generator
+    hyperfine # for benchmarking
     parallel # multi threading in shell
     # adbtuifm # file-manager adb
     # isync
@@ -22,6 +23,7 @@
     # lazydocker # management docker for lazier man
     # jqp # tui for jq
     lazysql # tui for sql
+    fx # jq like but tui 
     # prs # tui for view PR (Pull Request)
     # speechd
     # neovim-maximal
@@ -52,6 +54,7 @@
     wrangler # cloudflare worker management in terminal
     devbox # alternative docker for development
     devenv # also this
+    systemctl-tui # management systemd using tui
     # nixpacks # this is simplify docker with toml configuration
     du-dust # du alternative
     fzf # fuzzy search
@@ -64,6 +67,7 @@
     tree #...
     httpie # tools for consume http and https / alternative curl 
     waypipe # piping wayland / xhost in wayland / run gui in ssh over wayland
+    babelfish # for run bash code in fish
   ] ++ (with fishPlugins; [
     zoxide-fish # integration zoxide in fish (faster than general)
     fzf-fish # fuzzy finder in fish
