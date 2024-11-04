@@ -33,6 +33,7 @@ in {
   environment.systemPackages = (with pkgs; [
     # cloudflare-warp
     scrcpy
+    evolution
     wl-clipboard
   ]);
 
@@ -44,6 +45,8 @@ in {
   # Exclude packages from the gnome.
   environment.gnome.excludePackages = with pkgs; [
     epiphany
+    gnome-maps
+    geary
     gnome-tour
     gnome-software
     gnome-contacts
