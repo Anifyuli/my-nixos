@@ -1,5 +1,5 @@
 { self, super, lib ? self.lib, ... }:
-{
+super.fishPlugins // {
   zoxide-fish = super.fishPlugins.buildFishPlugin {
     pname = "zoxide-fish";
     version = "unstable-2022-08-18";
