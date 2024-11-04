@@ -73,7 +73,9 @@
         "fwupd-refresh"
       ],
       ... } @ args: {
-        ${name} = args;
+        ${name} = args // {
+          inherit description isNormalUser home extraGroups;
+        };
     };
 
     genUsers = users: options: # users :: lists, options :: ( attrs | function -> attrs )
