@@ -56,13 +56,49 @@
       } // (fmway.excludeItems [ "inputs" "outputs" "system" "root-path" ] var);
     in specialArgs;
 
+    genUser = name: {
+      description ? name,
+      isNormalUser ? true,
+      home ? "/home/${name}",
+      extraGroups ? [
+        "networkmanager" 
+        "docker" 
+        "wheel"
+        "video"
+        "gdm"
+        "dialout"
+        "kvm"
+        "adbusers"
+        "vboxusers"
+        "fwupd-refresh"
+      ],
+      ... } @ args: {
+        ${name} = args;
+    };
+
+    genUsers = users: options: # users :: lists, options :: ( attrs | function -> attrs )
+      if ! builtins.isList users || ! builtins.all (x: builtins.isString x) users then
+        abort "first params of genMultipleUser must be a list of string"
+      else if builtins.isAttrs options ||
+        (builtins.isFunction options && builtins.isAttrs (options "test")) then
+        abort "second params of genMultipleUser must be an attrs or function that return attrs"
+      else
+      builtins.listToAttrs (map (name: {
+        inherit name;
+        value =
+          if builtins.isAttrs options then
+            (genUser name options).${name}
+          else
+            (genUser name (options name)).${name};
+      }) users)
+    ;
+
     nixosModules = let
       self = {
         cachix = ./cachix.nix;
         programs = ./programs;
         modules = lib.optionals (builtins.pathExists ./modules) (fmway.genImportsWithDefault ./modules);
         systems = ./systems;
-        users = ./users;
         secrets = ./secrets;
         home-manager = ./home-manager;
       };
@@ -86,7 +122,7 @@
     } selfNames;
 
   in {
-    inherit nixosModules fmway genSpecialArgs;
+    inherit nixosModules fmway genSpecialArgs genUsers genUser;
     templates.default = {
       path = ./.;
       description = "My Nixos Configuration";
@@ -101,6 +137,12 @@
           ./configuration.nix
           ./hardware-configuration.nix
           ./disk.nix
+          ({ pkgs, ... }: {
+            home.users = genUsers [ "fmway" ] (user: {
+              home = "/home/${user}";
+              shell = pkgs.fish;
+            });
+          })
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
         ]);
       };

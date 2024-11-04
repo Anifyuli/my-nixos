@@ -1,5 +1,6 @@
 { pkgs
 , lib
+, config
 , ...
 } @ variables
 : let
@@ -7,6 +8,7 @@
     getEnv
     genPaths
   ;
+  inherit (config.home) homeDirectory username;
 in {
   imports = [
     ./desktop
@@ -16,9 +18,8 @@ in {
 
   dconf = import ./dconf.nix variables;
 
-  home = rec {
-    username = "fmway";
-    homeDirectory = "/home/${username}";
+  home = {
+    packages = import ./packages.nix pkgs;
 
     # Home Manager version
     stateVersion = "24.11";
