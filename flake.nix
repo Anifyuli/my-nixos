@@ -105,10 +105,9 @@
       selfNames = builtins.attrNames self;
     in builtins.foldl' (acc: name: acc // {
       "${name}".imports = lib.flatten [ self.${name} ];
-    }) rec { 
-      default.imports = lib.flatten (map (x: self.${x}) selfNames);
-      defaultModules = with inputs; [
-        default
+    }) { 
+      default.imports = lib.flatten (map (x: self.${x}) selfNames) ++
+      (with inputs; [
         fmway-nix.nixosModules.default
         disko.nixosModules.default
         catppuccin.nixosModules.catppuccin
@@ -118,7 +117,7 @@
         # fingerprint-sensor.nixosModules.python-validity
         agenix.nixosModules.default
         # inputs.nixos-shell.nixosModules.nixos-shell
-      ];
+      ]);
     } selfNames;
 
   in {
@@ -133,7 +132,7 @@
         specialArgs = genSpecialArgs {
           inherit inputs outputs system;
         };
-        modules = nixosModules.defaultModules ++ (with inputs; [
+        modules = with inputs; [
           ./configuration.nix
           ./hardware-configuration.nix
           ./disk.nix
@@ -144,7 +143,8 @@
             });
           })
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
-        ]);
+          nixosModules.default
+        ];
       };
     };
     # inherit (self.nixosConfigurations.Namaku1801) config lib;
