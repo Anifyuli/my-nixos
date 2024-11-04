@@ -65,6 +65,7 @@
     httpie # tools for consume http and https / alternative curl 
     waypipe # piping wayland / xhost in wayland / run gui in ssh over wayland
   ] ++ (with fishPlugins; [
+    zoxide-fish # integration zoxide in fish (faster than general)
     fzf-fish # fuzzy finder in fish
     git-abbr # abbreviation / autocomplete git
     pisces # autoclose brackets parenthesis and quote
