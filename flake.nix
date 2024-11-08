@@ -7,41 +7,49 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # NixOS hardware support
     home-manager.url = "github:nix-community/home-manager/master"; # Home Manager channel
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # Chaotic Nyx
-  };	
+  };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager,  chaotic, ... } @ inputs : let
-    inherit (self) outputs;   # to export the output variable
-    system = "x86_64-linux";  # your system
-    genericModules = [
-      ./cachix.nix         # cachix instance for devenv
-      ./configuration.nix  # NixOS system configurations
-      {
-    # Fix for nixpkgs without flakes
-    nix.registry.nixos.flake = inputs.self;
-    environment.etc."nix/inputs/nixpkgs".source = nixpkgs.outPath;
-    nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
-  }
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixos-hardware,
+      home-manager,
+      chaotic,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs; # to export the output variable
+      system = "x86_64-linux"; # your system
+      genericModules = [
+        ./cachix.nix # cachix instance for devenv
+        ./configuration.nix # NixOS system configurations
+        {
+          # Fix for nixpkgs without flakes
+          nix.registry.nixos.flake = inputs.self;
+          environment.etc."nix/inputs/nixpkgs".source = nixpkgs.outPath;
+          nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
+        }
 
-  # Home manager
-  home-manager.nixosModules.home-manager
-  {
-    nix.registry.nixos.flake = inputs.self;
-    home-manager.useGlobalPkgs = true;
-    home-manager.useUserPackages = true;
-    imports = [
-      ./home # home-manager configs
-    ];
-  }
+        # Home manager
+        home-manager.nixosModules.home-manager
+        {
+          nix.registry.nixos.flake = inputs.self;
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          imports = [
+            ./home # home-manager configs
+          ];
+        }
 
-  # Closure for adding overlays
-  (_: {
-    nixpkgs.overlays = [];
-  })
-];
-
-  in
-  {
-    nixosConfigurations = {
+        # Closure for adding overlays
+        (_: {
+          nixpkgs.overlays = [ ];
+        })
+      ];
+    in
+    {
+      nixosConfigurations = {
         # Computer name (hostname)
         ThinkPad-X280 = nixpkgs.lib.nixosSystem {
           inherit system;
@@ -55,4 +63,5 @@
         };
       };
     };
-  }
+}
+

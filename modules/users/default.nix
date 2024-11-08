@@ -7,34 +7,24 @@
     isNormalUser = true;
     shell = pkgs.bash;
     description = "Moh Anif Yuliansyah";
-    extraGroups = [ "networkmanager" "wheel" "dialout" "gdm" "vboxusers" "kvm" "fwupd-refresh" "podman" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" "sddm" "vboxusers" "kvm" "fwupd-refresh" "podman" ];
     packages = with pkgs; [
-      adw-gtk3
       anydesk
       anytype
-      blender
       ciscoPacketTracer8
       dbeaver-bin
-      dconf-editor
       endeavour
       foliate
       genymotion
-      gnome-extension-manager
-      gnome-tweaks
-      gnomeExtensions.appindicator
-      gnomeExtensions.thinkpad-battery-threshold 
-      gnomeExtensions.x11-gestures
       google-chrome
       hunspell
       libreoffice-fresh
-      lollypop
       lunacy
       mongodb-compass
       obs-studio
       postman
       python311Packages.orange3
       scrcpy
-      smile
       vscode
       youtube-music
       zotero-beta

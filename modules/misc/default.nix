@@ -31,6 +31,7 @@
     scx = {
       enable = true;
       scheduler = "scx_lavd";
+      package = pkgs.scx_git.full;
     };
   };
 
@@ -38,15 +39,8 @@
   xdg.portal = {
     enable = true;
     configPackages = with pkgs; [
-      gnome-session
+      xdg-desktop-portal-kde
     ];
-  };
-
-  # Qt configurations
-  qt = {
-    enable = true;
-    platformTheme = "gtk2";
-    style = "gtk2";
   };
 
   # Enable polkit for security reason
@@ -62,8 +56,8 @@
     aggregatedIcons = pkgs.buildEnv {
       name = "system-icons";
       paths = with pkgs; [
-        #libsForQt5.breeze-qt5  # for plasma
-        gnome-themes-extra
+        libsForQt5.breeze-qt5  # for plasma
+        #gnome-themes-extra
       ];
       pathsToLink = [ "/share/icons" ];
     };

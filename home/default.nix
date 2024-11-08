@@ -15,9 +15,9 @@
     nixd
     nixfmt-rfc-style
     nixpkgs-fmt
-    # nodePackages_latest.expo-cli
     php82Packages.composer
     pnpm
+    universal-android-debloater
   ];
 
   # Bash configurations.

@@ -38,14 +38,11 @@
     display_errors = on;
   '';
   
-  # Enable GNOME keyring
-  services.gnome.gnome-keyring.enable = true;
-
   # Enable the OpenSSH daemon
   services.openssh.enable = true;
 
   # Enable Flatpak support
-  services.flatpak.enable =  true;
+  services.flatpak.enable = true;
 
   # Enable touchegg for X11 gesture support
   services.touchegg.enable = true;
@@ -58,6 +55,12 @@
 
   # Enable throttled.service for fix Intel CPU throttling
   services.throttled.enable = true;
+
+  # Enable power profiles daemon
+  services.power-profiles-daemon.enable = true;
+
+  # Disable TLP absolutely
+  services.tlp.enable = false;
 
   # Enable earlyoom for handling OOM conditions
   services.earlyoom = {
@@ -80,34 +83,15 @@
     wireplumber.enable = true;
   };
 
-  # Enable the X11 windowing system & Xterm as login session
-  services.xserver.enable = true;
-  services.xserver.desktopManager.xterm.enable = false;
-
-  # Enable the GNOME Desktop Environment & Dconf configurations
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome = {
+  # Enable the KDE Plasma Desktop Environment & SDDM
+  services.displayManager.sddm = { 
     enable = true;
-    extraGSettingsOverrides = ''
-      [org.gnome.desktop.peripherals.touchpad]
-      tap-to-click=true
-    ''; # Enable tap-to-click on GDM
-    extraGSettingsOverridePackages = with pkgs; [
-      gsettings-desktop-schemas # for org.gnome.desktop
-      gnome-shell # for org.gnome.shell
-    ];
+    wayland.enable = true;
   };
-
-  # Evolution data server
-  services.gnome.evolution-data-server.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager)
   services.libinput.enable = true;
-
-  # Exclude packages from the X server
-  services.xserver.excludePackages = with pkgs; [
-    xterm
-  ];
 
   # Enable systemd services which is not configured from services options
   systemd = {

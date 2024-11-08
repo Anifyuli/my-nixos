@@ -4,7 +4,6 @@
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [ 
-    adwaita-icon-theme
     android-studio
     android-tools
     bindfs
@@ -36,11 +35,6 @@
     usbutils
     vim
     wget
-  ];
-
-  # Exclude GNOME default apps
-  environment.gnome.excludePackages = with pkgs; [
-    geary
   ];
 
   # Add environment variables.

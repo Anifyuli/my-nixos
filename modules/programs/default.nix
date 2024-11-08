@@ -11,21 +11,12 @@
   # Enable ls colors in Bash
   programs.bash.enableLsColors = true;
  
-  # Add GSConnect connection configuration
+  # Add KDE Connect connection configuration
   programs.kdeconnect.enable = true;
-  programs.kdeconnect.package = pkgs.gnomeExtensions.gsconnect;
   
   # Captive browser support
   programs.captive-browser.enable = true;
   programs.captive-browser.interface = "wlp59s0";
-
-  # Evolution email client
-  programs.evolution = {
-    enable = true;
-    plugins = with pkgs; [
-      evolution-ews
-    ];
-  };
 
   # Firefox
   programs.firefox = {
@@ -36,7 +27,15 @@
       "id"
     ];
   };
-  
+
+  # KDE PIM
+  programs.kde-pim = {
+    enable = true;
+    kontact = true;
+    kmail = true;
+    merkuro = true;
+  };
+
   # Java configs
   programs.java = {
     enable = true;

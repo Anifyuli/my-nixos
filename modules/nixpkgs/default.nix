@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 
 {
   # Allow unfree packages
@@ -6,18 +5,6 @@
 
   # Derivation overlays
   nixpkgs.overlays = [
-    # Nautilus overlay for show better audio & video metadata
-    (self: super: {
-      gnome = super.gnome.overrideScope(gself: gsuper: {
-        nautilus = gsuper.nautilus.overrideAttrs (nsuper: {
-          buildInputs = nsuper.buildInputs ++ (with pkgs.gst_all_1; [
-            gst-plugins-good
-            gst-plugins-bad
-          ]);
-        });
-      });
-    })
-
 
     # VS Code overlay for fix X11 color profile to sRGB
     (final: prev: {
@@ -26,19 +13,13 @@
       };
     })
 
-    # Adw-gtk3 pinning version to 5.3
-    (final: prev: {
-      adw-gtk3 = prev.adw-gtk3.overrideAttrs (old: rec {
-        version = "5.3";
-        src = final.fetchFromGitHub {
-          owner = "lassekongo83";
-          repo = "adw-gtk3";
-          rev = "v${version}";
-          hash = "sha256-DpJLX9PJX1Q8dDOx7YOXQzgNECsKp5uGiCVTX6iSlbI=";
-        };
-      });
+    # Override _7zz to use UASM
+    (final: prev: { 
+      _7zz = prev._7zz.override { 
+        useUasm = true; 
+      };
     })
-
+  
   ];
 
   # Change yt-dlp to youtube-dl
