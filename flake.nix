@@ -56,6 +56,9 @@
       } // (fmway.excludeItems [ "inputs" "outputs" "system" "root-path" ] var);
     in specialArgs;
 
+    # TODO
+    # mkNixos :: { inputs, outputs, system ? x86_64-linux, specialArgs ? {}, users ? [], disableModules ? [], modules ? [], withHomeManager :: (bool | list of user) } -> lib.nixosSystem
+
     genUser = name: {
       description ? name,
       isNormalUser ? true,
@@ -78,7 +81,7 @@
         };
     };
 
-    genUsers = users: options: # users :: lists, options :: ( attrs | function -> attrs )
+    genUsers = users: options: # users :: lists, options :: ( attrs | str -> attrs )
       if ! (builtins.isList users && (builtins.length users == 0 && true || builtins.all (x: builtins.isString x) users)) then
         abort "first params of genMultipleUser must be a list of string"
       else if ! (builtins.isAttrs options ||
