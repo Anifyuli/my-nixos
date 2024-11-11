@@ -4,31 +4,34 @@
   # List packages installed in the system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [ 
-    android-studio
-    android-tools
+    #android-studio
+    #android-tools
     bindfs
     btop
-    clang
+    #clang
     cloudflare-warp
-    cmake
+    #cmake
     distrobox_git
-    docker-compose
+    #docker-compose
     ffmpeg-full
-    flutter
-    fwupd
+    #flutter
     git
     gst_all_1.gstreamer
     inxi
+    kdePackages.kaccounts-providers
+    kdePackages.kaccounts-integration
+    kdePackages.kcmutils
+    kdePackages.signond
     lm_sensors
     ncdu
-    ninja
+    #ninja
     nodePackages_latest.nodejs
-    ntfs3g
     openssl
     pciutils
-    php
-    pkg-config-unwrapped
-    qemu_kvm
+    #php
+    #pkg-config-unwrapped
+    #qemu_kvm
+    libsForQt5.qoauth
     rar
     smartmontools
     tree

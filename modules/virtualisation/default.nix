@@ -11,9 +11,9 @@
   };
 
   # Enable Podman
-  virtualisation.podman = {
-    dockerCompat = true;
-    dockerSocket.enable = true;
-    enable = true;
-  };
+  #virtualisation.podman = {
+  #  dockerCompat = true;
+  #  dockerSocket.enable = true;
+  #  enable = true;
+  #};
 }

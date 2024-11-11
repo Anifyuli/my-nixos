@@ -12,14 +12,7 @@
         commandLineArgs = ''--force-color-profile=srgb'';
       };
     })
-
-    # Override _7zz to use UASM
-    (final: prev: { 
-      _7zz = prev._7zz.override { 
-        useUasm = true; 
-      };
-    })
-  
+ 
   ];
 
   # Change yt-dlp to youtube-dl

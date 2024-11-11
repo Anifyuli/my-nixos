@@ -45,7 +45,7 @@
   services.flatpak.enable = true;
 
   # Enable touchegg for X11 gesture support
-  services.touchegg.enable = true;
+  # services.touchegg.enable = true;
 
   # Enable fwupd for updating firmware
   services.fwupd.enable = true;
@@ -55,13 +55,7 @@
 
   # Enable throttled.service for fix Intel CPU throttling
   services.throttled.enable = true;
-
-  # Enable power profiles daemon
-  services.power-profiles-daemon.enable = true;
-
-  # Disable TLP absolutely
-  services.tlp.enable = false;
-
+  
   # Enable earlyoom for handling OOM conditions
   services.earlyoom = {
     enable = true;
@@ -84,8 +78,11 @@
   };
 
   # Enable the KDE Plasma Desktop Environment & SDDM
-  services.displayManager.sddm = { 
+  services.displayManager.sddm = {
     enable = true;
+    extraPackages = with pkgs; [
+      kdePackages.sddm-kcm
+    ];
     wayland.enable = true;
   };
   services.desktopManager.plasma6.enable = true;

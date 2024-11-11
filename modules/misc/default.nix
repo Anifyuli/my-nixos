@@ -23,9 +23,6 @@
   # Enable rtkit for addition audio configurations
   security.rtkit.enable = true; 
 
-  # Enable GTK icon cache
-  gtk.iconCache.enable = true;
-
   # Configure scx_ext for scheduler daemon from Chaotic Nyx
   chaotic = {
     scx = {

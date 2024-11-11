@@ -110,10 +110,10 @@
   programs.noisetorch.enable = true;
 
   # Winbox setup
-  programs.winbox = {
-    enable = true;
-    openFirewall = true;
-  };
+  #programs.winbox = {
+  #  enable = true;
+  #  openFirewall = true;
+  #};
   
   # Add XWayland 
   programs.xwayland.enable = true;

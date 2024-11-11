@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Bootloader settings.
@@ -15,6 +15,12 @@
 
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_cachyos;
+
+  # Supported filesystem
+  boot.supportedFilesystems = {
+    ntfs = true;
+    xfs = lib.mkForce true;
+  };
 
   # sysctl value
   boot.kernel.sysctl = {

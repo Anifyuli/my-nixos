@@ -9,24 +9,23 @@
     description = "Moh Anif Yuliansyah";
     extraGroups = [ "networkmanager" "wheel" "dialout" "sddm" "vboxusers" "kvm" "fwupd-refresh" "podman" ];
     packages = with pkgs; [
-      anydesk
+      #anydesk
       anytype
-      ciscoPacketTracer8
-      dbeaver-bin
-      endeavour
+      #ciscoPacketTracer8
+      #dbeaver-bin
       foliate
-      genymotion
+      #genymotion
       google-chrome
-      hunspell
+      #hunspell
       libreoffice-fresh
       lunacy
-      mongodb-compass
-      obs-studio
-      postman
+      #mongodb-compass
+      #obs-studio
+      #postman
       python311Packages.orange3
-      scrcpy
+      #scrcpy
       vscode
-      youtube-music
+      #youtube-music
       zotero-beta
     ];
   };
