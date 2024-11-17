@@ -48,7 +48,7 @@ in {
     gnome-maps
     geary
     gnome-tour
-    gnome-software
+    # gnome-software
     gnome-contacts
   ];
 
