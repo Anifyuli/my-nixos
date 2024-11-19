@@ -1,4 +1,4 @@
-{ pkgs, inputs, outputs, ... }:
+{ pkgs, inputs, config, outputs, ... }:
 {
   settings = {
     # Enable the Flakes feature and the accompanying new nix command-line tool
@@ -36,4 +36,7 @@
     dates = "Mon,Fri *-*-* 00:00:00";
     options = "--delete-older-than 5d";
   };
+  extraOptions = ''
+    !include ${config.age.secrets.nix.path}
+  '';
 }

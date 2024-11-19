@@ -12,5 +12,6 @@ let
 in mySecret [ 
   "cloudflared"
   "wg0-private"
+  "nix" # another nix.conf with encryption
   # "fmway"
 ] 
