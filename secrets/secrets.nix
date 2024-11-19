@@ -6,7 +6,7 @@ let
   
   mySecret = arr: builtins.foldl' (acc: name: {
     "${name}.age".publicKeys = [ keys.system ] ++
-      (if name != "system" && name ? ${keys} then [ keys.${name} ] else []);
+      (if name != "system" && keys ? ${name} then [ keys.${name} ] else []);
   } // acc) {} arr;
 
 in mySecret [ 
