@@ -25,7 +25,7 @@ let
         if isOwnedUser then
           "0660"  # rw-rw----
         else
-          "0662"; # rw-rw-r--
+          "0664"; # rw-rw-r--
       symlink = false;
     };
   }) files);
