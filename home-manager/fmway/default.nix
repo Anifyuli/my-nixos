@@ -22,7 +22,7 @@ in {
     packages = import ./packages.nix pkgs;
 
     # Home Manager version
-    stateVersion = "24.11";
+    stateVersion = "25.05";
 
     sessionPath = genPaths homeDirectory [
       ".local" # must be ${home}/.local/bin
