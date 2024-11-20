@@ -20,6 +20,7 @@ let
       path = "/etc/secrets/${name}";
       owner = lib.mkIf (length resultAges.${file}.publicKeys > 1) name;
       mode = "0662"; # rw-rw-r--
+      symlink = false;
     };
   }) files);
 in {
