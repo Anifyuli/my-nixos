@@ -1,43 +1,27 @@
 # Hidden secrets using agenix
 { lib, ... }:
 let
-  inherit (builtins)
-    isList
-    foldl'
-    baseNameOf
-    elemAt
-    isNull
-    attrNames
-    filter
-    readDir
-    match
-    toString
-    ;
-
-  inherit (lib)
-    recursiveUpdate
-    ;
+  inherit (builtins) isList elemAt attrNames match toString listToAttrs length;
 
   getNameAge = value: let
     matched = match "^(.*)\\.age$" (toString value);
   in if isList matched then baseNameOf (elemAt matched 0) else matched;
-  hasDotAge = value: if isNull (getNameAge value) then false else true;
 
   folder = ./.;
-  allDir = readDir folder;
-  allDirKeys = attrNames allDir;
-  filterAgeFiles = key: allDir.${key} == "regular" && hasDotAge key;
-  filteredKeys = filter filterAgeFiles allDirKeys;
+
+  resultAges = import ./secrets.nix;
+  files = attrNames resultAges;
 
   # all /etc/nixos/secrets/<file>.age will be imported to age.secrets.<file>
-  age.secrets = foldl' (acc: file: let
+  age.secrets = listToAttrs (map (file: rec {
     name = getNameAge file;
-  in recursiveUpdate acc {
-    "${name}" = {
+    value = {
       file = folder + ("/" + file);
       path = "/etc/secrets/${name}";
+      owner = lib.mkIf (length resultAges.${file}.publicKeys > 1) name;
+      mode = "0662"; # rw-rw-r--
     };
-  }) {} filteredKeys;
+  }) files);
 in {
   inherit age;
 }
