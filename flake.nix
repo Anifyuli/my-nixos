@@ -154,6 +154,6 @@
       };
     };
     # inherit (self.nixosConfigurations.Namaku1801) config lib;
-    packages.${system} = pkgs;
+    legacyPackages.${system} = pkgs;
   };
 }
