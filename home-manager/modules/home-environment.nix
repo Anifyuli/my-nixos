@@ -20,7 +20,7 @@ in {
       };
       excludePackages = lib.mkOption {
         type = with lib.types; listOf package;
-        description = "exclude package in systemPackages";
+        description = "exclude package in home.packages";
         default = [];
       };
     };
