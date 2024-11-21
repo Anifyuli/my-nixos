@@ -10,13 +10,15 @@ in {
         description = "exclude package in systemPackages";
         default = [];
       };
-    };
-  };
-  config = defaultModule.config // {
-    system = defaultModule.config.system // {
-      path = defaultModule.config.system.path.overrideAttrs {
-        paths = with config.environment; utils.removePackagesByName systemPackages excludePackages;
+      systemPackages = let
+        self = defaultModule.options.environment.systemPackages;
+      in self // {
+        type = self.type // {
+          merge = loc: defs:
+            utils.removePackagesByName (self.type.merge loc defs) config.environment.excludePackages;
+        };
       };
     };
   };
+  inherit (defaultModule) config;
 }

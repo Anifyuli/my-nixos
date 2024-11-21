@@ -5,6 +5,14 @@ in {
   disabledModules = [ contextModule ];
   options = defaultModule.options // {
     home = defaultModule.options.home // {
+      packages = let
+        self = defaultModule.options.home.packages;
+      in self // {
+        type = self.type // {
+          merge = loc: defs:
+            utils.removePackagesByName (self.type.merge loc defs) config.home.excludePackages;
+        };
+      };
       excludePackages = lib.mkOption {
         type = with lib.types; listOf package;
         description = "exclude package in systemPackages";
@@ -12,11 +20,5 @@ in {
       };
     };
   };
-  config = defaultModule.config // {
-    home = defaultModule.config.home // {
-      path = defaultModule.config.home.path.overrideAttrs {
-        paths = with config.home; utils.removePackagesByName packages excludePackages;
-      };
-    };
-  };
+  inherit (defaultModule) config;
 }
