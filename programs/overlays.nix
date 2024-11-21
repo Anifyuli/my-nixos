@@ -25,7 +25,7 @@
         config.allowUnfree = true;
       };
     } // acc) obj arr;
-  in overlayNixpkgs [ "master" "23_11" "24_05" ] {
+  in overlayNixpkgs [ "master" "24_05" "24_11" ] {
     fmpkgs = import inputs.fmpkgs {
       inherit system pkgs lib;
     };
