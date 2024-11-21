@@ -2,7 +2,6 @@
 # , pkgs
 , inputs
 , extraSpecialArgs
-, utils
 , ...
 }
 : let
@@ -37,7 +36,6 @@ in {
     useUserPackages = true;
     verbose = true;
     users = customDefaultImport ./.;
-    inherit backupFileExtension;
-    extraSpecialArgs = extraSpecialArgs // { inherit utils; };
+    inherit backupFileExtension extraSpecialArgs;
   };
 }

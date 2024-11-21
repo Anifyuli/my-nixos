@@ -1,6 +1,11 @@
-{ config, lib, pkgs, utils, modulesPath, ... }: let
+{ config, lib, pkgs, modulesPath, ... }: let
   contextModule = "home-environment.nix";
-  defaultModule = import "${modulesPath}/${contextModule}" { inherit config lib pkgs modulesPath utils; };
+  defaultModule = import "${modulesPath}/${contextModule}" { inherit config lib pkgs modulesPath; };
+  removePackagesByName = packages: packagesToRemove:
+    let
+      namesToRemove = map lib.getName packagesToRemove;
+    in with lib;
+      filter (x: !(elem (getName x) namesToRemove)) packages;
 in {
   disabledModules = [ contextModule ];
   options = defaultModule.options // {
@@ -10,7 +15,7 @@ in {
       in self // {
         type = self.type // {
           merge = loc: defs:
-            utils.removePackagesByName (self.type.merge loc defs) config.home.excludePackages;
+            removePackagesByName (self.type.merge loc defs) config.home.excludePackages;
         };
       };
       excludePackages = lib.mkOption {
