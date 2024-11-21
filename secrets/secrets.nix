@@ -6,8 +6,7 @@ let
   
   mySecret = arr: builtins.listToAttrs (map (name: {
     name = "${name}.age";
-    value.publicKeys = [ keys.system ] ++
-      (if name != "system" && keys ? ${name} then [ keys.${name} ] else []);
+    value.publicKeys = builtins.attrValues keys;
   }) arr);
 
 in mySecret [ 
