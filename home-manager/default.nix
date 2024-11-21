@@ -2,11 +2,13 @@
 # , pkgs
 , inputs
 , extraSpecialArgs
+, utils
 , ...
 }
 : let
   inherit (lib.fmway)
     customDefaultImport
+    genImportsWithDefault
     # genTreeImports
   ;
   # date = let
@@ -30,11 +32,12 @@ in {
       catppuccin.homeManagerModules.catppuccin
       fmway-nix.homeManagerModules.default
       # nix-flatpak.homeManagerModules.nix-flatpak
-    ];
+    ] ++ lib.optionals (builtins.pathExists ./modules) (genImportsWithDefault ./modules);
     useGlobalPkgs = true;
     useUserPackages = true;
     verbose = true;
     users = customDefaultImport ./.;
-    inherit backupFileExtension extraSpecialArgs;
+    inherit backupFileExtension;
+    extraSpecialArgs = extraSpecialArgs // { inherit utils; };
   };
 }
