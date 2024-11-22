@@ -1,3 +1,5 @@
+{ config, ... }:
+/* kdl */ ''
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
 keybinds {
   // unbind "Ctrl Backspace"
@@ -133,7 +135,7 @@ keybinds {
     bind "," { SwitchToMode "RenameTab"; }
     bind "e" {
       Run "nvim" {
-        cwd "/home/fmway/.config/zellij"
+        cwd "${config.home.homeDirectory}/.config/zellij"
       }
       TogglePaneEmbedOrFloating
       SwitchToMode "Normal"
@@ -403,3 +405,4 @@ copy_command "wl-copy"                    // wayland
 // Default: false
 //
 // disable_session_metadata true
+''

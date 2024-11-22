@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }: {
+{ pkgs, config, lib, data, ... }: {
   hostName = "Namaku1801"; # Define your hostname.
   hostId = "4970ef8d"; # required for zfs
   # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -14,7 +14,7 @@
   # /etc/hosts
   hosts = {
     "127.0.0.1" = [
-      "fmway"
+      data.defaultUser
       "php.local.com"
       "gitea.local"
       "cgi.local.com"

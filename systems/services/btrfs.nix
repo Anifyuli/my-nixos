@@ -1,10 +1,11 @@
+# { data, config, ... }:
 {
   # autoScrub = {
   #   enable = true;
   #   interval = "weekly";
   #   fileSystems = [
   #     "/"
-  #     "/home/fmway"
+  #     config.users.users.${data.defaultUser}.home
   #   ];
   # };
 }

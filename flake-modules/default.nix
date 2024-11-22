@@ -35,6 +35,13 @@ in {
       , system ? "x86_64-linux"
       , specialArgs ? {}
       , users ? [] # (list of str or attrsOf (attrs | string<user> -> attrs | { config, lib, pkgs, user } -> attrs))
+      , defaultUser ? (
+          if users == [] || (builtins.isAttrs users && users == {}) then
+            null
+          else if builtins.isAttrs users then
+            builtins.elemAt (builtins.attrNames users) 0
+          else builtins.elemAt users 0
+      ) # (null | one of users)
       , disableModules ? [] # TODO
       , modules ? []
       , withHM ? true # (bool | list selected user)
@@ -80,7 +87,7 @@ in {
       inherit system;
       inherit (generatedSpecialArgs) specialArgs;
       modules = modules
-        ++ [ { data = { inherit disableModules; }; } ]
+        ++ [ { data = { inherit disableModules defaultUser; }; } ]
         ++ [
           ({ pkgs, lib, config, ... } @ vars: { users.users = generatedUsers vars; })
         ]

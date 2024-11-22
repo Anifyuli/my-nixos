@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: let 
+{ config, pkgs, data, ... }: let 
   inherit (pkgs.functions) printPath;
   inherit (config.services) fcgiwrap certs;
 in {
@@ -25,9 +25,9 @@ in {
     handle {
       root * /srv/cgi
       try_files {path} {path}/index.cgi {path}/index {path}.cgi 404 404.cgi
-      reverse_proxy unix/${fcgiwrap.instances.fmway.socket.address} {
+      reverse_proxy unix/${fcgiwrap.instances.${data.defaultUser}.socket.address} {
         transport fastcgi {
-          env PATH ${printPath "fmway"}
+          env PATH ${printPath data.defaultUser}
           split .cgi
         }
       }
