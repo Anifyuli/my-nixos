@@ -50,29 +50,30 @@ in {
           if builtins.isList users && builtins.all (x: builtins.isString x) users then
             self.lib.genUsers users (user: { home = "/home/${user}"; })
           else if builtins.isAttrs users then
-            builtins.listToAttrs (map (name: let
-              options = users.${name};
+            builtins.listToAttrs (map (username: let
+              options = users.${username};
             in {
-              inherit name;
+              name = username;
               value =
                 if builtins.isAttrs options then
-                  (self.lib.genUser name options).${name}
+                  (self.lib.genUser username options).${username}
                 else if builtins.isFunction options then
                   let
-                    vars =
-                      if builtins.functionArgs options == {} then
-                        name
+                    funcArgs = builtins.functionArgs options;
+                    varu =
+                      if funcArgs == {} then
+                        username
                       else let
-                        ctx = vars // { user = name; };
-                        argsOpt = builtins.filter (x: ! options.${x}) (builtins.attrNames options);
+                        ctx = vars // { user = username; };
+                        argsOpt = builtins.filter (x: ! funcArgs.${x}) (builtins.attrNames funcArgs);
                       in builtins.listToAttrs (map (name: {
                         inherit name;
-                        value = if ctx ? name then ctx.name else throw "Unknown argument ${name} in users with name ${name}";
+                        value = if ctx ? ${name} then ctx.${name} else throw "Unknown argument ${name} in users with name ${username}";
                       }) argsOpt);
                   in 
-                    (self.lib.genUser name (options vars)).${name}
+                    (self.lib.genUser username (options varu)).${username}
                 else
-                  throw "Unknown type ${builtins.typeOf options} for users with name ${name}"
+                  throw "Unknown type ${builtins.typeOf options} for users with name ${username}"
               ;
             }) (builtins.attrNames users))
           else throw "Unknown type ${builtins.typeOf users} for users, must be (listOf str | str -> attrs | { config, lib, pkgs, user } -> attrs)";
