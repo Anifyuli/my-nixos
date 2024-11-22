@@ -65,14 +65,14 @@ in {
       cwd = ./programs;
       auto-enable = true;
       includes = let
-        inherit (lib.fmway.matchers) extension jsonc;
+        inherit (lib.fmway.matchers) extension json;
       in [
         (extension "fish")
         (extension "css")
         (extension "conf")
         (extension "tmux")
         (extension "sh")
-        jsonc
+        json
       ];
     };
 
