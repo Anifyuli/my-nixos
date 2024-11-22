@@ -1,11 +1,11 @@
-# { data, config, ... }:
+# { config, ... }:
 {
   # autoScrub = {
   #   enable = true;
   #   interval = "weekly";
   #   fileSystems = [
   #     "/"
-  #     config.users.users.${data.defaultUser}.home
+  #     config.users.users.${config.data.defaultUser}.home
   #   ];
   # };
 }

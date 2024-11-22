@@ -1,4 +1,4 @@
-{ config, data, ... }:
+{ config, ... }:
 {
   root = "/srv/cgi";
   locations."/" = {
@@ -10,7 +10,7 @@
     gzip off;
 
     include fastcgi_params;
-    fastcgi_pass = unix:${config.services.fcgiwrap.instances.${data.defaultUser}.socket.address};
+    fastcgi_pass = unix:${config.services.fcgiwrap.instances.${config.data.defaultUser}.socket.address};
     fastcgi_param SCRIPT_FILENAME /srv/cgi$fastcgi_script_name;
   '';
   }
