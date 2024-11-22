@@ -4,7 +4,7 @@
     hmDir = ../home-manager;
     self = {
       modules = lib.optionals (builtins.pathExists (hmDir + "/modules")) (lib.fmway.genImportsWithDefault (hmDir + "/modules"));
-      another.imports = with inputs; [
+      another = with inputs; [
         catppuccin.homeManagerModules.catppuccin
         fmway-nix.homeManagerModules.default
       ];
