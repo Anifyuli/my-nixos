@@ -18,7 +18,10 @@
   nixpkgs-overlay = self: super: let
     overlayNixpkgs = arr: obj: foldl' (acc: curr: let
       name = "_${curr}";
-      importName = getAttr "nixpkgs-${curr}" inputs;
+      importName =
+        if inputs ? ${curr} then
+          inputs.${curr}
+        else inputs."nixpkgs-${curr}";
     in {
       "${name}" = import importName {
         inherit system;
