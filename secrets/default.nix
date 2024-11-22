@@ -1,5 +1,5 @@
 # Hidden secrets using agenix
-{ lib, ... }:
+{ lib, config, ... }:
 let
   inherit (builtins) isList elemAt attrNames match toString listToAttrs length;
 
@@ -16,7 +16,7 @@ let
   age.secrets = listToAttrs (map (file: rec {
     name = getNameAge file;
     value = let
-      isOwnedUser = length resultAges.${file}.publicKeys > 1;
+      isOwnedUser = name == config.data.defaultUser;
     in {
       file = folder + ("/" + file);
       path = "/etc/secrets/${name}";
