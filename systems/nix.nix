@@ -1,4 +1,4 @@
-{ pkgs, inputs, config, outputs, ... }:
+{ pkgs, inputs, config, ... }:
 {
   settings = {
     # Enable the Flakes feature and the accompanying new nix command-line tool

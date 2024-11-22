@@ -2,7 +2,6 @@
 , config
 , root-path
 , inputs
-, outputs
 , system
 , lib
 , ...
