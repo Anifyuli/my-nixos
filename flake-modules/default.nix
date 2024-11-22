@@ -1,5 +1,5 @@
 { self, lib, inputs, inputs', ... }: let
-  inherit (self) outputs;
+  # inherit (self) outputs;
 in {
   debug = true;
   imports = [
@@ -17,7 +17,7 @@ in {
       specialArgs = {
         inherit specialArgs lib;
         inputs = inputs // lib.optionalAttrs (var ? inputs && builtins.isAttrs var.inputs) var.inputs;
-        outputs = outputs // lib.optionalAttrs (var ? outputs && builtins.isAttrs var.outputs) var.outputs;
+        # outputs = outputs // lib.optionalAttrs (var ? outputs && builtins.isAttrs var.outputs) var.outputs;
         system =
           if var ? system && builtins.isString var.system then
             var.system
@@ -25,7 +25,7 @@ in {
         root-path =
           if var ? root-path then
             var.root-path
-          else "${specialArgs.outputs}";
+          else "${inputs.self.outPath}";
         extraSpecialArgs = lib.fmway.excludeItems [ "lib" ] specialArgs;
       } // (lib.fmway.excludeItems [ "inputs" "outputs" "system" "root-path" ] var);
     in specialArgs;

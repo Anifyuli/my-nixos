@@ -40,6 +40,7 @@
       inherit inputs;
       specialArgs = { inherit (fmway-nix) lib; };
     } {
+      systems = [ "x86_64-linux" "aarch64-linux" ];
       imports = [
         ./flake-modules
       ];
