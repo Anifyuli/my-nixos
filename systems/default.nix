@@ -21,6 +21,7 @@ in treeImport {
     # "services/nginx"
     "services/phpfpm"
     "networking/wg-quick"
+    "networking/wireguard"
     # "services/stubby"
   ];
 
