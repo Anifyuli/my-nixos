@@ -110,7 +110,10 @@ in {
                 ];
               users = builtins.listToAttrs (map (name: {
                 inherit name;
-                value.imports = [ self.homeManagerModules.default ];
+                value.imports =
+                  if builtins.isBool withHM then
+                    [ self.homeManagerModules.only ]
+                  else [ self.homeManagerModules.default ];
               }) ctxUsers);
               inherit backupFileExtension;
               inherit (generatedSpecialArgs) extraSpecialArgs;
