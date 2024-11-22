@@ -103,9 +103,16 @@ in {
               useGlobalPkgs = true;
               useUserPackages = true;
               verbose = true;
+              sharedModules = lib.mkIf (builtins.isBool withHM) (with self.homeManagerModules; [
+                modules
+                another
+              ]);
               users = builtins.listToAttrs (map (name: {
                 inherit name;
-                value.imports = [ self.homeManagerModules.default ];
+                value.imports =
+                  if builtins.isList withHM then
+                    [ self.homeManagerModules.default ]
+                  else [];
               }) ctxUsers);
               inherit backupFileExtension;
               inherit (generatedSpecialArgs) extraSpecialArgs;
