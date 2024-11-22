@@ -23,11 +23,9 @@ in {
             var.system
           else "x86_64-linux";
         root-path =
-          if var ? root-path then
-            var.root-path
-          else "${inputs.self.outPath}";
+          "${specialArgs.inputs.self.outPath}";
         extraSpecialArgs = lib.fmway.excludeItems [ "lib" ] specialArgs;
-      } // (lib.fmway.excludeItems [ "inputs" "outputs" "system" "root-path" ] var);
+      } // (lib.fmway.excludeItems [ "inputs" "outputs" "system" ] var);
     in specialArgs;
 
     # TODO
@@ -40,10 +38,10 @@ in {
       , disableModules ? [] # TODO
       , modules ? []
       , withHM ? true # (bool | list selected user)
+      , sharedHM ? false
       , ... } @ args: let
       generatedSpecialArgs = self.lib.genSpecialArgs {
         inherit system inputs;
-        inherit (self) outputs;
       } // specialArgs;
       generatedUsers = vars: let
         result =
@@ -104,7 +102,7 @@ in {
               useGlobalPkgs = true;
               useUserPackages = true;
               verbose = true;
-              sharedModules = lib.optionals (builtins.isBool withHM)
+              sharedModules = lib.optionals sharedHM
                 [
                   self.homeManagerModules.modules
                   self.homeManagerModules.another
@@ -112,7 +110,7 @@ in {
               users = builtins.listToAttrs (map (name: {
                 inherit name;
                 value.imports =
-                  if builtins.isBool withHM then
+                  if sharedHM then
                     [ self.homeManagerModules.only ]
                   else [ self.homeManagerModules.default ];
               }) ctxUsers);
