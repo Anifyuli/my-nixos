@@ -1,6 +1,5 @@
 { self, root-path, lib, super, config }: let
   inherit (lib)
-    throwIfNot
     reverseList
   ;
   inherit (lib.fmway)
@@ -24,13 +23,15 @@ in {
     lib.makeBinPath (
        config.environment.systemPackages # system packages
     ++ config.users.users.${user}.packages # user packages
-    ++ config.home-manager.users.${user}.home.packages # home-manager packages
+    ++ lib.optionals (config ? home-manager && config.home-manager.users ? ${user}) config.home-manager.users.${user}.home.packages # home-manager packages
     );
   # parse env in folder ./secrets
   getEnv = entity: let
     path = root-path + "/secrets/${entity}.env";
     exists = builtins.pathExists path;
-  in throwIfNot exists "tidak dapat mencari env dengan nama ${entity}" readEnv path;
+  in if exists then
+    readEnv path
+  else lib.warn "tidak dapat mencari env dengan nama ${entity}" {};
   
   # generate path to array
   genPaths = home: paths: 
