@@ -96,7 +96,7 @@ in {
             else withHM;
           backupFileExtension =
             "hm-backup~.${toString inputs.self.lastModified}";
-        in lib.throwIf (builtins.all (x: ! builtins.any (y: x == y) allUser) ctxUsers) "some users in withHM are not found in users" [
+        in lib.throwIf (ctxUsers != [] && builtins.all (x: ! builtins.any (y: x == y) allUser) ctxUsers) "some users in withHM are not found in users" [
           {
             home-manager = {
               useGlobalPkgs = true;
